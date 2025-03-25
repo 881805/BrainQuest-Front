@@ -1,0 +1,265 @@
+@import '../../../assets/utils/_variables.scss';
+
+/* Variables de colores */
+$primary-color: #4a90e2;
+$secondary-color: #f5a623;
+$background-color: #f4f4f4;
+$text-color: #333;
+$nav-background: #2c3e50;
+$nav-text-color: #ecf0f1;
+$highlight-color: #27ae60;
+$button-hover: darken($primary-color, 10%);
+
+/* Estilos generales */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Navegación */
+nav {
+  background: $nav-background;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+
+    li {
+      margin: 0 15px;
+
+      a {
+        text-decoration: none;
+        color: $nav-text-color;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: color 0.3s;
+
+        &:hover {
+          color: $secondary-color;
+        }
+      }
+    }
+  }
+}
+
+/* Sección principal */
+section {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+
+  h1 {
+    color: $primary-color;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+}
+
+/* Trivia Container */
+.trivia-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.loading-message {
+  font-size: 18px;
+  color: #888;
+}
+
+/* Trivia - Formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  label {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+
+  select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $secondary-color;
+      box-shadow: 0 0 5px rgba(245, 166, 35, 0.5);
+    }
+  }
+
+  button {
+    background: $primary-color;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: $button-hover;
+    }
+  }
+}
+
+/* Trivia - Logros */
+ul.logros {
+  list-style: none;
+  padding: 0;
+
+  li {
+    background: lighten($primary-color, 40%);
+    color: $text-color;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.05);
+      background: $highlight-color;
+      color: white;
+    }
+  }
+}
+
+/* Trivia - Estadísticas */
+ul.estadisticas {
+  list-style: none;
+  padding: 0;
+
+  li {
+    background: lighten($primary-color, 40%);
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+
+    strong {
+      color: $secondary-color;
+    }
+
+    &:nth-child(odd) {
+      background: lighten($secondary-color, 40%);
+    }
+  }
+}
+
+.question-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.timer {
+  font-size: 1.2rem;
+  color: #ff5722;
+}
+
+button {
+  background-color: #2196f3;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1976d2;
+}
+
+.correct {
+  background-color: #4caf50;
+}
+
+.incorrect {
+  background-color: #f44336;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .trivia-container {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  section {
+    width: 95%;
+  }
+}
+
+// src/app/pages/trivia/trivia.page.scss
+
+.trivia-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.correct {
+  color: green;
+}
+
+.incorrect {
+  color: red;
+}

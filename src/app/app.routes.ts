@@ -14,6 +14,9 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TriviaComponent } from './pages/trivia/trivia.component';
+import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
+import { LogrosComponent } from './pages/logros/logros.component';
 
 export const routes: Routes = [
   {
@@ -120,6 +123,45 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'preference list',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'trivia',
+        component: TriviaComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'Trivia',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'estadisticas',
+        component: EstadisticasComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'Estadisticas',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'Logros',
+        component: LogrosComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'Logros',
           showInSidebar: true
         }
       },

@@ -1,0 +1,67 @@
+<section>
+  <h1>Selecciona tu trivia</h1>
+  
+  <form [formGroup]="triviaForm" (ngSubmit)="startTrivia()">
+    <label for="categoria">Categoría:</label>
+    <select id="categoria" formControlName="category">
+      <option value="politica">Política</option>
+      <option value="religion">Religión</option>
+      <option value="debates">Debates</option>
+      <option value="leyes">Leyes</option>
+      <option value="ciencia">Ciencia</option>
+      <option value="tecnologia">Tecnología</option>
+      <option value="cultura">Cultura</option>
+      <option value="entretenimiento">Entretenimiento</option>
+      <option value="deportes">Deportes</option>
+      <option value="arte">Arte</option>
+      <option value="historia">Historia</option>
+      <option value="geografia">Geografía</option>
+      <option value="musica">Música</option>
+      <option value="cine">Cine</option>
+      <option value="television">Televisión</option>
+      <option value="videojuegos">Videojuegos</option>
+      <option value="literatura">Literatura</option>
+      <option value="naturaleza">Naturaleza</option>
+      <option value="salud">Salud</option>
+      <option value="sociedad">Sociedad</option>
+      <option value="filosofia">Filosofía</option>
+      <option value="educacion">Educación</option>
+      <option value="economia">Economía</option>
+      <option value="medioambiente">Medio Ambiente</option>
+    </select>
+
+    <label for="dificultad">Dificultad:</label>
+    <select id="dificultad" formControlName="difficulty">
+      <option value="baja">Baja (1 punto por pregunta)</option>
+      <option value="media">Media (3 puntos por pregunta)</option>
+      <option value="alta">Alta (5 puntos por pregunta)</option>
+    </select>
+
+    <button type="submit" [disabled]="loading || triviaForm.invalid">Jugar</button>
+  </form>
+</section>
+
+<div *ngIf="gameStarted">
+  <div *ngIf="questions.length > 0">
+    <div class="question-card">
+      <h3>{{ getCurrentQuestion()?.question }}</h3>
+      <p class="timer">Tiempo restante: {{ timer }}s</p>
+      <ul>
+        <li *ngFor="let option of getCurrentQuestion()?.options" 
+            [ngClass]="{
+                'correct': option === currentQuestion?.correctAnswer && option === currentQuestion?.userAnswer, 
+                'incorrect': option !== currentQuestion?.correctAnswer && option === currentQuestion?.userAnswer
+            }">
+          <button (click)="checkAnswer(option)">{{ option }}</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div *ngIf="currentQuestionIndex >= 15 || gameOver">
+    <p>¡Has terminado la trivia! Tu puntuación final es: <strong>{{ calculateScore() }}</strong></p>
+    <button (click)="restartTrivia()">Volver a jugar</button>
+  </div>
+</div>
+
+<div *ngIf="loading">Cargando preguntas...</div>
