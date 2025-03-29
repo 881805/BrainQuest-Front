@@ -1,0 +1,84 @@
+nb-card {
+  max-width: 600px;
+  margin: auto;
+  border-radius: 10px;
+
+}
+
+nb-card-header {
+  background-color: #3e8e41;
+  color: white;
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 10px 10px 0 0;
+}
+
+nb-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-height: 400px; // dandole tamanho
+  overflow-y: auto; // hacer scrolleable
+}
+
+input {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100%;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #3e8e41;
+  outline: none;
+}
+
+button {
+  background-color: #3e8e41;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #357a3c;
+}
+
+nb-chat {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  nb-card {
+    width: 100%;
+    margin: 10px;
+  }
+
+  input {
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 8px 15px;
+  }
+}
+
+nb-chat-message {
+  margin-bottom: 30px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background-color: #f4f4f4;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+nb-chat-message.reply {
+  background-color: #d1e7dd;
+}

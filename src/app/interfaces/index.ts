@@ -53,12 +53,56 @@ export interface IRole {
 
 export interface IGame {
   id?: number;
-  name?: string;
-  imgURL?: string;
-  status?: string;
+  conversation?: IConversation | null;
+  winner?: IUser;
+  question?: ITriviaQuestion | null;
+  gameType?: IGameType;
+  isOngoing?: boolean;
+  pointsEarnedPlayer1?: number;
+  pointsEarnedPlayer2?: number;
+}
+
+export interface IConversation {
+  id?: number;
+  user1?: IUser;
+  user2?: IUser | null;
+  createDate?: string;
+  isMultiplayer?: boolean;
+  messages?: IMessage[];
+}
+
+export interface IGameType {
+  id?: number;
+  gameType?: GameTypeEnum;
   description?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export enum GameTypeEnum {
+  TRIVIA = 'TRIVIA',
+  DEBATE = 'DEBATE',
+  MULTIPLAYER_DEBATE = 'MULTIPLAYER_DEBATE',
+  INTERVIEW = 'INTERVIEW',
+  STORYBUILDER = 'STORYBUILDER'
+}
+
+export interface IMessage {
+  id: number;
+  conversation: IConversation;
+  contentText: string;
+  createdAt: Date;
+  user: IUser;
+  isSent: boolean;
+}
+
+export interface ITriviaQuestion {
+  id?: number;
+  question?: string;
+  correctAnswer?: string;
+  options?: string[];
+  difficulty?: string;
+  category?: string;
 }
 
 export interface IOrder {

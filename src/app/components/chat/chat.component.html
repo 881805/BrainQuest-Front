@@ -1,0 +1,20 @@
+<nb-card>
+    <nb-card-header>Chat</nb-card-header>
+    <nb-card-body>
+      <nb-chat title="Nebular Chat" >
+        <nb-chat-message 
+          *ngFor="let msg of messages"
+          [message]="msg.contentText"
+          [reply]=isReply(msg)
+          [date]="msg.createdAt">
+        </nb-chat-message>
+      </nb-chat>
+    </nb-card-body>
+    <nb-card-footer>
+      <div class="chat-input">
+        <input [(ngModel)]="messageText" placeholder="Type your message..." />
+        <button nbButton >Send</button>
+      </div>
+    </nb-card-footer>
+  </nb-card>
+  
