@@ -14,6 +14,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TypingComponent } from './pages/typing/typing.component';
 
 export const routes: Routes = [
   {
@@ -123,6 +124,19 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
+      {
+        path: 'typing',
+        component: TypingComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'Typing',
+          showInSidebar: true
+        }
+      },      
     ],
   },
   {

@@ -88,3 +88,14 @@ export interface IPreferenceList {
   name?: string;
   movies?: IMovie[];
 }
+
+export interface ITypingExercise {
+  id: number;
+  text: string;
+  timeLimit: number;
+  hints: string[];
+  category: string;
+  difficulty: string;
+  userInput?: string;
+  completed?: boolean;
+}

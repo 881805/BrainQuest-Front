@@ -1,0 +1,77 @@
+<section>
+    <h1>Selecciona tu ejercicio de mecanografía</h1>
+    
+    <form [formGroup]="typingForm" (ngSubmit)="startTyping()">
+      <label for="categoria">Categoría:</label>
+      <select id="categoria" formControlName="category">
+        <option value="politica">Política</option>
+        <option value="tecnologia">Tecnología</option>
+        <option value="ciencia">Ciencia</option>
+        <option value="literatura">Literatura</option>
+        <option value="historia">Historia</option>
+        <option value="filosofia">Filosofía</option>
+        <option value="entretenimiento">Entretenimiento</option>
+        <option value="educacion">Educación</option>
+        <option value="arte">Arte</option>
+        <option value="deportes">Deportes</option>
+        <option value="salud">Salud</option>
+        <option value="medioambiente">Medio Ambiente</option>
+        <option value="cultura">Cultura</option>
+      </select>
+  
+      <label for="dificultad">Dificultad:</label>
+      <select id="dificultad" formControlName="difficulty">
+        <option value="baja">Baja (1 punto por palabra correcta)</option>
+        <option value="media">Media (3 puntos por palabra correcta)</option>
+        <option value="alta">Alta (5 puntos por palabra correcta)</option>
+      </select>
+  
+      <button type="submit" [disabled]="loading || typingForm.invalid">Comenzar</button>
+    </form>
+  </section>
+  
+  <div *ngIf="exerciseStarted">
+    <div *ngIf="currentText">
+      <div class="typing-card">
+        <h3>Escribe el siguiente texto:</h3>
+        <p class="text-to-type">{{ currentText }}</p>
+        <textarea [(ngModel)]="userInput" (input)="checkTyping()"></textarea>
+        <p class="timer">Tiempo restante: {{ timer }}s</p>
+      </div>
+    </div>
+    
+    <div *ngIf="exerciseOver">
+      <p>¡Ejercicio finalizado! Tu puntuación final es: <strong>{{ calculateScore() }}</strong></p>
+      <button (click)="restartTyping()">Volver a intentar</button>
+    </div>
+  </div>
+  
+  <div *ngIf="loading">Cargando ejercicio...</div>
+
+  <section>
+    <h1>Escribe el texto antes de que se acabe el tiempo</h1>
+  
+    <div class="typing-container">
+      <p class="typing-text">
+        <span *ngFor="let word of textArray; let i = index">
+          <span [ngClass]="{'typed': i < currentWordIndex, 'current': i === currentWordIndex, 'error': i === currentWordIndex && hasError}">
+            {{ word }}
+          </span>
+        </span>
+      </p>
+    </div>
+  
+    <input type="text" (input)="onType($event)" [disabled]="gameOver" placeholder="Escribe aquí..." autofocus />
+  
+    <div class="status">
+      <p>Tiempo restante: {{ timer }}s</p>
+      <p>Puntaje: {{ score }}</p>
+    </div>
+  
+    <div *ngIf="gameOver" class="game-over">
+      <p>¡Juego terminado! Tu puntaje final es: <strong>{{ score }}</strong></p>
+      <button (click)="restartTyping()">Volver a jugar</button>
+    </div>
+  </section>
+  
+  
