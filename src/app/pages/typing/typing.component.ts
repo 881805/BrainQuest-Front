@@ -87,7 +87,7 @@ export class TypingComponent {
       next: (exercise) => {
         this.exercises.push(exercise);
         this.loading = false;
-        this.generateText(exercise.text); // Asegura que se actualiza el texto correctamente
+        this.generateText(exercise.text); 
       },
       error: (error) => {
         console.error('Error al generar el ejercicio', error);
