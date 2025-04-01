@@ -89,6 +89,16 @@ export interface IPreferenceList {
   movies?: IMovie[];
 }
 
+export interface ITypingExercise {
+  id: number;
+  text: string;
+  timeLimit: number;
+  hints: string[];
+  category: string;
+  difficulty: string;
+  userInput?: string;
+  completed?: boolean;
+
 export interface ITriviaQuestion {
   id: number; 
   question: string;
@@ -98,4 +108,5 @@ export interface ITriviaQuestion {
   difficulty: string;
   points: number;
   userAnswer?: string;
+
 }
