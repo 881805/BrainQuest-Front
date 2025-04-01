@@ -98,6 +98,7 @@ export interface ITypingExercise {
   difficulty: string;
   userInput?: string;
   completed?: boolean;
+}
 
 export interface ITriviaQuestion {
   id: number; 

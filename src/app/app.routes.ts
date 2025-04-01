@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { SigUpComponent } from './pages/auth/sign-up/signup.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
@@ -19,7 +18,7 @@ import { TypingComponent } from './pages/typing/typing.component';
 import { TriviaComponent } from './pages/trivia/trivia.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 import { LogrosComponent } from './pages/logros/logros.component';
-
+import { SignUpComponent } from './pages/auth/sign-up/signup.component';
 
 export const routes: Routes = [
   {
@@ -29,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'signup',
-    component: SigUpComponent,
+    component: SignUpComponent,
     canActivate: [GuestGuard],
   },
   {
@@ -47,19 +46,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'app',
+        path: '',
         redirectTo: 'users',
         pathMatch: 'full',
       },
       {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
+        canActivate: [AdminRoleGuard],
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin
-          ],
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
           showInSidebar: true
         }
@@ -68,11 +64,7 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
           showInSidebar: true
         }
@@ -81,12 +73,8 @@ export const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'profile',
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Profile',
           showInSidebar: false
         }
       },
@@ -94,12 +82,8 @@ export const routes: Routes = [
         path: 'games',
         component: GamesComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'games',
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Games',
           showInSidebar: true
         }
       },
@@ -107,12 +91,8 @@ export const routes: Routes = [
         path: 'orders',
         component: OrdersComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'orders',
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Orders',
           showInSidebar: true
         }
       },
@@ -120,34 +100,25 @@ export const routes: Routes = [
         path: 'preference-list',
         component: PreferenceListPageComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'preference list',
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Preference List',
           showInSidebar: true
         }
       },
       {
         path: 'typing',
         component: TypingComponent,
-
-        path: 'trivia',
-        component: TriviaComponent,
-
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Typing',
           showInSidebar: true
         }
-      },      
-
+      },
+      {
+        path: 'trivia',
+        component: TriviaComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Trivia',
           showInSidebar: true
         }
@@ -156,28 +127,20 @@ export const routes: Routes = [
         path: 'estadisticas',
         component: EstadisticasComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'Estadisticas',
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Estadísticas',
           showInSidebar: true
         }
       },
       {
-        path: 'Logros',
+        path: 'logros',
         component: LogrosComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Logros',
           showInSidebar: true
         }
-      },
+      }
     ],
   },
   {
