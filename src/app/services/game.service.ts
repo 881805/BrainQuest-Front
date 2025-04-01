@@ -1,9 +1,14 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { IGame, IPreferenceList, IResponse, ISearch } from '../interfaces';
+import { IGame, IMessage, IPreferenceList, IResponse, ISearch } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
+import SockJS from 'sockjs-client';
+import { environment } from '../../environments/environment';
+import { Client } from "@stomp/stompjs";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +17,7 @@ export class GamesService extends BaseService<IGame> {
   private gameSignal = signal<IGame[]>([]);
   private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
+
   protected override source: string = 'games';
   get game$() {
     return this.gameSignal;
@@ -21,8 +27,45 @@ export class GamesService extends BaseService<IGame> {
     size: 5
   }
   public totalItems: any = [];
+  
+  private stompClient: any;
+  constructor(){
+    super();
 
+  }
 
+private sendGameId() {
+  const message = JSON.stringify({ gameId: this.gameId });
+  this.webSocket.send(message);
+}
+
+    
+  joinRoom(gameId: number) {
+    if (!this.stompClient || !this.stompClient.connected) {
+        console.error("STOMP client is not connected. Trying to reconnect...");
+        this.stompClient.connect({}, () => {
+            console.log("Connected to STOMP. Subscribing to topic...");
+            this.stompClient.subscribe(`/topic/${gameId}`, (messages: any) => {
+                const messageContent = JSON.parse(messages.body);
+                console.log("Received message:", messageContent);
+            });
+        });
+    } else {
+        console.log("Already connected. Subscribing to topic...");
+        this.stompClient.subscribe(`/topic/${gameId}`, (messages: any) => {
+            const messageContent = JSON.parse(messages.body);
+            console.log("Received message:", messageContent);
+        });
+    }
+}
+
+    sendMessage(gameId: number, message: IMessage) {
+      if (!this.stompClient || !this.stompClient.connected) {
+          console.error("STOMP client is not connected. Cannot send message.");
+          return;
+      }
+      this.stompClient.send(`/app/chat/${gameId}`, {}, JSON.stringify(message));
+  }
 
   getAllByUser() {
     this.findAllWithParamsAndCustomSource(`${this.authService.getUser()?.id}`).subscribe({

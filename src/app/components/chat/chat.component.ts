@@ -20,13 +20,12 @@ export class DebateChatComponent {
   public messages : IMessage[] = [];
 
 
-  messageText: string = '';  // Store the message being typed
+  messageText: string = '';  //mensaje para enviar
 
 
   isReply(message: IMessage) {
     const user = this.authService.getUser();
     
-    // Check if user is defined before comparing the id
     if (user && user.id === message.user.id) {
       return false;
     }
@@ -35,11 +34,13 @@ export class DebateChatComponent {
   }
 
 
+
+
   callSave() {
     let message: IMessage = {
       id: 0,
-      conversation: this.messageForm.controls['conversation'].value,
-      contentText: this.messageForm.controls['contentText'].value,
+      conversation: {id: 0},
+      contentText: this.messageText,
       createdAt: new Date(),
       user: {id: this.authService.getUser()?.id ?? 0},
       isSent: true,

@@ -5,13 +5,15 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 import { ModalComponent } from '../../components/modal/modal.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ModalService } from '../../services/modal.service';
-import { IGame } from '../../interfaces';
+import { IGame, IMessage } from '../../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+
 import { DebateChatComponent } from '../../components/chat/chat.component';
 import { CommonModule } from '@angular/common';
 
 import { effect } from '@angular/core';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-debates',
@@ -32,6 +34,9 @@ export class DebatesComponent {
   public gamesService: GamesService = inject(GamesService);
   public modalService: ModalService = inject(ModalService);
   public authService: AuthService = inject(AuthService);
+  public messageService: MessageService = inject(MessageService);
+  private webSocket: WebSocket;
+  
   @ViewChild('addOrdersModal') public addOrdersModal: any;
   @ViewChild(DebateChatComponent) chat!: DebateChatComponent;
   public fb: FormBuilder = inject(FormBuilder);
@@ -47,22 +52,68 @@ export class DebatesComponent {
 
   constructor() {
     this.gamesService.getAllByUser();
-  
     effect(() => {
       const games = this.gamesService.game$();
       this.currentGame = games.length > 0 ? games[0] : {} as IGame;
     });
+
+    let token = localStorage.getItem('access_token')
+    this.initConnectionSocket();
+    this.webSocket = new WebSocket('ws://localhost:8080/stocks', [`Bearer ${token}`]);
+
   }
+
+  saveMessage(message: IMessage){
+    this.gamesService.sendMessage(this.currentGame.id ?? 1,message);
+  }
+
+  initConnectionSocket() {
+    
+
+    this.webSocket.onopen = () => {
+      console.log('WebSocket connection established.');
+      this.sendGameId();
+    };
+
+    this.webSocket.onmessage = (event) => {
+      console.log('Received:', event.data);
+      this.stock = JSON.parse(event.data);
+    };
+
+    this.webSocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    this.webSocket.onclose = () => {
+      console.log('WebSocket connection closed.');
+    };
+}
 
   async playGame() {
     try {
       // Toggle chat visibility first, and then proceed to set messages
       await this.toggleChatVisibility();
       this.chat.messages = this.currentGame.conversation?.messages ?? [];
+      this.gamesService.joinRoom(this.currentGame.id ?? 1);
     } catch (e) {
       console.error("Error in playGame:", e);
     }
   }
+
+  // saveMessage(message: IMessage) {
+   
+  //   const messageToSend = {
+  //     ...message, //copia mensaje en un nuevo objeto, el mandar un objeto complejo causa problemas en el backend
+  //     conversation: { id: message.conversation?.id || 1 }, 
+  //     user: { id: message.user?.id }, 
+  //   };
+    
+  //   // Send the simplified message to the backend
+  //   this.messageService.save(messageToSend);
+  
+  //   // Close any open modal
+  //   this.modalService.closeAll();
+  // }
   
   isComponentVisible: boolean = false;
   
@@ -73,24 +124,6 @@ export class DebatesComponent {
       setTimeout(resolve, 0); 
     });
   }
-  
 
-    
-//   saveOrder(order: IOrder) {
-//     this.ordersService.save(order);
-//     this.modalService.closeAll();
-//   }
-
-//   callEdition(order: IOrder) {
-//     this.orderForm.controls['id'].setValue(order.id ? JSON.stringify(order.id) : '');
-//     this.orderForm.controls['description'].setValue(order.description ? order.description : '');
-//     this.orderForm.controls['total'].setValue(order.total ? JSON.stringify(order.total) : '');
-//     this.modalService.displayModal('md', this.addOrdersModal);
-//   }
-  
-//   updateOrder(order: IOrder) {
-//     this.ordersService.update(order);
-//     this.modalService.closeAll();
-//   }
   
 }
