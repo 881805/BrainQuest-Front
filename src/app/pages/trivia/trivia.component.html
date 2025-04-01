@@ -26,10 +26,8 @@
       <option value="alta">Alta (5 puntos por pregunta)</option>
     </select>
 
-    <!-- El botón se oculta cuando gameStarted es verdadero -->
     <button *ngIf="isComponentVisible" type="submit" [disabled]="loading || triviaForm.invalid || gameStarted">Jugar</button>
   </form>
-</section>
 
 <div *ngIf="gameStarted">
   <div *ngIf="questions.length > 0">
@@ -53,5 +51,6 @@
     <button (click)="restartTrivia()">Volver a jugar</button>
   </div>
 </div>
+</section>
 
 <div *ngIf="loading">Cargando preguntas...</div>

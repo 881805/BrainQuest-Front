@@ -1,264 +1,164 @@
-@import '../../../assets/utils/_variables.scss';
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;700&family=Onest:wght@400;600&display=swap');
 
-/* Variables de colores */
-$primary-color: #4a90e2;
-$secondary-color: #f5a623;
-$background-color: #f4f4f4;
-$text-color: #333;
-$nav-background: #2c3e50;
-$nav-text-color: #ecf0f1;
-$highlight-color: #27ae60;
-$button-hover: darken($primary-color, 10%);
+$color-base: #80A2A6;
+$color-secundario: #94F2F2;
+$color-advertencia: #F29849;
+$color-fondo: #F2F3F4;
+$color-texto: #1B1E22;
+$color-accion: #F2622E;
+$color-error: #D94625;
 
-/* Estilos generales */
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: $background-color;
-  color: $text-color;
+* {
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Onest', sans-serif;
 }
 
-/* Navegación */
-nav {
-  background: $nav-background;
-  padding: 10px;
+body, html {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-fondo;
+  color: $color-texto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  text-align: center;
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-
-    li {
-      margin: 0 15px;
-
-      a {
-        text-decoration: none;
-        color: $nav-text-color;
-        font-size: 1.2rem;
-        font-weight: bold;
-        transition: color 0.3s;
-
-        &:hover {
-          color: $secondary-color;
-        }
-      }
-    }
-  }
+  min-height: 100vh;
 }
 
-/* Sección principal */
 section {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 600px;
-  text-align: center;
-
-  h1 {
-    color: $primary-color;
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-}
-
-/* Trivia Container */
-.trivia-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: auto;
 }
 
-.loading-message {
-  font-size: 18px;
-  color: #888;
-}
-
-/* Trivia - Formulario */
 form {
   display: flex;
   flex-direction: column;
   gap: 15px;
-
-  label {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
-
-  select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    background: #f9f9f9;
-    cursor: pointer;
-    transition: all 0.3s;
-
-    &:hover {
-      border-color: $primary-color;
-    }
-
-    &:focus {
-      outline: none;
-      border-color: $secondary-color;
-      box-shadow: 0 0 5px rgba(245, 166, 35, 0.5);
-    }
-  }
-
-  button {
-    background: $primary-color;
-    color: white;
-    font-size: 1.2rem;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-
-    &:hover {
-      background: $button-hover;
-    }
-  }
+  width: 100%;
 }
 
-/* Trivia - Logros */
-ul.logros {
-  list-style: none;
-  padding: 0;
-
-  li {
-    background: lighten($primary-color, 40%);
-    color: $text-color;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out;
-
-    &:hover {
-      transform: scale(1.05);
-      background: $highlight-color;
-      color: white;
-    }
-  }
+label {
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
 }
 
-/* Trivia - Estadísticas */
-ul.estadisticas {
-  list-style: none;
-  padding: 0;
+select {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid $color-base;
+  border-radius: 5px;
+  background: white;
+  font-size: 16px;
+  cursor: pointer;
+}
 
-  li {
-    background: lighten($primary-color, 40%);
-    margin: 10px 0;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-weight: bold;
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: $color-secundario;
+  color: $color-texto;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  
+  &:hover {
+    background-color: darken($color-secundario, 10%);
+  }
 
-    strong {
-      color: $secondary-color;
-    }
-
-    &:nth-child(odd) {
-      background: lighten($secondary-color, 40%);
-    }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 }
 
 .question-card {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.timer {
-  font-size: 1.2rem;
-  color: #ff5722;
-}
-
-button {
-  background-color: #2196f3;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #1976d2;
-}
-
-.correct {
-  background-color: #4caf50;
-}
-
-.incorrect {
-  background-color: #f44336;
-}
-
-
-/* Responsive */
-@media (max-width: 768px) {
-  .trivia-container {
-    width: 100%;
-    padding: 10px;
-  }
-}
-
-@media (max-width: 600px) {
-  nav ul {
-    flex-direction: column;
-
-    li {
-      margin-bottom: 10px;
-    }
-  }
-
-  section {
-    width: 95%;
-  }
-}
-
-
-.trivia-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-top: 20px;
 }
 
-button {
-  margin: 5px;
+h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.timer {
+  font-size: 16px;
+  color: $color-advertencia;
+  margin-bottom: 15px;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+li {
+  width: 100%;
+}
+
+li button {
+  width: 100%;
   padding: 10px;
-  font-size: 1rem;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background 0.3s;
 }
 
 .correct {
-  color: green;
+  background-color: #5cb85c !important;
+  color: white;
 }
 
 .incorrect {
-  color: red;
+  background-color: #d9534f !important;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  section {
+    width: 90%;
+    padding: 20px;
+  }
+
+  ul {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }

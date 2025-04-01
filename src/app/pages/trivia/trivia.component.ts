@@ -129,7 +129,7 @@ export class TriviaComponent {
     currentQuestion.userAnswer = option;
     this.currentQuestionIndex++;
 
-    if (this.currentQuestionIndex < 15) {
+    if (this.currentQuestionIndex < 10) {
       this.stopTimer(); 
       this.generateNewQuestion(); 
       this.startTimer(); 
@@ -161,7 +161,6 @@ export class TriviaComponent {
 
   isComponentVisible: boolean = true;
   
-  // Method to toggle visibility
   async togglePlayVisibility() {
     this.isComponentVisible = !this.isComponentVisible;
     return new Promise<void>(resolve => {
