@@ -1,53 +1,50 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
+import { FormsModule, NgModel } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
-
+import { IUser } from '../../../interfaces';
 
 @Component({
-  selector: 'app-registro',
+  selector: 'app-signup',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule 
-  ],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrl: './signup.component.scss'
 })
 export class SignUpComponent {
-  registroForm: FormGroup;
+  public signUpError!: String;
+  public validSignup!: boolean;
+  @ViewChild('name') nameModel!: NgModel;
+  @ViewChild('lastname') lastnameModel!: NgModel;
+  @ViewChild('email') emailModel!: NgModel;
+  @ViewChild('password') passwordModel!: NgModel;
 
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private authService: AuthService // Inyecta el servicio
-  ) {
-    this.registroForm = this.fb.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      contrasena: ['', [Validators.required, Validators.minLength(6)]]
-    });
-  }
+  public user: IUser = {};
 
-  onSubmit() {
-    if (this.registroForm.valid) {
-      const userData = this.registroForm.value;
-      this.authService.register(userData).subscribe({
-        next: (response) => {
-          console.log('Usuario registrado correctamente', response);
-          this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
-        },
-        error: (error) => {
-          console.error('Error al registrar el usuario', error);
-          // Aquí puedes mostrar un mensaje de error al usuario
-          alert('Error al registrar el usuario. Por favor, inténtalo de nuevo.');
-        }
+  constructor(private router: Router, 
+    private authService: AuthService
+  ) {}
+
+  public handleSignup(event: Event) {
+    event.preventDefault();
+    if (!this.nameModel.valid) {
+      this.nameModel.control.markAsTouched();
+    }
+    if (!this.lastnameModel.valid) {
+      this.lastnameModel.control.markAsTouched();
+    }
+    if (!this.emailModel.valid) {
+      this.emailModel.control.markAsTouched();
+    }
+    if (!this.passwordModel.valid) {
+      this.passwordModel.control.markAsTouched();
+    }
+    if (this.emailModel.valid && this.passwordModel.valid) {
+      this.authService.signup(this.user).subscribe({
+        next: () => this.validSignup = true,
+        error: (err: any) => (this.signUpError = err.description),
       });
-    } else {
-      this.registroForm.markAllAsTouched();
     }
   }
 }

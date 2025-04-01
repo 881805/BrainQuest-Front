@@ -15,13 +15,14 @@ import { PreferenceListPageComponent } from './pages/preferenceList/preference-l
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LandPageComponent } from './pages/landPage/landpage.component';
-import { GoogleCallbackComponent } from './auth/google-callback.component';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+    providers: [OAuthService]
   },
   {
     path: 'signup',
@@ -107,9 +108,5 @@ export const routes: Routes = [
   {
     path: 'team',
     component: TeamComponent,
-  },
-  {
-    path: 'auth/google/callback',
-    component: GoogleCallbackComponent,
   },
 ];
