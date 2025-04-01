@@ -96,6 +96,7 @@ export class TriviaComponent {
 
   startTimer(): void {
     this.timer = 60; 
+    this.togglePlayVisibility();
     this.intervalTimer = interval(1000).subscribe(() => {
       if (this.timer > 0) {
         this.timer--;
@@ -155,5 +156,16 @@ export class TriviaComponent {
     this.questions = [];
     this.currentQuestionIndex = 0;
     this.triviaForm.reset();
+    this.togglePlayVisibility();
+  }
+
+  isComponentVisible: boolean = true;
+  
+  // Method to toggle visibility
+  async togglePlayVisibility() {
+    this.isComponentVisible = !this.isComponentVisible;
+    return new Promise<void>(resolve => {
+      setTimeout(resolve, 0); 
+    });
   }
 }
