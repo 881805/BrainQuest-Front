@@ -14,8 +14,18 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { IndexComponent } from './pages/members/index/index.component';
+import { AboutComponent } from './pages/members/about/about.component';
+import { ContactComponent } from './pages/members/contact/contact.component';
+import { ProductosComponent } from './pages/members/productos/productos.component';
+import { LandingPageComponent } from './pages/lading-page/ladingpage.component';
 
 export const routes: Routes = [
+  
+  { path: '',
+    component: LandingPageComponent
+
+  },
   {
     path: 'login',
     component: LoginComponent,
@@ -25,6 +35,18 @@ export const routes: Routes = [
     path: 'signup',
     component: SigUpComponent,
     canActivate: [GuestGuard],
+  },
+  { path: 'index',
+    component: IndexComponent,
+  },
+  { path: 'about',
+    component: AboutComponent,
+  },
+  { path: 'contact',
+    component: ContactComponent,
+  },
+  { path: 'productos',
+    component: ProductosComponent,
   },
   {
     path: 'access-denied',
