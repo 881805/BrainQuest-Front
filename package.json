@@ -24,6 +24,7 @@
     "@fontsource-variable/onest": "^5.2.5",
     "@fontsource-variable/sora": "^5.2.5",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "angular-oauth2-oidc": "^15.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
