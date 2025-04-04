@@ -38,16 +38,14 @@ export const routes: Routes = [
     component: LandPageComponent,
   },
   {
+    path: 'app/dashboard',
+    component: DashboardComponent,
+  },
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        redirectTo: 'dashboard', 
-        // component:DashboardComponent, // Cambia a 'dashboard' si es la ruta predeterminada
-        pathMatch: 'full',
-      },
       {
         path: 'users',
         component: UsersComponent,
