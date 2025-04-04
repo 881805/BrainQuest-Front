@@ -61,6 +61,7 @@ export class DebatesComponent implements OnDestroy  {
   public currentGame: IGame = {};
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
  
 
   saveMessage(message: IMessage){
@@ -69,6 +70,8 @@ export class DebatesComponent implements OnDestroy  {
 
 
 =======
+=======
+>>>>>>> Stashed changes
   public messages: WritableSignal<IMessage[]> = signal([]);
 
 // constructor() {
@@ -276,6 +279,9 @@ async saveMessage(message: IMessage) {
 //     }
 // }
     
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
   async playGame() {
