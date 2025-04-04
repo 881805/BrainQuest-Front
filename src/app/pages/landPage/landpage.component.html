@@ -1,0 +1,114 @@
+<div class="landing-page">
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/icons/logo-BrainQuest.jpg" alt="Logo" width="100">
+            </a>
+            <button class="navbar-toggler" (click)="toggleNavbar()">
+                <span class="navbar-toggler-icon">&#9776;</span>
+            </button>
+            <div class="navbar-links" [class.active]="isNavbarActive">
+                <ul>
+                    <li><a [routerLink]="['/login']">Iniciar Sesión</a></li>
+                    <li><a [routerLink]="['/signup']" class="btn-primary">Registrarse</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="intro">
+        <div class="intro-content">
+            <h2>¡Descubre un mundo de posibilidades!</h2>
+            <p class="lead">
+                Lleva tu experiencia de aprendizaje a un nivel completamente nuevo con nuestra página. 
+                <strong>"Explora, aprende y crece con nosotros"</strong> no es solo un eslogan, es una invitación 
+                a sumergirte en una plataforma única donde el conocimiento se combina con la diversión 
+                y la interacción global.
+            </p>
+        </div>
+    </section>
+    
+    <section class="benefits">
+        <h2>¿Qué nos hace diferentes?</h2>
+        <div class="benefits-grid">
+            <div class="benefit">
+                <i class="fas fa-gamepad"></i>
+                <h3>Aprendizaje interactivo</h3>
+                <p>
+                    Olvídate de los métodos tradicionales. Con nosotros, aprenderás a través de juegos, 
+                    desafíos y actividades que mantendrán tu mente activa y comprometida.
+                </p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-globe"></i>
+                <h3>Comunidad global</h3>
+                <p>
+                    Conéctate con personas de diferentes culturas y países, intercambia ideas y amplía 
+                    tu perspectiva del mundo.
+                </p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-star"></i>
+                <h3>Contenido de calidad</h3>
+                <p>
+                    Nuestros recursos están diseñados por expertos para garantizar que cada experiencia 
+                    sea enriquecedora y relevante.
+                </p>
+            </div>
+            <div class="benefit">
+                <i class="fas fa-clock"></i>
+                <h3>Flexibilidad</h3>
+                <p>
+                    Aprende a tu propio ritmo, cuando y donde quieras.
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <h2>¡Lleva tu aprendizaje al siguiente nivel!</h2>
+        <p>
+            Ya sea que quieras mejorar tus habilidades, descubrir nuevos intereses o simplemente 
+            divertirte mientras aprendes, nuestra página es el lugar perfecto para ti. 
+            <strong>¡El conocimiento nunca fue tan emocionante!</strong>
+        </p>
+        <a [routerLink]="['/signup']" class="btn-primary">Únete Ahora</a>
+    </section>
+    
+
+    <section class="services">
+        <h2 class="animate-on-scroll">Nuestros Servicios</h2>
+        <div class="service-cards">
+            <div class="card animate-on-scroll">
+                <h3>Trivia</h3>
+                <p>Desafía tu conocimiento con preguntas interactivas.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <h3>Entrevista</h3>
+                <p>Prepárate para entrevistas con inteligencia artificial.</p>
+            </div>
+            <div class="card animate-on-scroll">
+                <h3>Debate</h3>
+                <p>Mejora tu argumentación en debates simulados.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>Lo que opinan nuestros usuarios</h2>
+        <div class="testimonial-carousel-container">
+            <button class="carousel-button prev" (click)="scrollTestimonials(-1)">&#10094;</button>
+            <div class="testimonial-carousel" #scrollContainer>
+                <div *ngFor="let testimonial of testimonials" class="testimonial">
+                    <p class="testimonial-text">{{ testimonial.text }}</p>
+                    <p class="testimonial-author"><strong>{{ testimonial.name }}</strong></p>
+                </div>
+            </div>
+            <button class="carousel-button next" (click)="scrollTestimonials(1)">&#10095;</button>
+        </div>
+    </section>
+      
+    <footer class="footer-landpage">
+        <p><a [routerLink]="['/team']">&copy; 2025 BrainQuest.</a> Todos los derechos reservados.</p>
+    </footer>
+</div>

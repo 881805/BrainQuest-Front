@@ -12,7 +12,7 @@ import { IUser } from '../../../interfaces';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss'
 })
-export class SigUpComponent {
+export class SignUpComponent {
   public signUpError!: String;
   public validSignup!: boolean;
   @ViewChild('name') nameModel!: NgModel;

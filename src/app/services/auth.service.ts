@@ -2,6 +2,18 @@ import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
 import { Observable, firstValueFrom, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { AuthConfig } from 'angular-oauth2-oidc';
+
+export const authConfig: AuthConfig = {
+  issuer: 'https://accounts.google.com',
+  redirectUri: 'http://localhost:4200/app/dashboard',
+  
+  clientId: '721688594612-ua7t6blit6jr49a5opmrpq13fhbs0kgj.apps.googleusercontent.com',
+  responseType: 'code',
+  scope: 'openid profile email',
+  strictDiscoveryDocumentValidation: false,
+  showDebugInformation: true
+};
 
 @Injectable({
   providedIn: 'root',
@@ -106,19 +118,15 @@ export class AuthService {
   }
 
   public areActionsAvailable(routeAuthorities: string[]): boolean  {
-    // definición de las variables de validación
     let allowedUser: boolean = false;
     let isAdmin: boolean = false;
-    // se obtienen los permisos del usuario
     let userAuthorities = this.getUserAuthorities();
-    // se valida que sea una ruta permitida para el usuario
     for (const authority of routeAuthorities) {
       if (userAuthorities?.some(item => item.authority == authority) ) {
         allowedUser = userAuthorities?.some(item => item.authority == authority)
       }
       if (allowedUser) break;
     }
-    // se valida que el usuario tenga un rol de administración
     if (userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin)) {
       isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin);
     }          

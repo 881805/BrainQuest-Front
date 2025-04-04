@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
+import { SignUpComponent} from './pages/auth/sign-up/signup.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
-import { SigUpComponent } from './pages/auth/sign-up/signup.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
@@ -13,7 +13,12 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
 import { DebatesComponent } from './pages/debate/debates.component';
+
+
+import { LandPageComponent } from './pages/landPage/landpage.component';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 
 export const routes: Routes = [
@@ -21,10 +26,11 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+    providers: [OAuthService]
   },
   {
     path: 'signup',
-    component: SigUpComponent,
+    component: SignUpComponent,
     canActivate: [GuestGuard],
   },
   {
@@ -33,8 +39,11 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    component: LandPageComponent,
+  },
+  {
+    path: 'app/dashboard',
+    component: DashboardComponent,
   },
   {
     path: 'app',
@@ -42,53 +51,38 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'app',
-        redirectTo: 'users',
-        pathMatch: 'full',
-      },
-      {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
+        canActivate: [AdminRoleGuard],
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin
-          ],
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'dashboard',
         component: DashboardComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'profile',
         component: ProfileComponent,
         data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user
-          ],
-          name: 'profile',
-          showInSidebar: false
-        }
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Profile',
+          showInSidebar: false,
+        },
       },
       {
         path: 'debates',
         component: DebatesComponent,
         data: { 
+
           authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
@@ -97,6 +91,29 @@ export const routes: Routes = [
           name: 'debates',
           showInSidebar: true
         }
+
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Games',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Orders',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'preference-list',
+        component: PreferenceListPageComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Preference List',
+          showInSidebar: true,
+        },
       },
     
 
