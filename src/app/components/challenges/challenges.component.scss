@@ -1,0 +1,50 @@
+@import '../../../assets/utils/variables.scss';
+
+.challenges-section {
+    margin-bottom: 4rem;
+  
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: $alert-color2;
+    }
+  }
+  
+  .challenges-list {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+  
+  .challenge-card {
+    min-width: 280px;
+    background: $font-color;
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+  
+    h3 {
+      margin-top: 0;
+      color: $alert-color;
+    }
+  
+    .description {
+      font-size: 0.9rem;
+      opacity: 0.8;
+      margin-bottom: 1rem;
+    }
+  
+    .institutions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+  
+      span {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+    }
+  }

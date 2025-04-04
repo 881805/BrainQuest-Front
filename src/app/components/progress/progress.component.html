@@ -1,0 +1,15 @@
+<div class="progress-card">
+    <div class="card-header">
+      <div class="icon-container" [style.backgroundColor]="color + '20'">
+        <lucide-icon [name]="icon" [size]="20" [color]="color"></lucide-icon>
+      </div>
+      <h3>{{ title }}</h3>
+    </div>
+    <app-progress-bar 
+      [progress]="progress" 
+      [color]="color"
+      [height]="'6px'"
+      [showPercentage]="false">
+    </app-progress-bar>
+    <span class="progress-percentage">{{ progress }}% completado</span>
+  </div>

@@ -138,3 +138,46 @@ export interface IPreferenceList {
   name?: string;
   movies?: IMovie[];
 }
+
+
+export interface ActivityCard {
+  icon: any;
+  title: string;
+  description: string;
+  buttonColor: string;
+  iconBgColor: string;
+}
+
+export interface Challenge {
+  title: string;
+  description: string;
+  level: string;
+  duration: string;
+  participantsOrRecord: string;
+  buttonColor: string;
+  buttonText: string;
+}
+=======
+export interface ITypingExercise {
+  id: number;
+  text: string;
+  timeLimit: number;
+  hints: string[];
+  category: string;
+  difficulty: string;
+  userInput?: string;
+  completed?: boolean;
+}
+
+export interface ITriviaQuestion {
+  id: number; 
+  question: string;
+  options: string[];
+  correctAnswer: string;
+  category: string;
+  difficulty: string;
+  points: number;
+  userAnswer?: string;
+
+}
+

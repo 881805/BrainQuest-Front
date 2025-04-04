@@ -67,20 +67,20 @@
 }
 .offcanvas-bookmark {
   &.page-wrapper.horizontal-wrapper {
-    .page-body-wrapper {
-      .page-body {
-        .bookmark {
-          ul {
-            li {
-              a {
-                z-index: 99999;
-                color: rgba(255, 255, 255, 0.5);
-              }
-            }
-          }
-        }
-      }
-    }
+    // .page-body-wrapper {
+    //   .page-body {
+    //     .bookmark {
+    //       ul {
+    //         li {
+    //           a {
+    //             z-index: 99999;
+    //             color: rgba(255, 255, 255, 0.5);
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
   &:before {
     position: fixed;

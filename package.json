@@ -14,7 +14,7 @@
     "@angular/cdk": "^17.3.9",
     "@angular/common": "^17.3.0",
     "@angular/compiler": "^17.3.0",
-    "@angular/core": "^17.3.0",
+    "@angular/core": "^17.3.12",
     "@angular/forms": "^17.3.0",
     "@angular/material": "^17.3.10",
     "@angular/platform-browser": "^17.3.0",
@@ -30,6 +30,11 @@
     "nebular": "^0.0.1",
 
     "angular-oauth2-oidc": "^15.0.1",
+
+
+    "angular-oauth2-oidc": "^15.0.1",
+
+    "lucide-angular": "^0.487.0",
 
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",

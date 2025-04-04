@@ -1,0 +1,19 @@
+<div class="activity-card">
+    <div class="card-header">
+      <div class="icon-title-container">
+        <div class="icon-container" [style.backgroundColor]="activity.iconBgColor">
+          <lucide-icon [name]="activity.icon.name" size="24"></lucide-icon>
+        </div>
+        <h3>{{activity.title}}</h3>
+      </div>
+    </div>
+    <div class="card-content">
+      <p>{{activity.description}}</p>
+    </div>
+    <div class="card-footer">
+      <button class="join-button" [style.backgroundColor]="activity.buttonColor">
+        Jugar
+        <lucide-icon name="arrowRight" size="16" class="arrow-icon"></lucide-icon>
+      </button>
+    </div>
+  </div>

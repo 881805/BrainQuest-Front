@@ -79,6 +79,9 @@ $font-themify: themify;
 $font-awesome: FontAwesome;
 $font-ICO: IcoFont;
 
+$font-Sora: Sora;
+$font-Onest: Onest;
+
 // dark layout variables
 $dark-body-background: #1d1e26;
 $dark-card-background: hsl(225, 14%, 17%);
@@ -310,6 +313,7 @@ $widget-shadow: 1px 2px 21px -2px rgba(214, 214, 227, 0.83);
 $white: #fff;
 
   //Colores definidos por The Keyboard Warriors
+<<<<<<< Updated upstream
 $background-color: #F2F3F4;
 $font-Color: #1B1E22;
 $primary-Color: #80A2A6;
@@ -317,3 +321,14 @@ $secondary-Color: #94F2F2;
 $tertiary-Color: #F2622E;
 $alert-Color: #F29849;
 $alert-Color2: #D94625;
+
+  //Colores definidos por The Keyboard Warriors
+=======
+>>>>>>> Stashed changes
+  $background-color: #F2F3F4;
+  $font-Color: #1B1E22;
+  $primary-Color: #80A2A6;
+  $secondary-Color: #94F2F2;
+  $tertiary-Color: #F2622E;
+  $alert-Color: #F29849;
+  $alert-Color2: #D94625;

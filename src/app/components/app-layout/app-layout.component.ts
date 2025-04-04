@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopbarComponent } from './elements/topbar/topbar.component';
-import { SidebarComponent } from './elements/sidebar/sidebar.component';
+
 import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../services/layout.service';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { RouterModule } from '@angular/router'; 
+// import { SidebarComponent } from './elements/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',
@@ -14,11 +15,12 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterOutlet,
     TopbarComponent,
-    SidebarComponent,
+    // SidebarComponent,
     SvgIconComponent,
     RouterModule
   ],
   templateUrl: './app-layout.component.html',
+  styleUrls: ['./app-layout.component.scss'],
 })
 export class AppLayoutComponent {
   public title?: string;

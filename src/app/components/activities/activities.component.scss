@@ -1,0 +1,53 @@
+@import '../../../assets/utils/variables.scss';
+
+
+.activities-section {
+    margin-bottom: 4rem;
+  
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: $tertiary-color;
+      border-bottom: 2px solid $secondary-color;
+      padding-bottom: 0.5rem;
+    }
+  }
+  
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .activity-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  
+    &:hover {
+      transform: translateY(-5px);
+    }
+  
+    h3 {
+      margin: 0 0 1rem 0;
+      color: $primary-color;
+    }
+  
+    .activity-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+  
+      .date {
+        color: $tertiary-color;
+      }
+  
+      .code {
+        background: $secondary-color;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+      }
+    }
+  }

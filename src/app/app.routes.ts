@@ -18,7 +18,17 @@ import { DebatesComponent } from './pages/debate/debates.component';
 
 
 import { LandPageComponent } from './pages/landPage/landpage.component';
+import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
+
 import { OAuthService } from 'angular-oauth2-oidc';
+import { LandPageComponent } from './pages/landPage/landpage.component';
+
+
+import { TypingComponent } from './pages/typing/typing.component';
+import { TriviaComponent } from './pages/trivia/trivia.component';
+import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
+import { LogrosComponent } from './pages/logros/logros.component';
+import { SignUpComponent } from './pages/auth/sign-up/signup.component';
 
 
 export const routes: Routes = [
@@ -38,6 +48,10 @@ export const routes: Routes = [
     component: AccessDeniedComponent,
   },
   {
+    path: 'app/dashboard',
+    component: LandPagePrincipalComponent,
+  },
+  {
     path: '',
     component: LandPageComponent,
   },
@@ -51,6 +65,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+        path: '',
+        redirectTo: 'users',
+        pathMatch: 'full',
+      },
+      {
         path: 'users',
         component: UsersComponent,
         canActivate: [AdminRoleGuard],
@@ -62,7 +81,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        component: LandPagePrincipalComponent,
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
@@ -75,6 +94,7 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Profile',
+
           showInSidebar: false,
         },
       },
@@ -94,6 +114,7 @@ export const routes: Routes = [
 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Games',
+
           showInSidebar: true,
         },
       },
@@ -103,8 +124,10 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Orders',
+
           showInSidebar: true,
         },
+
       },
       {
         path: 'preference-list',
@@ -112,11 +135,46 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Preference List',
+
           showInSidebar: true,
         },
       },
-    
-
+      {
+        path: 'typing',
+        component: TypingComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Typing',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'trivia',
+        component: TriviaComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Trivia',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'estadisticas',
+        component: EstadisticasComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Estadísticas',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'logros',
+        component: LogrosComponent,
+        data: { 
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Logros',
+          showInSidebar: true
+        }
+      }
     ],
   },
   {
