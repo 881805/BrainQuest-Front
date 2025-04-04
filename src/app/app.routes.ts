@@ -13,9 +13,9 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { LandPageComponent } from './pages/landPage/landpage.component';
+import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { LandPageComponent } from './pages/landPage/landpage.component';
 
 export const routes: Routes = [
   {
@@ -34,6 +34,10 @@ export const routes: Routes = [
     component: AccessDeniedComponent,
   },
   {
+    path: 'app/dashboard',
+    component: LandPagePrincipalComponent,
+  },
+  {
     path: '',
     component: LandPageComponent,
   },
@@ -42,12 +46,6 @@ export const routes: Routes = [
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        redirectTo: 'dashboard', 
-        // component:DashboardComponent, // Cambia a 'dashboard' si es la ruta predeterminada
-        pathMatch: 'full',
-      },
       {
         path: 'users',
         component: UsersComponent,
@@ -60,7 +58,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        component: LandPagePrincipalComponent,
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',

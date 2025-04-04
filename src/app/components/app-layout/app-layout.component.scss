@@ -1,0 +1,11 @@
+/* Elimina cualquier margen/padding que pueda causar scroll */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Previene scroll horizontal */
+  }
+  
+  /* Opcional: ajusta según tus necesidades */
+  footer {
+    flex-shrink: 0; /* Evita que el footer se reduzca */
+  }

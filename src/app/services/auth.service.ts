@@ -6,7 +6,7 @@ import { AuthConfig } from 'angular-oauth2-oidc';
 
 export const authConfig: AuthConfig = {
   issuer: 'https://accounts.google.com',
-  redirectUri: 'http://localhost:4200/team',
+  redirectUri: 'http://localhost:4200/app/dashboard',
   
   clientId: '721688594612-ua7t6blit6jr49a5opmrpq13fhbs0kgj.apps.googleusercontent.com',
   responseType: 'code',

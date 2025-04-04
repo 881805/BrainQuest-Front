@@ -1,4 +1,4 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -9,6 +9,7 @@ import { accessTokenInterceptor } from './interceptors/access-token.interceptor'
 import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
+import { ArrowRight, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,5 +24,16 @@ export const appConfig: ApplicationConfig = {
       ])
     ), 
     provideAnimationsAsync(),
+
+    importProvidersFrom(
+      LucideAngularModule.pick({        
+        MessageSquare,
+        Keyboard,
+        Headphones,
+        BookOpen,
+        HelpCircle,
+        Users,
+        ArrowRight})
+    )
   ]
 };

@@ -1,0 +1,53 @@
+.profile-container {
+    position: relative;
+    cursor: pointer;
+  
+    .profile-media {
+      padding: 8px 0;
+      
+      .fa-chevron-down {
+        transition: transform 0.3s ease;
+        margin-left: 5px;
+        font-size: 12px;
+        
+        &.rotate {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      min-width: 180px;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      z-index: 100;
+      padding: 10px 0;
+      margin-top: 5px;
+  
+      &.show, &.onhover-show-div:hover {
+        display: block;
+      }
+  
+      li {
+        padding: 8px 15px;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background: #f5f5f5;
+        }
+  
+        i {
+          margin-right: 10px;
+          width: 20px;
+          text-align: center;
+        }
+      }
+    }
+  }

@@ -106,40 +106,40 @@
         margin-top: $box-layout-space;
 
         .page-body-wrapper {
-          .sidebar-wrapper {
-            width: 230px;
-            top: $box-layout-space;
-            border-radius: 10px 0 0 10px;
+          // .sidebar-wrapper {
+          //   width: 230px;
+          //   top: $box-layout-space;
+          //   border-radius: 10px 0 0 10px;
 
-            &.close_icon {
-              ~ footer {
-                width: 1200px;
-                left: 47%;
-              }
+          //   &.close_icon {
+          //     ~ footer {
+          //       width: 1200px;
+          //       left: 47%;
+          //     }
 
-              ~ .footer-fix {
-                padding-left: 0;
-              }
+          //     ~ .footer-fix {
+          //       padding-left: 0;
+          //     }
 
-              .sidebar-main {
-                .sidebar-links {
-                  height: calc(100vh - 196px);
-                }
-              }
-            }
+          //     .sidebar-main {
+          //       .sidebar-links {
+          //         height: calc(100vh - 196px);
+          //       }
+          //     }
+          //   }
 
-            .logo-wrapper {
-              box-shadow: 0 8px 6px -6px rgba(89, 102, 122, 0.1);
-            }
+          //   .logo-wrapper {
+          //     box-shadow: 0 8px 6px -6px rgba(89, 102, 122, 0.1);
+          //   }
 
-            .sidebar-main {
-              .sidebar-links {
-                margin-top: 10px;
-                margin-bottom: 20px;
-                height: calc(100vh - 191px);
-              }
-            }
-          }
+          //   .sidebar-main {
+          //     .sidebar-links {
+          //       margin-top: 10px;
+          //       margin-bottom: 20px;
+          //       height: calc(100vh - 191px);
+          //     }
+          //   }
+          // }
 
           .page-body {
             min-height: calc(100vh - 130px);
@@ -173,7 +173,7 @@
         .page-body-wrapper {
           margin-top: 40px;
 
-          div.sidebar-wrapper {
+          div {
             top: 40px;
 
             &.close_icon {

@@ -90,3 +90,21 @@ export interface IPreferenceList {
   name?: string;
   movies?: IMovie[];
 }
+
+export interface ActivityCard {
+  icon: any;
+  title: string;
+  description: string;
+  buttonColor: string;
+  iconBgColor: string;
+}
+
+export interface Challenge {
+  title: string;
+  description: string;
+  level: string;
+  duration: string;
+  participantsOrRecord: string;
+  buttonColor: string;
+  buttonText: string;
+}

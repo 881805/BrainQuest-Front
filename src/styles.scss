@@ -8,7 +8,7 @@
   --light-bg: #f6f7f9;
   --white: #fff;
   --light2: #f5f6f9;
-  --sidebar-border: rgba(0, 0, 0, 0.1);
+  // --sidebar-border: rgba(0, 0, 0, 0.1);
   --chart-text-color: rgba(82, 82, 108, 0.8);
   --recent-dashed-border: rgba(82, 82, 108, 0.3);
   --chart-dashed-border: rgba(82, 82, 108, 0.2);
@@ -44,7 +44,7 @@ body[class="dark-only"] {
   --recent-chart-bg: #262932;
   --light-bg: #1d1e26;
   --white: #262932;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
+  // --sidebar-border: rgba(255, 255, 255, 0.1);
   --light2: #1d1e26;
   --chart-border: #374558;
   --recent-box-bg: #1d1e26;
@@ -62,9 +62,9 @@ body[class="dark-only"] {
 
 html, body { 
   height: 100%; 
-  background-color: var;
+  background-color: var(--background-color);
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; background-color: var(--background-color);} //font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 h1, h2, h3{
   font-family: 'Sora Variable', sans-serif;
@@ -87,18 +87,19 @@ p{
 }
 
 
-.page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li .sidebar-link {
-  text-decoration: none;
-}
+// .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li .sidebar-link {
+//   text-decoration: none;
+  
+// }
 
 
-.page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links {
-  height: calc(93vh - 115px) !important;
-  left: -300px;
-  z-index: 99;
-  transition: color 1s ease;
-  /* overflow: auto; */
-  /* color: rgba(0, 0, 0, 0); */
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
+// .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links {
+//   height: calc(93vh - 115px) !important;
+//   left: -300px;
+//   z-index: 99;
+//   transition: color 1s ease;
+//   /* overflow: auto; */
+//   /* color: rgba(0, 0, 0, 0); */
+//   margin-top: 20px;
+//   margin-bottom: 30px;
+// }

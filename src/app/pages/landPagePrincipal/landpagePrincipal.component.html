@@ -1,0 +1,72 @@
+<app-topbar></app-topbar>
+<!-- <app-my-account></app-my-account> -->
+
+<div class="learning-platform">
+    <!-- Header with gradient -->
+    <header class="platform-header">
+      <div class="container">
+        <h1>¡Hola, {{username}}! 👋</h1>
+        <p>Bienvenido a tu plataforma de aprendizaje interactivo</p>
+      </div>
+    </header>
+  
+    <main class="platform-main">
+      <!-- Activities section -->
+      <section class="activities-section">
+        <h2>Actividades disponibles</h2>
+        <div class="activities-grid">
+          <div class="activity-card" *ngFor="let activity of activities">
+            <div class="card-header">
+              <div class="icon-title-container">
+                <div class="icon-container" [style.backgroundColor]="activity.iconBgColor">
+                  <lucide-icon [name]="activity.icon.name" size="24"></lucide-icon>
+                </div>
+                <h3>{{activity.title}}</h3>
+              </div>
+            </div>
+            <div class="card-content">
+              <p>{{activity.description}}</p>
+            </div>
+            <div class="card-footer">
+              <button class="join-button" [style.backgroundColor]="activity.buttonColor">
+                Unirse ahora
+                <lucide-icon name="arrowRight" size="16" class="arrow-icon"></lucide-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+  
+      <!-- Available Challenges section -->
+      <section class="challenges-section">
+        <h2>Desafíos Disponibles</h2>
+        <div class="challenges-grid">
+          <div class="challenge-card" *ngFor="let challenge of challenges">
+            <div class="challenge-top-bar"></div>
+            <div class="challenge-content">
+              <div class="challenge-header">
+                <h3>{{challenge.title}}</h3>
+                <span class="level-badge">{{challenge.level}}</span>
+              </div>
+              <p class="challenge-description">{{challenge.description}}</p>
+              <div class="challenge-details">
+                <span>Duración: {{challenge.duration}}</span>
+                <span>{{challenge.participantsOrRecord}}</span>
+              </div>
+              <button class="participate-button" [style.backgroundColor]="challenge.buttonColor">
+                {{challenge.buttonText}}
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer1">
+      <div class="container text-center">
+        <p class="mb-0 text-muted">
+          &copy; 2025 <a [routerLink]="['/team']" class="text-decoration-none text-primary">BrainQuest</a>. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+  </div>
+
