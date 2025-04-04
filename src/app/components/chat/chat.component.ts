@@ -39,7 +39,6 @@ export class DebateChatComponent {
 
   callSave() {
     let message: IMessage = {
-      id: 0,
       conversation: {id: 0},
       contentText: this.messageText,
       createdAt: new Date(),

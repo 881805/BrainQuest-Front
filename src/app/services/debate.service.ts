@@ -4,9 +4,7 @@ import { IGame, IMessage, IPreferenceList, IResponse, ISearch } from '../interfa
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
-import SockJS from 'sockjs-client';
 import { environment } from '../../environments/environment';
-import { Client } from "@stomp/stompjs";
 import { Observable } from 'rxjs';
 
 

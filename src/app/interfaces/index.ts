@@ -92,7 +92,7 @@ export enum GameTypeEnum {
 }
 
 export interface IMessage {
-  id: number;
+  id?: number;
   conversation: IConversation;
   contentText: string;
   createdAt: Date;

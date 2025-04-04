@@ -12,7 +12,6 @@ import { DebateChatComponent } from '../../components/chat/chat.component';
 import { CommonModule } from '@angular/common';
 import { effect } from '@angular/core';
 import { MessageService } from '../../services/message.service';
-import { io, Socket } from 'socket.io-client';
 import { DebatesService } from '../../services/debate.service';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom, take } from 'rxjs';
@@ -40,8 +39,7 @@ export class DebatesComponent implements OnDestroy  {
   public debatesService: DebatesService = inject(DebatesService);
 
   public alertService: AlertService = inject(AlertService);
-  
-  private socket!: Socket;
+
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private initialReconnectDelay = 1000; 
@@ -59,19 +57,9 @@ export class DebatesComponent implements OnDestroy  {
 
   public games : IGame[] = [];  
   public currentGame: IGame = {};
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
  
 
-  saveMessage(message: IMessage){
-    this.gamesService.sendMessage(this.currentGame.id ?? 1,message);
-  }
 
-
-=======
-=======
->>>>>>> Stashed changes
   public messages: WritableSignal<IMessage[]> = signal([]);
 
 // constructor() {
@@ -100,24 +88,7 @@ export class DebatesComponent implements OnDestroy  {
 constructor() {
 
   let response = this.gamesService.getAllByUser();
-  if (!this.socket || !this.socket.connected) {
-    this.socket = io('http://localhost:8081/chat', {
-      transports: ['websocket']
-    });
-
-  this.socket.on('connect', () => {
-    console.log('Connected to WebSocket');
-    this.socket.emit('gameInfo', this.currentGame);
-    this.reconnectAttempts = 0; // Reset attempts on successful connection
-  });
-
-  this.socket.on('disconnect', () => {
-    console.log('Socket disconnected. Attempting reconnect...');
-    this.reconnectWithBackoff();
-  });
-  this.socket.on('message', (data: any) => {
-        console.log('Received:', data);
-      });
+  
 
       effect(() => {
         this.games = this.gamesService.game$();
@@ -133,53 +104,65 @@ constructor() {
       
         
   }
-}
-private reconnectWithBackoff() {
-  if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-    console.error('Max reconnect attempts reached.');
-    return;
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
-  const delay = Math.min(
-    this.initialReconnectDelay * Math.pow(2, this.reconnectAttempts),
-    this.maxReconnectDelay
-  );
 
-  setTimeout(() => {
-    console.log(`Attempting reconnect in ${delay / 1000} seconds...`);
-    this.socket.connect();
-    this.reconnectAttempts++;
-  }, delay);
-}
 
-ngOnDestroy(): void {
-  if (this.socket) {
-    this.socket.disconnect();
+
+
+
+private async saveNewGame(){
+
+  let gameToSave : IGame = {
+    conversation: {id: 0},
+    winner: {id: this.authService.getUser()?.id},
+    gameType: {id: 2},
+    isOngoing: true,
+    pointsEarnedPlayer1: 0,
+    pointsEarnedPlayer2: 0,
+    elapsedTurns: 0,
+    maxTurns: 3,
+    expirationTime: null
   }
+  const response = await firstValueFrom(this.gamesService.add(gameToSave));
+if (response) { 
+  this.currentGame = response as unknown as IGame;
+  this.messages.set(this.currentGame.conversation!.messages!);
 }
-  
-
-
-public saveNewGame(){
-  
 }
 
+async endGame(game : IGame){
+  const response = await firstValueFrom(this.debatesService.save(this.currentGame));
+      if (response) { 
+        this.currentGame = response as unknown as IGame;
+        this.messages.set(this.currentGame.conversation!.messages!);
+      }
+  }
 
 
 async saveMessage(message: IMessage) {
   const user = this.authService.getUser() as IUser;
-
+  const messageId = (this.currentGame?.conversation?.messages?.length ?? 0) + 1;;
   const updatedMessage = {
+      id : messageId,
       ...message,
       conversation: { id: this.currentGame.conversation?.id || 1 },
       user: { id: user.id }
   };
 
   try {
-      this.currentGame.conversation?.messages?.push(message);
+      this.currentGame.conversation?.messages?.push(updatedMessage);
       this.currentGame = this.createGameRequest(this.currentGame);
+      if ((this.currentGame?.elapsedTurns ?? 0) >= (this.currentGame?.maxTurns ?? 0)) {
+        const resp = await this.endGame(this.currentGame);
+        return;
+    }
       const response = await firstValueFrom(this.debatesService.save(this.currentGame));
-
+      if (response) { // 
+        console.log('Message from server:', response);
+      }
       this.gamesService.getAllByUser();
   } catch (err) {
       console.error('Error saving message:', err);
@@ -279,16 +262,12 @@ async saveMessage(message: IMessage) {
 //     }
 // }
     
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
   async playGame() {
     try {
+      await this.saveNewGame();
       await this.toggleChatVisibility();
-      //this.chat.messages = this.currentGame.conversation?.messages ?? [];
-      // this.gamesService.joinRoom(this.currentGame.id ?? 1);
+
     } catch (e) {
       console.error("Error in playGame:", e);
     }
