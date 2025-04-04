@@ -1,4 +1,4 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { IGame, IMessage, IPreferenceList, IResponse, ISearch } from '../interfaces';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -21,9 +21,10 @@ export class GamesService extends BaseService<IGame> {
   private alertService: AlertService = inject(AlertService);
 
   protected override source: string = 'games';
-  get game$() {
+  get game$(): WritableSignal<IGame[]> {
     return this.gameSignal;
   }
+  
   public search: ISearch = {
     page: 1,
     size: 5
@@ -34,6 +35,7 @@ export class GamesService extends BaseService<IGame> {
     super();
 
   }
+
 
  
   async getAllByUser() {

@@ -14,12 +14,12 @@ import { effect } from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { DebatesService } from '../../services/debate.service';
 import { AlertService } from '../../services/alert.service';
-import { firstValueFrom, take } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-debates',
-  standalone: true,
-  imports: [
+  selector: 'app-debates',           // Component selector
+  standalone: true,                  // Standalone component
+  imports: [                         // Component imports
     GamesListComponent,
     PaginationComponent,
     ModalComponent,
@@ -27,27 +27,25 @@ import { firstValueFrom, take } from 'rxjs';
     DebateChatComponent,
     CommonModule
   ],
-  templateUrl: './debates.component.html',
-  styleUrls: ['./debates.component.scss'],
+  templateUrl: './debates.component.html',  // Path to the component's template
+  styleUrls: ['./debates.component.scss'],  // Path to the component's styles
 })
-export class DebatesComponent implements OnDestroy  {
-  public gamesService: GamesService = inject(GamesService);
+export class DebatesComponent implements OnDestroy {
+
   public modalService: ModalService = inject(ModalService);
   public authService: AuthService = inject(AuthService);
   public messageService: MessageService = inject(MessageService);
-
   public debatesService: DebatesService = inject(DebatesService);
-
   public alertService: AlertService = inject(AlertService);
 
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private initialReconnectDelay = 1000; 
-  private maxReconnectDelay = 30000; 
-  
+  private initialReconnectDelay = 1000;
+  private maxReconnectDelay = 30000;
+
   @ViewChild('addOrdersModal') public addOrdersModal: any;
   @ViewChild(DebateChatComponent) chat!: DebateChatComponent;
-  
+
   public fb: FormBuilder = inject(FormBuilder);
   orderForm = this.fb.group({
     id: [''],
@@ -55,223 +53,158 @@ export class DebatesComponent implements OnDestroy  {
     total: ['', Validators.required],
   });
 
-  public games : IGame[] = [];  
+  // Keep games as an array
+  public games = this.gamesService.game$;
   public currentGame: IGame = {};
- 
-
-
   public messages: WritableSignal<IMessage[]> = signal([]);
 
-// constructor() {
-//   this.gamesService.getAllByUser();
-  
-// let token = localStorage.getItem('access_token') || '';
-// console.log("Token used:", token); // Debugging
+  constructor(private gamesService: GamesService) {
 
-// // Check if the socket is already connected before reconnecting
-// if (!this.socket || !this.socket.connected) {
-//   this.socket = io('http://localhost:8081');
-//   this.socket.on('connect', () => {
-//     console.log('Connected to WebSocket');
-//   });
-
-//   this.socket.on('disconnect', () => {
-//     console.log('Disconnected from WebSocket');
-//   });
-//   this.socket.on('message', (data: any) => {
-//     console.log('Received:', data);
-//   });
-// }
+    this.gamesService.getAllByUser(); 
 
 
-
-constructor() {
-
-  let response = this.gamesService.getAllByUser();
-  
-
-      effect(() => {
-        this.games = this.gamesService.game$();
-      
-
-        if (this.games.length === 0) {
-          console.warn("No games available yet, waiting for API response...");
-          return;
-        }
-        this.currentGame = this.games[0];
-        this.messages.set(this.currentGame.conversation!.messages!);
-      }, { allowSignalWrites: true });
-      
-        
-  }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
-
-
-
-
-
-
-private async saveNewGame(){
-
-  let gameToSave : IGame = {
-    conversation: {id: 0},
-    winner: {id: this.authService.getUser()?.id},
-    gameType: {id: 2},
-    isOngoing: true,
-    pointsEarnedPlayer1: 0,
-    pointsEarnedPlayer2: 0,
-    elapsedTurns: 0,
-    maxTurns: 3,
-    expirationTime: null
-  }
-  const response = await firstValueFrom(this.gamesService.add(gameToSave));
-if (response) { 
-  this.currentGame = response as unknown as IGame;
-  this.messages.set(this.currentGame.conversation!.messages!);
-}
-}
-
-async endGame(game : IGame){
-  const response = await firstValueFrom(this.debatesService.save(this.currentGame));
-      if (response) { 
-        this.currentGame = response as unknown as IGame;
-        this.messages.set(this.currentGame.conversation!.messages!);
+    effect(() => {
+      const currentGames = this.games();
+      this.currentGame= currentGames[0];
+      this.messages.set(this.currentGame.conversation?.messages ?? []);
+      if (this.games.length === 0) {
+        console.log('Games updated:', currentGames);
+      } else {
+        console.log('Games updated:', this.games);
       }
+    }, { allowSignalWrites: true });
   }
 
+  ngOnDestroy(): void {
 
-async saveMessage(message: IMessage) {
-  const user = this.authService.getUser() as IUser;
-  const messageId = (this.currentGame?.conversation?.messages?.length ?? 0) + 1;;
-  const updatedMessage = {
-      id : messageId,
+  }
+
+  private async saveNewGame() {
+    let gameToSave: IGame = {
+      winner: { id: this.authService.getUser()?.id },
+      gameType: { id: 2 },
+      isOngoing: true,
+      pointsEarnedPlayer1: 0,
+      pointsEarnedPlayer2: 0,
+      elapsedTurns: 0,
+      maxTurns: 2,
+      expirationTime: null
+    };
+
+    const response = await firstValueFrom(this.gamesService.add(gameToSave));
+    if (response?.data) {
+      this.gamesService.game$.set([
+        ...this.gamesService.game$(), 
+        response.data // 
+      ]);
+    }
+  }
+
+  async endGame(game: IGame) {
+    const response = await firstValueFrom(this.debatesService.save(this.currentGame));
+    if (response) {
+      this.currentGame = response as unknown as IGame;
+      this.messages.set(this.currentGame.conversation!.messages!);
+    }
+  }
+
+  async saveMessage(message: IMessage) {
+    const user = this.authService.getUser() as IUser;
+    const messageId = (this.currentGame?.conversation?.messages?.length ?? 0) + 1;
+    const updatedMessage = {
+      id: messageId,
       ...message,
       conversation: { id: this.currentGame.conversation?.id || 1 },
       user: { id: user.id }
-  };
+    };
 
-  try {
+    try {
       this.currentGame.conversation?.messages?.push(updatedMessage);
       this.currentGame = this.createGameRequest(this.currentGame);
       if ((this.currentGame?.elapsedTurns ?? 0) >= (this.currentGame?.maxTurns ?? 0)) {
         const resp = await this.endGame(this.currentGame);
         return;
-    }
+      }
       const response = await firstValueFrom(this.debatesService.save(this.currentGame));
-      if (response) { // 
+      if (response) {
         console.log('Message from server:', response);
       }
       this.gamesService.getAllByUser();
-  } catch (err) {
+    } catch (err) {
       console.error('Error saving message:', err);
       this.alertService.displayAlert('error', 'An error occurred while sending the message', 'center', 'top', ['error-snackbar']);
+    }
   }
-}
 
   createGameRequest(game: IGame): IGame {
     const gameRequest: IGame = {
-        id: game.id,
-        conversation: game.conversation ? {
-            id: game.conversation.id,
-            messages: this.makeMessagesWithoutUser(game.conversation)
-        } : null,
-        winner: game.winner ? { id: game.winner.id } : undefined,
-        question: game.question ? { id: game.question.id } : null,
-        gameType: game.gameType ? { id: game.gameType.id } : undefined,
-        isOngoing: game.isOngoing,
-        pointsEarnedPlayer1: game.pointsEarnedPlayer1,
-        pointsEarnedPlayer2: game.pointsEarnedPlayer2,
-        expirationTime: game.expirationTime,
-        timeLeft: game.timeLeft,
-        maxTurns: game.maxTurns,
-        elapsedTurns: game.elapsedTurns,
+      id: game.id,
+      conversation: game.conversation ? {
+        id: game.conversation.id,
+        messages: this.makeMessagesWithoutUser(game.conversation)
+      } : null,
+      winner: game.winner ? { id: game.winner.id } : undefined,
+      question: game.question ? { id: game.question.id } : null,
+      gameType: game.gameType ? { id: game.gameType.id } : undefined,
+      isOngoing: game.isOngoing,
+      pointsEarnedPlayer1: game.pointsEarnedPlayer1,
+      pointsEarnedPlayer2: game.pointsEarnedPlayer2,
+      expirationTime: game.expirationTime,
+      timeLeft: game.timeLeft,
+      maxTurns: game.maxTurns,
+      elapsedTurns: game.elapsedTurns,
     };
     return gameRequest;
-}
-    //crea mensajes sin pasar el userid completo
+  }
+
   makeMessagesWithoutUser(conversation: IConversation): IMessage[] {
     const messageRequests: IMessage[] = [];
     const messages = conversation.messages ?? [];
 
     for (const message of messages) {
-        const messageRequest: IMessage = {
-            id: message.id || 1,
-            createdAt: message.createdAt,
-            conversation: { id: message.conversation?.id || 1 },
-            contentText: message.contentText,
-            user: { id: message.user.id },
-            isSent: message.isSent,
-        };
-        messageRequests.push(messageRequest);
+      const messageRequest: IMessage = {
+        id: message.id || 1,
+        createdAt: message.createdAt,
+        conversation: { id: message.conversation?.id || 1 },
+        contentText: message.contentText,
+        user: { id: message.user.id },
+        isSent: message.isSent,
+      };
+      messageRequests.push(messageRequest);
     }
 
     return messageRequests;
-}
-  async getReplyAI(game : IGame){
+  }
+
+  async getReplyAI(game: IGame) {
     try {
       const response = await this.debatesService.save(game).toPromise();
       console.log('Reply gotten successfully:', response);
-
-
       this.gamesService.getAllByUser();
     } catch (err) {
       console.error('Error getting reply:', err);
-      this.alertService.displayAlert('error', 'An error occurred while getting the AI Reply','center', 'top', ['error-snackbar']);
+      this.alertService.displayAlert('error', 'An error occurred while getting the AI Reply', 'center', 'top', ['error-snackbar']);
       this.gamesService.getAllByUser();
     }
   }
-
-
-//   async retryGetAllByUser() {
-//     const maxAttempts = 5; // Adjust as needed
-//     let attempts = 0;
-
-//     while (attempts < maxAttempts) {
-//         await this.gamesService.getAllByUser();
-//         const updatedGames = this.gamesService.game$();
-
-//         if (this.isGameDataUpdated(updatedGames)) {
-//             console.log('Game data updated after retry.');
-//             this.games = updatedGames;
-//             return; // Exit retry loop
-//         }
-
-//         attempts++;
-//         await new Promise(resolve => setTimeout(resolve, 1000)); // Wait before retry
-//     }
-
-//     console.error('Failed to get updated game data after multiple attempts.');
-// }
-
-// isGameDataUpdated(updatedGames: IGame[]): boolean {
-//     // Implement your logic to check if the game data is updated
-//     // For example, check if a specific message is present in the game's messages
-//     const currentMessages = this.currentGame.conversation?.messages || [];
-//     const updatedMessages = updatedGames[0]?.conversation?.messages || [];
-
-//     if (currentMessages.length !== updatedMessages.length) {
-//       this.games = this.gamesService.game$();
-//       this.currentGame = this.games[0];
-//       this.getReplyAI(this.createGameRequest(this.currentGame));  //crea un reply del ai para el backend con el game ya formateado
-//       this.gamesService.getAllByUser();
-//         return true; // Different number of messages
-//     }else {
-//       return false;
-//     }
-// }
-    
-
   async playGame() {
     try {
-      await this.saveNewGame();
-      await this.toggleChatVisibility();
+      if (this.gamesService.game$().length < 1) {
+        await this.saveNewGame();
+  
 
+        window.location.reload();
+  
+  
+      } else {
+        this.isComponentVisible = true;
+      }
     } catch (e) {
       console.error("Error in playGame:", e);
     }
   }
+  
+  
 
   isComponentVisible: boolean = false;
 
