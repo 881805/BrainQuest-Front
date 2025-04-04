@@ -1,0 +1,44 @@
+<div class="container">
+    <header class="header">
+        <div class="logo">Logo</div>
+        <nav class="nav">
+            <a href="#">Actividades</a>
+            <a href="#">Comunidad</a>
+            <a href="#">Recomendación</a>
+        </nav>
+        <div class="user-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+    </header>
+
+    <section class="profile">
+        <div class="avatar">
+            <img src="assets/default-avatar.png" alt="Avatar" />
+        </div>
+        <div class="username">{{ nombreUsuario }}</div>
+        <button class="edit-button" (click)="editarPerfil()">Editar perfil</button>
+    </section>
+
+    <section class="publicaciones">
+        <h2>Publicaciones</h2>
+        <p>Todas las publicaciones de {{ nombreUsuario }}</p>
+
+        <div *ngFor="let pub of publicaciones" class="publicacion">
+            <div class="nombre">{{ nombreUsuario }}</div>
+            <div *ngIf="pub.tipo === 'logro'" class="logro">
+                <strong>{{ pub.titulo }}</strong>
+                <p>{{ pub.descripcion }}</p>
+            </div>
+            <div *ngIf="pub.tipo === 'logro'" class="comentario">{{ pub.comentario }}</div>
+            <div *ngIf="pub.tipo === 'texto'" class="contenido">{{ pub.contenido }}</div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2025 BrainQuest. Todos los derechos reservados.</p>
+        <div class="links">
+            <a href="#">Términos de Uso</a>
+            <a href="#">Privacidad</a>
+        </div>
+    </footer>
+</div>
