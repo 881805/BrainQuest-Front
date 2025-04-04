@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
+import { SignUpComponent} from './pages/auth/sign-up/signup.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './guards/auth.guard';
@@ -12,7 +13,11 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
+
+import { OAuthService } from 'angular-oauth2-oidc';
+import { LandPageComponent } from './pages/landPage/landpage.component';
+
 
 import { TypingComponent } from './pages/typing/typing.component';
 import { TriviaComponent } from './pages/trivia/trivia.component';
@@ -25,6 +30,7 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [GuestGuard],
+    providers: [OAuthService]
   },
   {
     path: 'signup',
@@ -36,9 +42,12 @@ export const routes: Routes = [
     component: AccessDeniedComponent,
   },
   {
+    path: 'app/dashboard',
+    component: LandPagePrincipalComponent,
+  },
+  {
     path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
+    component: LandPageComponent,
   },
   {
     path: 'app',
@@ -46,28 +55,30 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
+
         path: '',
         redirectTo: 'users',
         pathMatch: 'full',
       },
       {
+
         path: 'users',
         component: UsersComponent,
         canActivate: [AdminRoleGuard],
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Users',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'dashboard',
-        component: DashboardComponent,
+        component: LandPagePrincipalComponent,
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
-          showInSidebar: true
-        }
+          showInSidebar: true,
+        },
       },
       {
         path: 'profile',
@@ -75,8 +86,9 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Profile',
-          showInSidebar: false
-        }
+
+          showInSidebar: false,
+        },
       },
       {
         path: 'games',
@@ -84,8 +96,9 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Games',
-          showInSidebar: true
-        }
+
+          showInSidebar: true,
+        },
       },
       {
         path: 'orders',
@@ -93,8 +106,10 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Orders',
-          showInSidebar: true
-        }
+
+          showInSidebar: true,
+        },
+
       },
       {
         path: 'preference-list',
@@ -102,8 +117,9 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Preference List',
-          showInSidebar: true
-        }
+
+          showInSidebar: true,
+        },
       },
       {
         path: 'typing',

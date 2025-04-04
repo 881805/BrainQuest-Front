@@ -1,6 +1,8 @@
 export interface ILoginResponse {
   accessToken: string;
-  expiresIn: number
+  expiresIn: number;
+  token: string;
+  authUser: IUser;
 }
 
 export interface IResponse<T> {
@@ -89,6 +91,25 @@ export interface IPreferenceList {
   movies?: IMovie[];
 }
 
+
+export interface ActivityCard {
+  icon: any;
+  title: string;
+  description: string;
+  buttonColor: string;
+  iconBgColor: string;
+}
+
+export interface Challenge {
+  title: string;
+  description: string;
+  level: string;
+  duration: string;
+  participantsOrRecord: string;
+  buttonColor: string;
+  buttonText: string;
+}
+=======
 export interface ITypingExercise {
   id: number;
   text: string;
@@ -111,3 +132,4 @@ export interface ITriviaQuestion {
   userAnswer?: string;
 
 }
+

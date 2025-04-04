@@ -15,7 +15,7 @@ export class LayoutService {
   private pageTitle = new BehaviorSubject<string>('');
 
   public title = this.pageTitle.asObservable();
-  public sidebarOpen: boolean = true;
+  // public sidebarOpen: boolean = true;
 
   constructor() {
     // fromEvent(window, 'resize')
@@ -33,7 +33,7 @@ export class LayoutService {
     this.unsubscriber.complete();
   }
 
-  public toggleSidebar(): void {
-    this.sidebarOpen = !this.sidebarOpen;
-  }
+  // public toggleSidebar(): void {
+  //   this.sidebarOpen = !this.sidebarOpen;
+  // }
 }
