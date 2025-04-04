@@ -1,0 +1,22 @@
+@defer {
+    <div class="row p-4">
+      <div class="col-12 ">
+        <div class="d-flex justify-content-center align-items-center">
+          <h2>Debates</h2>
+        </div>
+      </div>
+    </div>
+
+
+    <button id="gameStart" (click)="playGame()">Toggle Visibility</button>
+    <app-chat 
+    *ngIf="isComponentVisible"
+    (callSaveMethod)="saveMessage($event)"  
+    [messages]="messages">
+  </app-chat>
+  
+
+
+} @loading (minimum 1.5s) {
+    <app-loader/>
+}

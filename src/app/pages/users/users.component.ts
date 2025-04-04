@@ -41,6 +41,8 @@ export class UsersComponent {
     this.userService.getAll();
   }
 
+
+  
   saveUser(user: IUser) {
     this.userService.save(user);
     this.modalService.closeAll();

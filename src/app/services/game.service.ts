@@ -1,83 +1,116 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { IGame } from '../interfaces';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { IGame, IMessage, IPreferenceList, IResponse, ISearch } from '../interfaces';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
+
+import { environment } from '../../environments/environment';
+
+import { catchError, Observable, of, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class GameService extends BaseService<IGame>{
+export class GamesService extends BaseService<IGame> {
+  private gameSignal = signal<IGame[]>([]);
+  private authService: AuthService = inject(AuthService);
+  private alertService: AlertService = inject(AlertService);
+
   protected override source: string = 'games';
-  private itemListSignal = signal<IGame[]>([]);
-  private snackBar = inject(MatSnackBar);
+  get game$(): WritableSignal<IGame[]> {
+    return this.gameSignal;
+  }
   
-  get items$() {
-    return this.itemListSignal
+  public search: ISearch = {
+    page: 1,
+    size: 5
+  }
+  public totalItems: any = [];
+  
+  constructor(){
+    super();
+
   }
 
-  public getAll() {
-    this.findAll().subscribe({
+
+ 
+  async getAllByUser() {
+    this.findAllWithParamsAndCustomSource(`${this.authService.getUser()?.id}`).subscribe({
       next: (response: any) => {
-        response.reverse();
-        this.itemListSignal.set(response);
+        this.search = {...this.search, ...response.meta};
+        this.totalItems = Array.from({length: this.search.totalPages ? this.search.totalPages: 0}, (_, i) => i+1);
+        this.gameSignal.set(response.data);
+        console.log("Updated gameSignal:", this.gameSignal());
       },
-      error: (error : any) => {
-        console.log('error', error);
+      error: (err: any) => {
+        console.error('error', err);
       }
     });
   }
 
-  public save(item: IGame) {
-    item.status = 'active';
-    this.add(item).subscribe({
-      next: (response: any) => {
-        this.itemListSignal.update((games: IGame[]) => [response, ...games]);
-      },
-      error: (error : any) => {
-        this.snackBar.open(error.error.description, 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
-        console.error('error', error);
-        console.error('error', error);
-      }
-    })
-  } 
+  getAllByUserObservable(): Observable<IResponse<any[]>> {
+    return this.findAllWithParamsAndCustomSource(`${this.authService.getUser()?.id}`).pipe(
+        tap((response: IResponse<any[]>) => {
+            this.search = { ...this.search, ...response.meta };
+            this.totalItems = Array.from({ length: this.search.totalPages ? this.search.totalPages : 0 }, (_, i) => i + 1);
+            this.gameSignal.set(response.data);
+            console.log("Updated gameSignal:", this.gameSignal());
+        }),
+        catchError((error: HttpErrorResponse) => {
+            let errorMessage = 'An unknown error occurred.';
+            if (error.error instanceof ErrorEvent) {
+                // Client-side errors
+                errorMessage = `Error: ${error.error.message}`;
+            } else {
+                // Server-side errors
+                errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            }
+            console.error(errorMessage);
+            return of({ data: [], meta: [], message: errorMessage }); // meta is now an empty array
+        })
+    );
+}
+  // save(item: IPreferenceList) {
+  //   this.add(item).subscribe({
+  //     next: (response: IResponse<IPreferenceList>) => {
+  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+  //       this.getAll();
+  //     },
+  //     error: (err: any) => {
+  //       this.alertService.displayAlert('error', 'An error occurred adding the preference list', 'center', 'top', ['error-snackbar']);
+  //       console.error('error', err);
+  //     }
+  //   });
+  // }
 
-  public update(item: IGame) {
-    this.edit(item.id, item).subscribe({
-      next: () => {
-        const updatedItems = this.itemListSignal().map(game => game.id === item.id ? item : game);
-        this.itemListSignal.set(updatedItems);
-      },
-      error: (error : any) => {
-        this.snackBar.open(error.error.description, 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
-        console.error('error', error);
-        console.error('error', error);
-      }
-    })
-  }
+  // update(item: IPreferenceList) {
+  //   this.editCustomSource('', item).subscribe({
+  //     next: (response: IResponse<IPreferenceList>) => {
+  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+  //       this.getAll();
+  //     },
+  //     error: (err: any) => {
+  //       this.alertService.displayAlert('error', 'An error occurred updating the order', 'center', 'top', ['error-snackbar']);
+  //       console.error('error', err);
+  //     }
+  //   });
+  // }
 
-  public delete(game: IGame) {
-    this.del(game.id).subscribe({
-      next: () => {
-        const updatedItems = this.itemListSignal().filter((g: IGame) => g.id != game.id);
-        this.itemListSignal.set(updatedItems);
-      },
-      error: (error : any) => {
-        this.snackBar.open(error.error.description, 'Close', {
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-          panelClass: ['error-snackbar']
-        });
-        console.error('error', error);
-      }
-    })
-  }
+  // delete(item: IPreferenceList) {
+  //   this.del(item.id).subscribe({
+  //     next: (response: IResponse<IPreferenceList>) => {
+  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+  //       this.getAll();
+  //     },
+  //     error: (err: any) => {
+  //       this.alertService.displayAlert('error', 'An error occurred deleting the order', 'center', 'top', ['error-snackbar']);
+  //       console.error('error', err);
+  //     }
+  //   });
+  // }
 
 }

@@ -9,13 +9,17 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
+import { DebatesComponent } from './pages/debate/debates.component';
+
+
 import { LandPageComponent } from './pages/landPage/landpage.component';
 import { OAuthService } from 'angular-oauth2-oidc';
+
 
 export const routes: Routes = [
   {
@@ -75,9 +79,19 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'games',
-        component: GamesComponent,
+        path: 'debates',
+        component: DebatesComponent,
         data: { 
+
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'debates',
+          showInSidebar: true
+        }
+
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Games',
           showInSidebar: true,
@@ -101,6 +115,8 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+    
+
     ],
   },
   {

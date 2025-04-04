@@ -54,6 +54,10 @@ export class BaseService<T> {
     return this.http.delete<IResponse<T>>(`${this.source}/${customUrlSource}`);
   }
 
+  public patch(id: string | number, payload: Partial<T>): Observable<IResponse<T>> {
+    return this.http.patch<IResponse<T>>(this.source + '/' + id, payload);
+  }
+  
   public buildUrlParams (params: any = {}) {
     let queryParams = new HttpParams();
     Object.keys(params).forEach(key => {
