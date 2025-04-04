@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import SockJS from 'sockjs-client';
 import { environment } from '../../environments/environment';
 import { Client } from "@stomp/stompjs";
+import { catchError, Observable, of, tap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 
@@ -28,51 +30,19 @@ export class GamesService extends BaseService<IGame> {
   }
   public totalItems: any = [];
   
-  private stompClient: any;
   constructor(){
     super();
 
   }
 
-private sendGameId() {
-  const message = JSON.stringify({ gameId: this.gameId });
-  this.webSocket.send(message);
-}
-
-    
-  joinRoom(gameId: number) {
-    if (!this.stompClient || !this.stompClient.connected) {
-        console.error("STOMP client is not connected. Trying to reconnect...");
-        this.stompClient.connect({}, () => {
-            console.log("Connected to STOMP. Subscribing to topic...");
-            this.stompClient.subscribe(`/topic/${gameId}`, (messages: any) => {
-                const messageContent = JSON.parse(messages.body);
-                console.log("Received message:", messageContent);
-            });
-        });
-    } else {
-        console.log("Already connected. Subscribing to topic...");
-        this.stompClient.subscribe(`/topic/${gameId}`, (messages: any) => {
-            const messageContent = JSON.parse(messages.body);
-            console.log("Received message:", messageContent);
-        });
-    }
-}
-
-    sendMessage(gameId: number, message: IMessage) {
-      if (!this.stompClient || !this.stompClient.connected) {
-          console.error("STOMP client is not connected. Cannot send message.");
-          return;
-      }
-      this.stompClient.send(`/app/chat/${gameId}`, {}, JSON.stringify(message));
-  }
-
-  getAllByUser() {
+ 
+  async getAllByUser() {
     this.findAllWithParamsAndCustomSource(`${this.authService.getUser()?.id}`).subscribe({
       next: (response: any) => {
         this.search = {...this.search, ...response.meta};
         this.totalItems = Array.from({length: this.search.totalPages ? this.search.totalPages: 0}, (_, i) => i+1);
         this.gameSignal.set(response.data);
+        console.log("Updated gameSignal:", this.gameSignal());
       },
       error: (err: any) => {
         console.error('error', err);
@@ -80,6 +50,28 @@ private sendGameId() {
     });
   }
 
+  getAllByUserObservable(): Observable<IResponse<any[]>> {
+    return this.findAllWithParamsAndCustomSource(`${this.authService.getUser()?.id}`).pipe(
+        tap((response: IResponse<any[]>) => {
+            this.search = { ...this.search, ...response.meta };
+            this.totalItems = Array.from({ length: this.search.totalPages ? this.search.totalPages : 0 }, (_, i) => i + 1);
+            this.gameSignal.set(response.data);
+            console.log("Updated gameSignal:", this.gameSignal());
+        }),
+        catchError((error: HttpErrorResponse) => {
+            let errorMessage = 'An unknown error occurred.';
+            if (error.error instanceof ErrorEvent) {
+                // Client-side errors
+                errorMessage = `Error: ${error.error.message}`;
+            } else {
+                // Server-side errors
+                errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            }
+            console.error(errorMessage);
+            return of({ data: [], meta: [], message: errorMessage }); // meta is now an empty array
+        })
+    );
+}
   // save(item: IPreferenceList) {
   //   this.add(item).subscribe({
   //     next: (response: IResponse<IPreferenceList>) => {

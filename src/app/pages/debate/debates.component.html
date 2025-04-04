@@ -9,7 +9,12 @@
 
 
     <button id="gameStart" (click)="playGame()">Toggle Visibility</button>
-    <app-chat *ngIf="isComponentVisible"(callSaveMethod)="saveMessage($event)"></app-chat>
+    <app-chat 
+    *ngIf="isComponentVisible"
+    (callSaveMethod)="saveMessage($event)"  
+    [messages]="messages">
+  </app-chat>
+  
 
 
 } @loading (minimum 1.5s) {

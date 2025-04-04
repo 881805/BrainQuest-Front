@@ -30,6 +30,7 @@
     "@types/sockjs-client": "^1.5.4",
     "crypto-browserify": "^3.12.1",
     "rxjs": "~7.8.0",
+    "socket.io-client": "^4.8.1",
     "sockjs-client": "^1.6.1",
     "tslib": "^2.3.0",
     "zone.js": "^0.14.10"
@@ -39,6 +40,7 @@
     "@angular/cli": "^17.3.7",
     "@angular/compiler-cli": "^17.3.0",
     "@types/jasmine": "~5.1.0",
+    "@types/socket.io": "^2.1.13",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

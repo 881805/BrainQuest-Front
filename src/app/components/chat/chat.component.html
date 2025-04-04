@@ -1,14 +1,13 @@
 <nb-card>
   <nb-card-header>Chat</nb-card-header>
   <nb-card-body>
-    <nb-chat title="Nebular Chat" >
+    <nb-chat title="Nebular Chat">
       <nb-chat-message 
-        *ngFor="let msg of messages"
+        *ngFor="let msg of messages()"
         [message]="msg.contentText"
-        [reply]=isReply(msg)
-    
+        [reply]="isReply(msg)"
         [date]="msg.createdAt"
-        [sender]="msg.user.name + ',' ?? 'Unknown' + ','">
+        [sender]="msg.user.name ?? 'Unknown'">
       </nb-chat-message>
     </nb-chat>
   </nb-card-body>

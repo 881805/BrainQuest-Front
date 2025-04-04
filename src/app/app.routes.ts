@@ -15,6 +15,7 @@ import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DebatesComponent } from './pages/debate/debates.component';
 
+
 export const routes: Routes = [
   {
     path: 'login',
@@ -85,6 +86,19 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'debates',
+        component: DebatesComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'debates',
+          showInSidebar: true
+        }
+      },
+      {
         path: 'orders',
         component: OrdersComponent,
         data: { 
@@ -110,19 +124,8 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
-      {
-        path: 'debates-list',
-        component: DebatesComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'Debate',
-          showInSidebar: true
-        }
-      },
+    
+
     ],
   },
   {

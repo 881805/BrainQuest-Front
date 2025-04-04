@@ -60,6 +60,10 @@ export interface IGame {
   isOngoing?: boolean;
   pointsEarnedPlayer1?: number;
   pointsEarnedPlayer2?: number;
+  expirationTime?: string | null; 
+  timeLeft?: number;
+  maxTurns?: number;
+  elapsedTurns?: number;
 }
 
 export interface IConversation {

@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
-import { ISearch, IMessage } from '../interfaces';
+import { ISearch, IMessage, IResponse } from '../interfaces';
 import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { AlertService } from './alert.service';
 
@@ -13,10 +13,10 @@ import { AlertService } from './alert.service';
 })
 export class MessageService extends BaseService<IMessage> {
   protected override source: string = 'messages';
-//   private userListSignal = signal<IMessage[]>([]);
-//   get users$() {
-//     return this.userListSignal;
-//   }
+  private userMessageSignal = signal<IMessage[]>([]);
+  get messages$() {
+    return this.userMessageSignal;
+  }
   public search: ISearch = { 
     page: 1,
     size: 5
@@ -25,18 +25,18 @@ export class MessageService extends BaseService<IMessage> {
   public totalItems: any = [];
   private alertService: AlertService = inject(AlertService);
 
-//   getAll() {
-//     this.findAllWithParams({ page: this.search.page, size: this.search.size}).subscribe({
-//       next: (response: any) => {
-//         this.search = {...this.search, ...response.meta};
-//         this.totalItems = Array.from({length: this.search.totalPages ? this.search.totalPages: 0}, (_, i) => i+1);
-//         this.userListSignal.set(response.data);
-//       },
-//       error: (err: any) => {
-//         console.error('error', err);
-//       }
-//     });
-//   }
+  getAllByConversationId(conversationId : number) {
+    this.findAllWithParams({ page: this.search.page, size: this.search.size, conversationId: conversationId}).subscribe({
+      next: (response: any) => {
+        this.search = {...this.search, ...response.meta};
+        this.totalItems = Array.from({length: this.search.totalPages ? this.search.totalPages: 0}, (_, i) => i+1);
+        this.userMessageSignal.set(response.data);
+      },
+      error: (err: any) => {
+        console.error('error', err);
+      }
+    });
+  }
 
 // private connectWebSocket() {
 //   const socket = new SockJS('http://localhost:8080/ws');  // URL del servidor websocket
@@ -68,18 +68,13 @@ export class MessageService extends BaseService<IMessage> {
 //   return this.messageSubject.asObservable();
 // }
 
-  // save(message: IMessage) {
-  //   console.log(message);
-  //   this.add(message).subscribe({
-  //     next: (response: any) => {
-  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-  //     },
-  //     error: (err: any) => {
-  //       this.alertService.displayAlert('error', 'An error occurred sending the message','center', 'top', ['error-snackbar']);
-  //       console.error('error', err);
-  //     }
-  //   });
-  // }
+save(message: IMessage): Observable<IResponse<IMessage>> {
+  // You can reuse the add method here, passing the message data
+  return this.add(message);
+}
+
+
+  
 
 //   update(user: IUser) {
 //     this.editCustomSource(`${user.id}`, user).subscribe({

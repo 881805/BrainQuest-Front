@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
 import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';  // <-- Add this import
@@ -17,12 +17,13 @@ export class DebateChatComponent {
   @Input() messageForm!: FormGroup;
   @Output() callSaveMethod: EventEmitter<IMessage> = new EventEmitter<IMessage>();
   private authService: AuthService = inject(AuthService);
-  public messages : IMessage[] = [];
+  @Input() messages  = signal<IMessage[]>([]);
 
 
   messageText: string = '';  //mensaje para enviar
 
 
+  constructor(){}
   isReply(message: IMessage) {
     const user = this.authService.getUser();
     
@@ -60,3 +61,5 @@ export class DebateChatComponent {
   //   }
   // }
 }
+
+
