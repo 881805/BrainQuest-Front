@@ -50,44 +50,13 @@ export class DebatesComponent {
 
   public currentGame: IGame = {};
 
-  constructor() {
-    this.gamesService.getAllByUser();
-    effect(() => {
-      const games = this.gamesService.game$();
-      this.currentGame = games.length > 0 ? games[0] : {} as IGame;
-    });
-
-    let token = localStorage.getItem('access_token')
-    this.initConnectionSocket();
-    this.webSocket = new WebSocket('ws://localhost:8080/stocks', [`Bearer ${token}`]);
-
-  }
+ 
 
   saveMessage(message: IMessage){
     this.gamesService.sendMessage(this.currentGame.id ?? 1,message);
   }
 
-  initConnectionSocket() {
-    
 
-    this.webSocket.onopen = () => {
-      console.log('WebSocket connection established.');
-      this.sendGameId();
-    };
-
-    this.webSocket.onmessage = (event) => {
-      console.log('Received:', event.data);
-      this.stock = JSON.parse(event.data);
-    };
-
-    this.webSocket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    this.webSocket.onclose = () => {
-      console.log('WebSocket connection closed.');
-    };
-}
 
   async playGame() {
     try {
