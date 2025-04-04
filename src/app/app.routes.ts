@@ -14,8 +14,11 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
+<<<<<<< Updated upstream
 import { OAuthService } from 'angular-oauth2-oidc';
 import { LandPageComponent } from './pages/landPage/landpage.component';
+=======
+>>>>>>> Stashed changes
 
 export const routes: Routes = [
   {
