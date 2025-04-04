@@ -9,10 +9,15 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
+import { DebatesComponent } from './pages/debate/debates.component';
+
+
+import { LandPageComponent } from './pages/landPage/landpage.component';
 import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -24,6 +29,7 @@ import { TriviaComponent } from './pages/trivia/trivia.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 import { LogrosComponent } from './pages/logros/logros.component';
 import { SignUpComponent } from './pages/auth/sign-up/signup.component';
+
 
 export const routes: Routes = [
   {
@@ -50,18 +56,20 @@ export const routes: Routes = [
     component: LandPageComponent,
   },
   {
+    path: 'app/dashboard',
+    component: DashboardComponent,
+  },
+  {
     path: 'app',
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
-
         path: '',
         redirectTo: 'users',
         pathMatch: 'full',
       },
       {
-
         path: 'users',
         component: UsersComponent,
         canActivate: [AdminRoleGuard],
@@ -91,9 +99,19 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'games',
-        component: GamesComponent,
+        path: 'debates',
+        component: DebatesComponent,
         data: { 
+
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'debates',
+          showInSidebar: true
+        }
+
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Games',
 
