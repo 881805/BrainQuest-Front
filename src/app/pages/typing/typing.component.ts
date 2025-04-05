@@ -8,7 +8,6 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-typing-page',
@@ -36,9 +35,9 @@ export class TypingComponent {
   public difficulty: string = 'baja';
   public exercises: ITypingExercise[] = [];
   public currentExerciseIndex: number = 0;
-  public timer: number = 60;
+  public timer: number = 160; // Este valor será ajustado dinámicamente
   public intervalTimer: any;
-  
+
   public textArray: string[] = [];
   public currentWordIndex: number = 0;
   public hasError: boolean = false;
@@ -75,9 +74,26 @@ export class TypingComponent {
       this.gameOver = false;
       this.category = this.typingForm.controls['category'].value || '';
       this.difficulty = this.typingForm.controls['difficulty'].value || '';
-      
+
+      this.setTimerByDifficulty(); // Establecer el tiempo según la dificultad
+
       this.generateNewExercise();
       this.startTimer();
+    }
+  }
+
+  setTimerByDifficulty(): void {
+    switch (this.difficulty) {
+      case 'media':
+        this.timer = 120; // 2 minutos para dificultad media
+        break;
+      case 'alta':
+        this.timer = 90; // 1.5 minutos para dificultad alta
+        break;
+      case 'baja':
+      default:
+        this.timer = 160; // 2.5 minutos para dificultad baja
+        break;
     }
   }
 
@@ -87,7 +103,7 @@ export class TypingComponent {
       next: (exercise) => {
         this.exercises.push(exercise);
         this.loading = false;
-        this.generateText(exercise.text); 
+        this.generateText(exercise.text);
       },
       error: (error) => {
         console.error('Error al generar el ejercicio', error);
@@ -97,13 +113,14 @@ export class TypingComponent {
   }
 
   startTimer(): void {
-    this.timer = 60;
+    this.stopTimer(); // Detener cualquier temporizador anterior
+
     this.intervalTimer = setInterval(() => {
       if (this.timer > 0) {
         this.timer--;
       } else {
         this.gameOver = true;
-        clearInterval(this.intervalTimer);
+        this.stopTimer();
       }
     }, 1000);
   }
@@ -111,19 +128,21 @@ export class TypingComponent {
   stopTimer(): void {
     if (this.intervalTimer) {
       clearInterval(this.intervalTimer);
+      this.intervalTimer = null;
     }
   }
 
   finishExercise(): void {
     this.currentExerciseIndex++;
 
-    if (this.currentExerciseIndex < 15) {
+    if (this.currentExerciseIndex < 1) {
       this.stopTimer();
       this.generateNewExercise();
       this.startTimer();
     } else {
       this.stopTimer();
       this.gameOver = true;
+      this.gameStarted = false;
     }
   }
 
@@ -134,7 +153,8 @@ export class TypingComponent {
     this.currentExerciseIndex = 0;
     this.typingForm.reset();
     this.score = 0;
-    this.timer = 60;
+    this.timer = 160;
+    this.stopTimer();
     this.generateNewExercise();
   }
 
@@ -146,14 +166,30 @@ export class TypingComponent {
 
   onType(event: Event): void {
     const input = (event.target as HTMLInputElement).value.trim();
-    
+
     if (this.textArray[this.currentWordIndex] === input) {
       this.currentWordIndex++;
-      this.score += 10;
+      this.score += this.getPointsPerWord();
       (event.target as HTMLInputElement).value = "";
       this.hasError = false;
+
+      if (this.currentWordIndex === this.textArray.length && !this.gameOver) {
+        this.finishExercise();
+      }
     } else {
       this.hasError = true;
     }
   }
+
+  getPointsPerWord(): number {
+    switch (this.difficulty.toLowerCase()) {
+      case 'media':
+        return 3;
+      case 'alta':
+        return 5;
+      case 'baja':
+      default:
+        return 1;
+}
+}
 }

@@ -4,6 +4,7 @@
   <form [formGroup]="typingForm" (ngSubmit)="startTyping()">
     <label for="categoria">Categoría:</label>
     <select id="categoria" formControlName="category">
+      <option value="">Selecciona una categoría</option> 
       <option value="politica">Política</option>
       <option value="tecnologia">Tecnología</option>
       <option value="ciencia">Ciencia</option>
@@ -18,20 +19,29 @@
       <option value="medioambiente">Medio Ambiente</option>
       <option value="cultura">Cultura</option>
     </select>
+    
+    <div *ngIf="typingForm.get('category').touched && typingForm.get('category').invalid">
+      <small class="error">Este campo es obligatorio.</small>
+    </div>
 
     <label for="dificultad">Dificultad:</label>
     <select id="dificultad" formControlName="difficulty">
+      <option value="">Selecciona la dificultad</option> 
       <option value="baja">Baja (1 punto por palabra correcta)</option>
       <option value="media">Media (3 puntos por palabra correcta)</option>
       <option value="alta">Alta (5 puntos por palabra correcta)</option>
     </select>
+    
+    <div *ngIf="typingForm.get('difficulty').touched && typingForm.get('difficulty').invalid">
+      <small class="error">Este campo es obligatorio.</small>
+    </div>
 
     <button 
-    *ngIf="!gameStarted" 
-    type="submit" 
-    [disabled]="loading || typingForm.invalid">
-    Comenzar
-  </button>
+      *ngIf="!gameStarted" 
+      type="submit" 
+      [disabled]="loading || typingForm.invalid">
+      Comenzar
+    </button>
   </form>
 
   <div *ngIf="exerciseStarted">
