@@ -40,8 +40,8 @@ export class AuthGoogleService {
       console.error('Authentication error:', error);
     }
   }
-  login() {
-    this.oAuthService.initCodeFlow();
+  async login() {
+    this.oAuthService.initLoginFlow();
   }
 
   logout() {

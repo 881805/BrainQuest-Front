@@ -1,12 +1,14 @@
-import { Component } from "@angular/core";
-import { ActivityCard, Challenge } from "../../interfaces";
+import { Component, inject, OnInit } from "@angular/core";
+import { ActivityCard, Challenge, ILoginResponse } from "../../interfaces";
 import { CommonModule } from "@angular/common";
 import { BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from "lucide-angular";
 import { MyAccountComponent } from "../../components/my-account/my-account.component";
 import { TopbarComponent } from "../../components/app-layout/elements/topbar/topbar.component";
 import { AppLayoutComponent } from "../../components/app-layout/app-layout.component";
-import { RouterModule,Router } from "@angular/router";
-
+import { RouterModule,Router, ActivatedRoute } from "@angular/router";
+import { OAuthService } from "angular-oauth2-oidc";
+import { AuthService } from "../../services/auth.service";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-landpage-principal',
@@ -14,8 +16,53 @@ import { RouterModule,Router } from "@angular/router";
     imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule, ],
     templateUrl: './landpagePrincipal.component.html',
     styleUrls: ['./landpagePrincipal.component.scss']
+
 })
-export class LandPagePrincipalComponent {
+
+export class  LandPagePrincipalComponent implements OnInit{
+  public loginError: string = '';
+  private authService = inject(AuthService);
+  private http = inject(HttpClient);
+   ngOnInit(): void {
+    // Verifica si la URL tiene el código de autorización
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const code = params['code'];
+      if (code) {
+        // Una vez que recibas el código de la URL, usa tryLogin() para obtener el token
+        this.oauthService.tryLogin().then(async () => {
+          const accessToken = this.oauthService.getAccessToken();
+          const idToken = this.oauthService.getIdToken();
+
+          console.log('Access Token:', accessToken);
+          console.log('ID Token:', idToken);
+
+          let respondes = await this.generateJWTToken(accessToken);
+
+          // Puedes almacenar estos tokens o hacer lo que necesites con ellos
+        }).catch(error => {
+          console.error('Error al obtener el token:', error);
+        });
+      }
+    });
+  }
+
+  async generateJWTToken(googleToken: string){
+   if (!googleToken) {
+         this.loginError = 'No se obtuvo token de Google';
+         return;
+       }
+   
+
+       const response = await this.http
+         .post<ILoginResponse>('http://localhost:8080/auth/google-login', { token: googleToken })
+         .toPromise();
+   
+       if (response) {
+
+         this.authService.saveLogin(response);
+
+       }
+  }
     username = "Estudiante";
     
     activities: ActivityCard[] = [
@@ -98,7 +145,7 @@ export class LandPagePrincipalComponent {
                 this.router.navigate(['/app/debates']);
                 break;
               case 'Typing':
-                this.router.navigate(['/typing']);
+                this.router.navigate(['/app/typing']);
                 break;
               case 'Entrevista':
                 this.router.navigate(['/interview']);
@@ -108,5 +155,11 @@ export class LandPagePrincipalComponent {
                 console.warn('Ruta no definida para esta actividad');
             }
           }
-        constructor(private router: Router) {}
+
+
+  constructor(
+  private activatedRoute: ActivatedRoute,   // Primero ActivatedRoute
+  private oauthService: OAuthService,        // Luego OAuthService
+  private router: Router                     // Luego Router
+) {}
 }

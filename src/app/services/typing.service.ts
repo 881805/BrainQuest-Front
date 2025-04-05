@@ -71,7 +71,7 @@ export class TypingService extends BaseService<ITypingExercise> {
   }
 
   getTypingExercises(category: string, difficulty: string): Observable<ITypingExercise[]> {
-    return this.http.get<ITypingExercise[]>(`${this.apiUrl}?category=${category}&difficulty=${difficulty}`).pipe(
+    return this.http.get<ITypingExercise[]>(`?category=${category}&difficulty=${difficulty}`).pipe(
       tap((response) => {
         console.log('Ejercicios obtenidos para categoría y dificultad', response);
         this.typingExercisesSignal.set(response);
