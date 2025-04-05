@@ -6,7 +6,6 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
-import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
 import { ArrowRight, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
@@ -19,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([
         baseUrlInterceptor,
-        accessTokenInterceptor,
+        accessTokenInterceptor
         //handleErrorsInterceptor
       ])
     ), 

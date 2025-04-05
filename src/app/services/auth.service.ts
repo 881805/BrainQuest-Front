@@ -55,6 +55,7 @@ export class AuthService {
     return this.accessToken;
   }
 
+
   public check(): boolean {
     if (!this.accessToken){
       return false;
@@ -62,6 +63,14 @@ export class AuthService {
       return true;
     }
   }
+
+  public saveLogin(response: ILoginResponse): void {
+    this.accessToken = response.token;
+    this.expiresIn = response.expiresIn;
+    this.user = response.authUser;
+    this.save(); 
+  }
+  
 
   public login(credentials: {
     email: string;

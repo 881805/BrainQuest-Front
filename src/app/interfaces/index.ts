@@ -84,6 +84,16 @@ export interface IGameType {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface ITypingExercise {
+  id: number;
+  text: string;
+  timeLimit: number;
+  hints: string[];
+  category: string;
+  difficulty: string;
+  userInput?: string;
+  completed?: boolean;
+}
 
 export enum GameTypeEnum {
   TRIVIA = 'TRIVIA',
@@ -103,12 +113,15 @@ export interface IMessage {
 }
 
 export interface ITriviaQuestion {
-  id?: number;
+  id?: number; 
   question?: string;
-  correctAnswer?: string;
   options?: string[];
-  difficulty?: string;
+  correctAnswer?: string;
   category?: string;
+  difficulty?: string;
+  points?: number;
+  userAnswer?: string;
+
 }
 
 export interface IOrder {
@@ -157,7 +170,7 @@ export interface Challenge {
   buttonColor: string;
   buttonText: string;
 }
-=======
+
 export interface ITypingExercise {
   id: number;
   text: string;
@@ -169,15 +182,5 @@ export interface ITypingExercise {
   completed?: boolean;
 }
 
-export interface ITriviaQuestion {
-  id: number; 
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  category: string;
-  difficulty: string;
-  points: number;
-  userAnswer?: string;
 
-}
 

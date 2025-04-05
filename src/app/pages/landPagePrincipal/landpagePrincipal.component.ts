@@ -1,130 +1,120 @@
-import { Component } from "@angular/core";
-import { ActivityCard, Challenge } from "../../interfaces";
+import { Component, inject, OnInit } from "@angular/core";
+import { ActivityCard, Challenge, ILoginResponse } from "../../interfaces";
 import { CommonModule } from "@angular/common";
 import { BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from "lucide-angular";
-<<<<<<< Updated upstream
 import { MyAccountComponent } from "../../components/my-account/my-account.component";
 import { TopbarComponent } from "../../components/app-layout/elements/topbar/topbar.component";
 import { AppLayoutComponent } from "../../components/app-layout/app-layout.component";
-import { RouterModule } from "@angular/router";
-=======
->>>>>>> Stashed changes
-
+import { RouterModule,Router, ActivatedRoute } from "@angular/router";
+import { OAuthService } from "angular-oauth2-oidc";
+import { AuthService } from "../../services/auth.service";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-landpage-principal',
     standalone: true,
-<<<<<<< Updated upstream
-    imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule],
-=======
-    imports: [CommonModule, LucideAngularModule],
->>>>>>> Stashed changes
+    imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule, ],
     templateUrl: './landpagePrincipal.component.html',
     styleUrls: ['./landpagePrincipal.component.scss']
+
 })
-export class LandPagePrincipalComponent {
-    username = "Estudiante";
 
-<<<<<<< Updated upstream
-    activities: ActivityCard[] = [  
-        {
-            icon: { name: "message-square" },
-=======
-    activities: ActivityCard[] = [
-        {
-            icon: MessageSquare,
->>>>>>> Stashed changes
-            title: 'Debate',
-            description: 'Aquí podrás debatir contra otras personas, midiendo tus habilidades de argumentación y retórica.',
-            buttonColor: "#F2622E",
-            iconBgColor: "#94F2F2"
-        },
-        {
-<<<<<<< Updated upstream
-            icon: { name: "keyboard" },
-=======
-            icon: Keyboard,
->>>>>>> Stashed changes
-            title: 'Typing',
-            description: 'Mejora tu velocidad y precision de escritura.',
-            buttonColor: "#80A2A6",
-            iconBgColor: "#94F2F2"
-        },
-        {
-<<<<<<< Updated upstream
-            icon: { name: "headphones" },
-=======
-            icon: Headphones,
->>>>>>> Stashed changes
-            title: 'Entrevista',
-            description: 'Parctica entrevistas con expertos en diferentes áreas.',
-            buttonColor: "#F2622E",
-            iconBgColor: "#94F2F2"
-        },
-        {
-<<<<<<< Updated upstream
-            icon: { name: "book-open" },
-=======
-            icon: BookOpen,
->>>>>>> Stashed changes
-            title: 'Creación de Cuentos',
-            description: 'Desarrolla tu creatividad escribiendo historias.',
-            buttonColor: "#80A2A6",
-            iconBgColor: "#94F2F2"
-        },
-        {
-<<<<<<< Updated upstream
-            icon: { name: "help-circle" },
-=======
-            icon: HelpCircle,
->>>>>>> Stashed changes
-            title: 'Trivia',
-            description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
-            buttonColor: "#F2622E",
-            iconBgColor: "#94F2F2"
-        },
-        {
-<<<<<<< Updated upstream
-            icon: { name: "users" },
-=======
-            icon: Users,
->>>>>>> Stashed changes
-            title: 'Comunidad',
-            description: "Conecta con otros estudiantes y comparte experiencias.",
-            buttonColor: "#80A2A6",
-            iconBgColor: "#94F2F2"
-        }
-    ];
+export class  LandPagePrincipalComponent implements OnInit{
+  public loginError: string = '';
+  private authService = inject(AuthService);
+  private http = inject(HttpClient);
+   ngOnInit(): void {
+    // Verifica si la URL tiene el código de autorización
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const code = params['code'];
+      if (code) {
 
-    challenges: Challenge[] = [
-        {
-            title: "Debate: Tecnología y Educación",
-            description: "Participa en un debate estructurado sobre cómo la tecnología está transformando la educación.",
-            level: "Nivel 1",
-            duration: "45 min",
-            participantsOrRecord: "Participantes: 8",
-            buttonColor: "#F2622E",
-            buttonText: "Jugar"
-        },
-        {
-            title: "Typing: Velocidad Básica",
-            description: "Mejora tu velocidad de escritura con ejercicios prácticos y medición de tiempo.",
-            level: "Nivel 2",
-            duration: "20 min",
-            participantsOrRecord: "Récord: 65 PPM",
-            buttonColor: "#80A2A6",
-            buttonText: "Jugar"
-          },
-          {
-            title: "Trivia: Cultura General",
-            description: "Pon a prueba tus conocimientos con preguntas de cultura general de diversos temas.",
-            level: "Nivel 1",
-            duration: "15 min",
-            participantsOrRecord: "Preguntas: 20",
-            buttonColor: "#F2622E",
-            buttonText: "Jugar"
-          }
-        ];
+        this.oauthService.tryLogin().then(async () => {
+          const accessToken = this.oauthService.getAccessToken();
+          const idToken = this.oauthService.getIdToken();
 
-        constructor() {}
+          console.log('Access Token:', accessToken);
+          console.log('ID Token:', idToken);
+
+          let respondes = await this.generateJWTToken(accessToken);
+
+
+        }).catch(error => {
+          console.error('Error al obtener el token:', error);
+        });
+      }
+    });
+  }
+
+  async generateJWTToken(googleToken: string){
+   if (!googleToken) {
+         this.loginError = 'No se obtuvo token de Google';
+         return;
+       }
+   
+
+       const response = await this.http
+         .post<ILoginResponse>('http://localhost:8080/auth/google-login', { token: googleToken })
+         .toPromise();
+   
+       if (response) {
+
+         this.authService.saveLogin(response);
+
+       }
+  }
+  username = "Estudiante";
+  
+  activities: ActivityCard[] = [
+      {
+          icon:  { name: "MessageSquare" },
+          title: 'Debate',
+          description: 'Aquí podrás debatir contra otras personas, midiendo tus habilidades de argumentación y retórica.',
+          buttonColor: "#F2622E",
+          iconBgColor: "#94F2F2"
+      },
+      {
+          icon: { name: "keyboard" },
+          title: 'Typing',
+          description: 'Mejora tu velocidad y precision de escritura.',
+          buttonColor: "#80A2A6",
+          iconBgColor: "#94F2F2"
+      },
+      {
+          icon: { name: "help-circle" },
+          title: 'Trivia',
+          description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
+          buttonColor: "#F2622E",
+          iconBgColor: "#94F2F2"
+      }
+
+  ];
+
+  goToActivity(activity: ActivityCard) {
+      switch (activity.title) {
+        case 'Debate':
+          this.router.navigate(['/app/debates']);
+          break;
+        case 'Typing':
+          this.router.navigate(['/app/typing']);
+          break;
+        case 'Entrevista':
+          this.router.navigate(['/interview']);
+          break;
+
+        case 'Trivia':
+            this.router.navigate(['/app/trivia']);
+            break;
+        // etc.
+        default:
+          console.warn('Ruta no definida para esta actividad');
+       }
+    }
+
+
+  constructor(
+  private activatedRoute: ActivatedRoute,   // Primero ActivatedRoute
+  private oauthService: OAuthService,        // Luego OAuthService
+  private router: Router                     // Luego Router
+) {}
 }

@@ -66,15 +66,13 @@ export class TriviaComponent {
 
   startTrivia(): void {
     if (this.triviaForm.valid) {
-        this.gameStarted = true;
-        this.gameOver = false;
-        this.isComponentVisible = false; // Oculta el botón al iniciar
-
-        this.category = this.triviaForm.controls['category'].value || '';
-        this.difficulty = this.triviaForm.controls['difficulty'].value || '';
-
-        this.generateNewQuestion();
-        this.startTimer();
+      this.gameStarted = true;
+      this.gameOver = false;
+      this.category = this.triviaForm.controls['category'].value || '';
+      this.difficulty = this.triviaForm.controls['difficulty'].value || '';
+      
+      this.generateNewQuestion();
+      this.startTimer();
     }
   }
 
@@ -98,6 +96,7 @@ export class TriviaComponent {
 
   startTimer(): void {
     this.timer = 60; 
+    this.togglePlayVisibility();
     this.intervalTimer = interval(1000).subscribe(() => {
       if (this.timer > 0) {
         this.timer--;
@@ -157,9 +156,15 @@ export class TriviaComponent {
     this.questions = [];
     this.currentQuestionIndex = 0;
     this.triviaForm.reset();
-    this.triviaForm.patchValue({ category: 'politica', difficulty: 'baja' }); // Evita valores nulos
-    this.isComponentVisible = true; // Asegura que el botón se muestre al reiniciar
+    this.togglePlayVisibility();
   }
 
   isComponentVisible: boolean = true;
+  
+  async togglePlayVisibility() {
+    this.isComponentVisible = !this.isComponentVisible;
+    return new Promise<void>(resolve => {
+      setTimeout(resolve, 0); 
+    });
+  }
 }

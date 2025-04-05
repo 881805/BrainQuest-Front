@@ -1,3 +1,5 @@
+@import '../../../assets/utils/_variables.scss';
+
 nb-card {
   max-width: 600px;
   margin: auto;
@@ -6,7 +8,7 @@ nb-card {
 }
 
 nb-card-header {
-  background-color: #3e8e41;
+  background-color: $primary-Color;
   color: white;
   text-align: center;
   font-size: 1.5rem;
@@ -37,7 +39,7 @@ input:focus {
 }
 
 button {
-  background-color: #3e8e41;
+  background-color: $primary-Color;
   color: white;
   padding: 10px 20px;
   border-radius: 20px;
@@ -47,7 +49,7 @@ button {
 }
 
 button:hover {
-  background-color: #357a3c;
+  background-color: $secondary-Color;
 }
 
 nb-chat {
@@ -73,7 +75,7 @@ nb-chat-message {
   margin-bottom: 30px;
   padding: 8px 10px;
   border-radius: 10px;
-  background-color: var(--secondary-Color);
+  background-color: $tertiary-Color;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -81,7 +83,7 @@ nb-chat-message {
 }
 
 nb-chat-message.reply {
-  background-color: var(--tertiary-Color);
+  background-color: $secondary-Color;
 }
 
 nb-chat-message .sender,

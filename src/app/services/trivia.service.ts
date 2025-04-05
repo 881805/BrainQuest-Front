@@ -11,11 +11,11 @@ import { catchError, Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class TriviaService extends BaseService<ITriviaQuestion> {
-  private apiUrl = environment.apiUrl + '/trivia';
+  private apiUrl = '/trivia';
   private triviaQuestionsSignal = signal<ITriviaQuestion[]>([]);
   private alertService: AlertService = inject(AlertService);
 
-  protected override source: string = 'trivia';
+  protected override source: string = '/trivia';
   
   get triviaQuestions$() {
     return this.triviaQuestionsSignal;

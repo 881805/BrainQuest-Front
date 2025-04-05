@@ -1,5 +1,4 @@
 import { Component, inject, Input, OnDestroy, signal, ViewChild, WritableSignal } from '@angular/core';
-import { GamesListComponent } from '../../components/games/game-list-component/games-list.component';
 import { GamesService } from '../../services/game.service';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { ModalComponent } from '../../components/modal/modal.component';
@@ -20,7 +19,6 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-debates',           // Component selector
   standalone: true,                  // Standalone component
   imports: [                         // Component imports
-    GamesListComponent,
     PaginationComponent,
     ModalComponent,
     LoaderComponent,
