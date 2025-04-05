@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>Debates - BrainQuest</nb-card-header>
+  <nb-card-body>
+    <nb-chat title="Debates ">
+      <nb-chat-message 
+        *ngFor="let msg of messages()"
+        [message]="msg.contentText"
+        [reply]="isReply(msg)"
+        [date]="msg.createdAt"
+        [sender]="msg.user.name ?? 'Unknown'">
+      </nb-chat-message>
+    </nb-chat>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="chat-input">
+      <input [(ngModel)]="messageText" placeholder="Type your message..." />
+      <button nbButton (click)="callSave()">Enviar</button>
+    </div>
+  </nb-card-footer>
+</nb-card>

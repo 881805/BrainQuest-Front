@@ -1,0 +1,21 @@
+.progress-container {
+    width: 100%;
+    position: relative;
+    background-color: #F2F3F4;
+    border-radius: 4px;
+    overflow: hidden;
+  
+    .progress-bar {
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+  
+    .progress-text {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.75rem;
+      color: #1B1E22;
+    }
+  }

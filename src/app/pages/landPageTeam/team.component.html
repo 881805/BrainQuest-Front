@@ -1,0 +1,30 @@
+<div class="team-container">
+  <h1 class="team-container-title">Conoce a Nuestro Equipo</h1>
+  <p>Somos un grupo de profesionales dedicados a ofrecer soluciones innovadoras.</p>
+  <p>Nuestro proyecto más ambicioso, BrainQuest, te ayudará a superar tus límites de conocimiento.</p>
+
+  <div class="team-members">
+    <div class="member" *ngFor="let member of teamMembers">
+      <img [src]="member.image" alt="{{ member.name }}"> 
+      <h2>{{ member.name }}</h2>
+      <p>{{ member.description }}</p>
+      <p>{{ member.rol }}</p>
+    </div>
+  </div>
+
+  <div class="team-vision-mission">
+    <div class="vision-card">
+      <h2>Visión del equipo</h2>
+      <p>{{ teamVision }}</p>
+    </div>
+    <div class="mission-card">
+      <h2>Misión del equipo</h2>
+      <p>{{ teamMission }}</p>
+    </div>
+  </div>
+
+  <footer class="footer-teamPage">
+    <img src="../../../assets/img/Logo-equipo.webp" alt="Logo del equipo">
+    <p>© 2025 The Keyboard Warriors. Todos los derechos reservados.</p>
+  </footer>
+</div>

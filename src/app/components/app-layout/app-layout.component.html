@@ -1,0 +1,29 @@
+<div class="princial">
+  <div class="page-wrapper compact-wrapper">
+
+    <div class="page-body-wrapper">
+
+      <div class="page-body">
+
+         <h3>{{ title }}</h3> 
+
+        <main class="container-fluid">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12 footer-copyright text-center">
+              <p class="mb-0">
+                <a [routerLink]="['/team']" target="_blank">2025 BrainQuest</a> &copy;. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+

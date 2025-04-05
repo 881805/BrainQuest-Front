@@ -1,0 +1,42 @@
+@import 'assets/utils/variables'; // Assuming _variables.scss is here
+
+// SCSS Variables (already imported above from _variables.scss)
+// Example of _variables.scss:
+// $background-color: #F2F3F4;
+// $font-color: #1B1E22;
+// ...
+
+// CSS Custom Properties (optional: for use in raw CSS)
+:root {
+  --theme-default: #7366ff;
+  --theme-secondary: #f73164;
+  --theme-success: #51bb25;
+  --theme-warning: #f8d62b;
+  --theme-danger: #dc3545;
+  --theme-info: #a927f9;
+  --font-Roboto: 'Roboto', sans-serif;
+
+  // App-specific color tokens
+  --background-color: #F2F3F4;
+  --font-color: #1B1E22;
+  --primary-color: #80A2A6;
+  --secondary-color: #94F2F2;
+  --tertiary-color: #F2622E;
+  --alert-color: #F29849;
+  --alert-color2: #D94625;
+}
+
+// Base body styles
+body {
+  margin: 0;
+  font-family: var(--font-Roboto);
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
+
+// You can use SCSS variables in your styles
+.container {
+  background-color: $background-color;
+  color: $font-color;
+  padding: 2rem;
+}
