@@ -19,6 +19,10 @@ import { TriviaComponent } from './pages/trivia/trivia.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
 import { LogrosComponent } from './pages/logros/logros.component';
 import { SignUpComponent } from './pages/auth/sign-up/signup.component';
+import { IndexComponent } from './pages/members/index/index.component';
+import { AboutComponent } from './pages/members/about/about.component';
+import { ContactComponent } from './pages/members/contact/contact.component';
+import { ProductosComponent } from './pages/members/productos/productos.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +35,19 @@ export const routes: Routes = [
     canActivate: [GuestGuard],
     providers: [OAuthService],
   },
+  { path: 'index',
+    component: IndexComponent,
+  },
+  { path: 'about',
+    component: AboutComponent,
+  },
+  { path: 'contact',
+    component: ContactComponent,
+  },
+  { path: 'productos',
+    component: ProductosComponent,
+  },
+
   {
     path: 'signup',
     component: SignUpComponent,
@@ -46,7 +63,7 @@ export const routes: Routes = [
   },
   {
     path: 'team',
-    component: TeamComponent,
+    component: IndexComponent,
   },
   {
     path: 'app',
@@ -91,6 +108,7 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+
       {
         path: 'typing',
         component: TypingComponent,
