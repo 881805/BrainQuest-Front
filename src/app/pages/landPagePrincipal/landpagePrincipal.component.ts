@@ -113,8 +113,8 @@ export class  LandPagePrincipalComponent implements OnInit{
 
 
   constructor(
-  private activatedRoute: ActivatedRoute,   // Primero ActivatedRoute
-  private oauthService: OAuthService,        // Luego OAuthService
-  private router: Router                     // Luego Router
+  private activatedRoute: ActivatedRoute,   
+  private oauthService: OAuthService,      
+  private router: Router                     
 ) {}
 }

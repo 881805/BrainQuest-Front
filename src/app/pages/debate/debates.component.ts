@@ -16,17 +16,17 @@ import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-debates',           // Component selector
-  standalone: true,                  // Standalone component
-  imports: [                         // Component imports
+  selector: 'app-debates',           
+  standalone: true,                  
+  imports: [                         
     PaginationComponent,
     ModalComponent,
     LoaderComponent,
     DebateChatComponent,
     CommonModule
   ],
-  templateUrl: './debates.component.html',  // Path to the component's template
-  styleUrls: ['./debates.component.scss'],  // Path to the component's styles
+  templateUrl: './debates.component.html',  
+  styleUrls: ['./debates.component.scss'], 
 })
 export class DebatesComponent implements OnDestroy {
 
@@ -51,7 +51,6 @@ export class DebatesComponent implements OnDestroy {
     total: ['', Validators.required],
   });
 
-  // Keep games as an array
   public games = this.gamesService.game$;
   public currentGame: IGame = {};
   public messages: WritableSignal<IMessage[]> = signal([]);
@@ -93,7 +92,7 @@ export class DebatesComponent implements OnDestroy {
     if (response?.data) {
       this.gamesService.game$.set([
         ...this.gamesService.game$(), 
-        response.data // 
+        response.data 
       ]);
     }
   }

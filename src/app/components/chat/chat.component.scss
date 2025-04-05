@@ -19,8 +19,8 @@ nb-card-body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  max-height: 400px; // dandole tamanho
-  overflow-y: auto; // hacer scrolleable
+  max-height: 400px; 
+  overflow-y: auto;
 }
 
 input {
@@ -88,8 +88,8 @@ nb-chat-message.reply {
 
 nb-chat-message .sender,
 nb-chat-message .date {
-  display: block;  /* Ensure both sender and date are on separate lines */
-  margin-bottom: 5px;  /* Optional: space between sender and date */
+  display: block;  
+  margin-bottom: 5px;  
 }
 
 nb-chat-avatar {

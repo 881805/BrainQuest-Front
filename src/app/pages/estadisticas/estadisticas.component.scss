@@ -1,6 +1,5 @@
 @import '../../../assets/utils/_variables.scss';
 
-/* Variables de colores */
 $primary-color: #4a90e2;
 $secondary-color: #f5a623;
 $background-color: #f4f4f4;
@@ -10,7 +9,6 @@ $nav-text-color: #ecf0f1;
 $highlight-color: #27ae60;
 $button-hover: darken($primary-color, 10%);
 
-/* Estilos generales */
 body {
   font-family: 'Arial', sans-serif;
   background-color: $background-color;
@@ -23,7 +21,7 @@ body {
   height: 100vh;
 }
 
-/* Navegación */
+
 nav {
   background: $nav-background;
   padding: 10px;
@@ -55,7 +53,7 @@ nav {
   }
 }
 
-/* Sección principal */
+
 section {
   background: #fff;
   padding: 20px;
@@ -72,7 +70,7 @@ section {
   }
 }
 
-/* Trivia Container */
+
 .trivia-container {
   display: flex;
   flex-direction: column;
@@ -85,7 +83,6 @@ section {
   color: #888;
 }
 
-/* Trivia - Formulario */
 form {
   display: flex;
   flex-direction: column;
@@ -132,7 +129,7 @@ form {
   }
 }
 
-/* Trivia - Logros */
+
 ul.logros {
   list-style: none;
   padding: 0;
@@ -159,7 +156,6 @@ ul.logros {
   }
 }
 
-/* Trivia - Estadísticas */
 ul.estadisticas {
   list-style: none;
   padding: 0;
@@ -185,7 +181,7 @@ ul.estadisticas {
   }
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
   .trivia-container {
     width: 100%;
