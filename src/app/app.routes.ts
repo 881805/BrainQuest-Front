@@ -8,8 +8,6 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { OrdersComponent } from './pages/orders/orders.component';
-import { PreferenceListPageComponent } from './pages/preferenceList/preference-list.component';
 import { TeamComponent } from './pages/landPageTeam/team.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DebatesComponent } from './pages/debate/debates.component';
@@ -90,24 +88,6 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Debates',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'Orders',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'preference-list',
-        component: PreferenceListPageComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'Preference List',
           showInSidebar: true,
         },
       },
