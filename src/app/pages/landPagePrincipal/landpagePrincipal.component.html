@@ -1,17 +1,16 @@
 <app-topbar></app-topbar>
-<!-- <app-my-account></app-my-account> -->
 
 <div class="learning-platform">
-    <!-- Header with gradient -->
+
     <header class="platform-header">
-      <div class="container">
+ 
         <h1>¡Hola, {{username}}! 👋</h1>
         <p>Bienvenido a tu plataforma de aprendizaje interactivo</p>
-      </div>
+
     </header>
   
     <main class="platform-main">
-      <!-- Activities section -->
+
       <section class="activities-section">
         <h2>Actividades disponibles</h2>
         <div class="activities-grid">
@@ -40,29 +39,7 @@
         </div>
       </section>
   
-      <!-- Available Challenges section -->
-      <section class="challenges-section">
-        <h2>Desafíos Disponibles</h2>
-        <div class="challenges-grid">
-          <div class="challenge-card" *ngFor="let challenge of challenges">
-            <div class="challenge-top-bar"></div>
-            <div class="challenge-content">
-              <div class="challenge-header">
-                <h3>{{challenge.title}}</h3>
-                <span class="level-badge">{{challenge.level}}</span>
-              </div>
-              <p class="challenge-description">{{challenge.description}}</p>
-              <div class="challenge-details">
-                <span>Duración: {{challenge.duration}}</span>
-                <span>{{challenge.participantsOrRecord}}</span>
-              </div>
-              <button class="participate-button" [style.backgroundColor]="challenge.buttonColor">
-                {{challenge.buttonText}}
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+    
     </main>
     <footer class="footer1">
       <div class="container text-center">
