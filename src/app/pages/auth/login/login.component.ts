@@ -14,7 +14,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 })
 export class LoginComponent {
   public loginError: string = '';
-  @ViewChild('email') usernameModel!: NgModel;
+  @ViewChild('username') usernameModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
   private authService = inject(AuthGoogleService);
 
@@ -41,6 +41,6 @@ export class LoginComponent {
     }
     if (!this.passwordModel.valid) {
       this.passwordModel.control.markAsTouched();
-    }
-  }
+    }
+  }
 }

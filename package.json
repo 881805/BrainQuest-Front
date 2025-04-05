@@ -25,17 +25,10 @@
     "@fontsource-variable/sora": "^5.2.5",
     "@nebular/theme": "^9.0.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
-
+    "angular-oauth2-oidc": "^15.0.1",
     "crypto-browserify": "^3.12.1",
-    "nebular": "^0.0.1",
-
-    "angular-oauth2-oidc": "^15.0.1",
-
-
-    "angular-oauth2-oidc": "^15.0.1",
-
     "lucide-angular": "^0.487.0",
-
+    "nebular": "^0.0.1",
     "rxjs": "~7.8.0",
     "socket.io-client": "^4.8.1",
     "sockjs-client": "^1.6.1",

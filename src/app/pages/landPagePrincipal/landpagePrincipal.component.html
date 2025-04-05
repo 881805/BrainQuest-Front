@@ -1,9 +1,6 @@
-<<<<<<< Updated upstream
 <app-topbar></app-topbar>
 <!-- <app-my-account></app-my-account> -->
 
-=======
->>>>>>> Stashed changes
 <div class="learning-platform">
     <!-- Header with gradient -->
     <header class="platform-header">
@@ -31,10 +28,13 @@
               <p>{{activity.description}}</p>
             </div>
             <div class="card-footer">
-              <button class="join-button" [style.backgroundColor]="activity.buttonColor">
-                Unirse ahora
-                <lucide-icon name="arrowRight" size="16" class="arrow-icon"></lucide-icon>
-              </button>
+              <button 
+              class="join-button"
+              [style.backgroundColor]="activity.buttonColor"
+              (click)="goToActivity(activity)">
+              Unirse ahora
+              <lucide-icon name="arrowRight" size="16" class="arrow-icon"></lucide-icon>
+            </button>
             </div>
           </div>
         </div>
@@ -64,7 +64,6 @@
         </div>
       </section>
     </main>
-<<<<<<< Updated upstream
     <footer class="footer1">
       <div class="container text-center">
         <p class="mb-0 text-muted">
@@ -74,6 +73,3 @@
     </footer>
   </div>
 
-=======
-  </div>
->>>>>>> Stashed changes

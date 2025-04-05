@@ -13,9 +13,9 @@ import { AuthService } from "../../services/auth.service";
 })
 export class MyAccountComponent implements OnInit {
   public userName: string = '';
-  private service = inject(AuthService);
+  public authService: AuthService = inject(AuthService);
   isOpen = false;
-  authService: any;
+
 
   constructor(public router: Router) {
     let user = localStorage.getItem('auth_user');

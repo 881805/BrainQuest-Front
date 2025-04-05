@@ -1,96 +1,123 @@
 <div class="login-container">
-  <div class="login-header">BrainQuest</div>
-  <div class="login-form-wrapper">
-    <form (ngSubmit)="handleLogin($event)" class="login-form">
-      <div class="input-group">
-        <div class="input-icon">
-          <i class="fas fa-user"></i>
+  <div class="d-flex align-items-center justify-content-center h-100">
+    <div class="login-card">
+      <div class="w-100">
+        <div class="text-center">
+          <a class="logo text-center" routerLink="/">
+            <img
+              width="250"
+              class="img-fluid mb-4"
+              src="../../../../assets/icons/logo@2x.png"
+              alt="Logo"
+            />
+          </a>
         </div>
-        <input
-          type="text"
-          placeholder="Correo Electrónico"
-          class="input-field"
-          [(ngModel)]="loginForm.email"
-          name="username"
-          #username="ngModel"
-          required
-        />
-        <div *ngIf="username.invalid && username.touched" class="error-message">
-          El Correo Electrónico es requerido.
-        </div>
-      </div>
-      <div class="input-group">
-        <div class="input-icon">
-          <i class="fas fa-lock"></i>
-        </div>
-        <input
-          type="password"
-          placeholder="Contraseña"
-          class="input-field"
-          [(ngModel)]="loginForm.password"
-          name="password"
-          #password="ngModel"
-          required
-        />
-        <div *ngIf="password.invalid && password.touched" class="error-message">
-          La contraseña es requerida.
-        </div>
-      </div>
-      <div class="checkbox-group">
-        <div class="checkbox-item">
-          <input
-            type="checkbox"
-            id="rememberUser"
-            [(ngModel)]="loginForm.rememberUser"
-            name="rememberUser"
-          />
-          <label for="rememberUser" class="checkbox-label">Recordar Usuario</label>
-        </div>
-        <div class="checkbox-item">
-          <input
-            type="checkbox"
-            id="rememberPassword"
-            [(ngModel)]="loginForm.rememberPassword"
-            name="rememberPassword"
-          />
-          <label for="rememberPassword" class="checkbox-label">Recordar Contraseña</label>
-        </div>
-      </div>
-      <button type="submit" class="submit-button">Ingresar</button>
 
-      <button
-        type="button"
-        (click)="signInWithGoogle()"
-        class="google-button"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
-          <path
-            fill="#FFC107"
-            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
-          />
-          <path
-            fill="#FF3D00"
-            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
-          />
-          <path
-            fill="#4CAF50"
-            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
-          />
-          <path
-            fill="#1976D2"
-            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
-          />
-        </svg>
-        <span>Iniciar sesión con Google</span>
-      </button>
+        <div class="login-header">BrainQuest</div>
 
-      <div *ngIf="loginError" class="error-message">
-        {{ loginError }}
-      </div>
+        <div class="login-form-wrapper">
+          <form (ngSubmit)="handleLogin($event)" class="login-form" #frm="ngForm">
+            <div class="input-group">
+              <div class="input-icon">
+                <i class="fas fa-user"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="Correo Electrónico"
+                class="input-field"
+                [(ngModel)]="loginForm.email"
+                name="username"
+                #username="ngModel"
+                required
+              />
+              <div *ngIf="username.invalid && username.touched" class="error-message">
+                El Correo Electrónico es requerido.
+              </div>
+            </div>
 
-      <div class="register-link">
-        ¿No tienes una cuenta? <a [routerLink]="['/signup']" class="register-link-text">Regístrate</a>
+            <div class="input-group">
+              <div class="input-icon">
+                <i class="fas fa-lock"></i>
+              </div>
+              <input
+                type="password"
+                placeholder="Contraseña"
+                class="input-field"
+                [(ngModel)]="loginForm.password"
+                name="password"
+                #password="ngModel"
+                required
+              />
+              <div *ngIf="password.invalid && password.touched" class="error-message">
+                La contraseña es requerida.
+              </div>
+            </div>
+
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="rememberUser"
+                  [(ngModel)]="loginForm.rememberUser"
+                  name="rememberUser"
+                />
+                <label for="rememberUser" class="checkbox-label">Recordar Usuario</label>
+              </div>
+              <div class="checkbox-item">
+                <input
+                  type="checkbox"
+                  id="rememberPassword"
+                  [(ngModel)]="loginForm.rememberPassword"
+                  name="rememberPassword"
+                />
+                <label for="rememberPassword" class="checkbox-label">Recordar Contraseña</label>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-button">Ingresar</button>
+
+            <div *ngIf="loginError" class="error-message">
+              {{ loginError }}
+            </div>
+
+            <div class="form-group mb-0">
+              <button class="btn btn-primary btn-block w-100" type="submit">
+                Sign in
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <button
+          type="button"
+          (click)="signInWithGoogle()"
+          class="google-button"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
+            <path
+              fill="#FFC107"
+              d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"
+            />
+            <path
+              fill="#FF3D00"
+              d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"
+            />
+            <path
+              fill="#4CAF50"
+              d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"
+            />
+            <path
+              fill="#1976D2"
+              d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"
+            />
+          </svg>
+          <span>Iniciar sesión con Google</span>
+        </button>
+
+        <div class="register-link">
+          ¿No tienes una cuenta? <a [routerLink]="['/signup']" class="register-link-text">Regístrate</a>
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 </div>
