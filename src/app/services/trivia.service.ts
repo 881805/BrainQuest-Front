@@ -50,15 +50,32 @@ export class TriviaService extends BaseService<ITriviaQuestion> {
 
   generateTriviaQuestion(category: string, difficulty: string): Observable<ITriviaQuestion> {
     const body = { category, difficulty };
-
+  
     return this.http.post<ITriviaQuestion>(`trivia/generate`, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     }).pipe(
       tap((response) => {
+        const stored = localStorage.getItem('generatedQuestions');
+        const generatedQuestions: ITriviaQuestion[] = stored ? JSON.parse(stored) : [];
+  
+        const alreadyExists = generatedQuestions.some(q =>
+          q.question?.trim().toLowerCase() === response.question?.trim().toLowerCase()
+        );
+  
+        if (alreadyExists) {
+          this.snackBar.open('Ya has respondido esta pregunta anteriormente', 'Cerrar', {
+            duration: 3000
+          });
+          return;
+        }
+  
+        generatedQuestions.push(response);
+        localStorage.setItem('generatedQuestions', JSON.stringify(generatedQuestions));
+  
         this.snackBar.open('Pregunta generada con éxito', 'Cerrar', {
           duration: 2000
         });
-      
+  
         this.triviaQuestionsSignal.update(questions => [...questions, response]);
       }),
       catchError(error => {
@@ -69,6 +86,7 @@ export class TriviaService extends BaseService<ITriviaQuestion> {
       })
     );
   }
+  
 
   getFeedback(payload: any) {
     return this.http.post(`trivia/feedback`, payload);
