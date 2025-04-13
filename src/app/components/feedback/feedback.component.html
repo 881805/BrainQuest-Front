@@ -1,0 +1,13 @@
+<div *ngIf="incorrectAnswers.length > 0; else noFeedback">
+    <h2>Retroalimentación de tus respuestas</h2>
+    <div *ngFor="let item of incorrectAnswers" class="feedback-card">
+      <h3>{{ item.question }}</h3>
+      <p><strong>Tu respuesta:</strong> {{ item.userAnswer }}</p>
+      <p><strong>Respuesta correcta:</strong> {{ item.correctAnswer }}</p>
+      <p class="feedback-text"><strong>Retroalimentación:</strong> {{ item.feedback }}</p>
+    </div>
+  </div>
+  
+  <ng-template #noFeedback>
+    <p>No tienes respuestas incorrectas. ¡Buen trabajo!</p>
+  </ng-template>

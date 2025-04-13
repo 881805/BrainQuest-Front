@@ -70,6 +70,11 @@ export class TriviaService extends BaseService<ITriviaQuestion> {
     );
   }
 
+  getFeedback(payload: any) {
+    return this.http.post(`trivia/feedback`, payload);
+  }
+  
+
   getTriviaQuestions(category: string, difficulty: string): Observable<ITriviaQuestion[]> {
     return this.http.get<ITriviaQuestion[]>(`${this.apiUrl}?category=${category}&difficulty=${difficulty}`).pipe(
       tap((response) => {
@@ -123,4 +128,14 @@ export class TriviaService extends BaseService<ITriviaQuestion> {
       }
     });
   }
+
+  submitAnswers(answers: { questionId: number; userAnswer: string }[]) {
+    return this.http.post<any[]>(`trivia/feedback`, answers).pipe(
+      catchError(error => {
+        this.snackBar.open('Error al obtener feedback', 'Cerrar', { duration: 3000 });
+        throw error;
+      })
+    );
+  }
+  
 }
