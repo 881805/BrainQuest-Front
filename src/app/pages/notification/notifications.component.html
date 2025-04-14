@@ -1,0 +1,8 @@
+<mat-card *ngFor="let notif of notifications" [ngClass]="{'unread': !notif.isRead}">
+    <div (click)="markAsRead(notif)">
+      <strong>{{ notif.title }}</strong>
+      <p>{{ notif.message }}</p>
+      <small>{{ notif.createdAt | date:'short' }}</small>
+    </div>
+  </mat-card>
+  

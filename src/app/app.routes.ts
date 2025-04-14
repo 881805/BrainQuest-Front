@@ -23,6 +23,7 @@ import { IndexComponent } from './pages/members/index/index.component';
 import { AboutComponent } from './pages/members/about/about.component';
 import { ContactComponent } from './pages/members/contact/contact.component';
 import { ProductosComponent } from './pages/members/productos/productos.component';
+import { NotificationsComponent } from './pages/notification/notifications.component';
 
 export const routes: Routes = [
   {
@@ -145,6 +146,10 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+      {
+        path: 'notificaciones',
+        component: NotificationsComponent 
+      },   
     ],
   },
 ];

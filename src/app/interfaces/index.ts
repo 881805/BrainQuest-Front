@@ -182,5 +182,12 @@ export interface ITypingExercise {
   completed?: boolean;
 }
 
-
+export interface INotification {
+  id: number;
+  userId: number;
+  title: string;
+  message: string;
+  createdAt: string; 
+  isRead: boolean;
+}
 
