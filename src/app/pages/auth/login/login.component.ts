@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthGoogleService } from '../../../services/auth-google.service';
+//import { AuthGoogleService } from '../../../services/auth-google.service';
 import { AuthService } from '../../../services/auth.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class LoginComponent {
   @ViewChild('username') usernameModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
-  private authGoogleService = inject(AuthGoogleService);
+  //private authGoogleService = inject(AuthGoogleService);
   private authService = inject(AuthService);
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -50,33 +50,33 @@ export class LoginComponent {
     }
   }
 
-async signInWithGoogle() {
-  try {
+// async signInWithGoogle() {
+//   try {
 
-    await this.authGoogleService.login();
+//     await this.authGoogleService.login();
 
-    // After login, get the Google token
-    const googleToken = this.authGoogleService.getToken();
+//     // After login, get the Google token
+//     const googleToken = this.authGoogleService.getToken();
 
-    if (!googleToken) {
-      this.loginError = 'No se obtuvo token de Google';
-      return;
-    }
+//     if (!googleToken) {
+//       this.loginError = 'No se obtuvo token de Google';
+//       return;
+//     }
 
-    // Send the token to your backend
-    const response = await this.http
-      .post<ILoginResponse>('http://localhost:8080/auth/google-login', { token: googleToken })
-      .toPromise();
+//     // Send the token to your backend
+//     const response = await this.http
+//       .post<ILoginResponse>('http://localhost:8080/auth/google-login', { token: googleToken })
+//       .toPromise();
 
-    if (response) {
-      // Save the login information
-      this.authService.saveLogin(response);
-      // Redirect to the dashboard
-      this.router.navigate(['/app/dashboard']);
-    }
-  } catch (err) {
-    console.error('Error en login con Google:', err);
-    this.loginError = 'Error al iniciar sesión con Google';
-  }
-}
+//     if (response) {
+//       // Save the login information
+//       this.authService.saveLogin(response);
+//       // Redirect to the dashboard
+//       this.router.navigate(['/app/dashboard']);
+//     }
+//   } catch (err) {
+//     console.error('Error en login con Google:', err);
+//     this.loginError = 'Error al iniciar sesión con Google';
+//   }
+// }
 }

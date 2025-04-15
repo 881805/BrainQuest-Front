@@ -1,0 +1,74 @@
+<form [formGroup]="missionForm" class="row" (ngSubmit)="callSave()">
+  <div>
+    <h2 class="mb-0">Crear Misión y Objetivo</h2>
+  </div>
+
+  <div class="mb-2">
+    <label class="mb-1" for="startDate">Fecha de Inicio*</label>
+    <input id="startDate" formControlName="startDate" type="date" class="form-control">
+    <p *ngIf="missionForm.controls['startDate'].invalid && (missionForm.controls['startDate'].dirty || missionForm.controls['startDate'].touched) || (missionForm.controls['startDate'].invalid && formSubmitted)" class="text-danger my-1">Fecha de inicio es requerida</p>
+  </div>
+
+  <div class="mb-2">
+    <label class="mb-1" for="endDate">Fecha de Fin*</label>
+    <input id="endDate" formControlName="endDate" type="date" class="form-control">
+    <p *ngIf="missionForm.controls['endDate'].invalid && (missionForm.controls['endDate'].dirty || missionForm.controls['endDate'].touched) || (missionForm.controls['endDate'].invalid && formSubmitted)" class="text-danger my-1">Fecha de fin es requerida</p>
+  </div>
+
+  <div class="mb-2 form-check">
+    <input id="isDaily" formControlName="isDaily" type="checkbox" class="form-check-input">
+    <label class="form-check-label" for="isDaily">Misión Diaria</label>
+  </div>
+
+  <div class="mb-2 form-check">
+    <input id="isActive" formControlName="isActive" type="checkbox" class="form-check-input">
+    <label class="form-check-label" for="isActive">¿Está activa?</label>
+  </div>
+
+  <div class="mb-2">
+    <label class="mb-1" for="experience">Cantidad de Experiencia*</label>
+    <input id="experience" formControlName="experience" type="number" class="form-control">
+    <p *ngIf="missionForm.controls['experience'].invalid && (missionForm.controls['experience'].dirty || missionForm.controls['experience'].touched) || (missionForm.controls['experience'].invalid && formSubmitted)" class="text-danger my-1">La experiencia es requerida</p>
+  </div>
+
+  <div class="mb-2">
+    <label class="mb-1" for="gameType">Game Type*</label>
+    <select id="gameType" formControlName="gameType" class="form-select">
+      <option value="" disabled selected>Selecciona el tipo de juego</option>
+      <option *ngFor="let gameType of gameTypeData" [value]="gameType.id">{{ gameType.description }} ({{ gameType.game_type }})</option>
+    </select>
+    <p *ngIf="missionForm.controls['gameType'].invalid && (missionForm.controls['gameType'].dirty || missionForm.controls['gameType'].touched) || (missionForm.controls['gameType'].invalid && formSubmitted)" class="text-danger my-1">Game Type is required</p>
+  </div>
+
+  <div formGroupName="objective" class="mt-3">
+    <div class="mt-3">
+      <h4>Objetivo</h4>
+    </div>
+
+    <div class="mb-2">
+      <label class="mb-1" for="objectiveText">Texto del Objetivo*</label>
+      <input id="objectiveText" formControlName="objectiveText" type="text" class="form-control">
+      <p *ngIf="missionForm.get('objective.objectiveText')?.invalid && (missionForm.get('objective.objectiveText')?.dirty || missionForm.get('objective.objectiveText')?.touched) || (missionForm.get('objective.objectiveText')?.invalid && formSubmitted)" class="text-danger my-1">El texto del objetivo es requerido</p>
+    </div>
+
+    <div class="mb-2">
+      <label class="mb-1" for="scoreCondition">Condición de Puntaje Requerido*</label>
+      <input id="scoreCondition" formControlName="scoreCondition" type="number" class="form-control">
+      <p *ngIf="missionForm.get('objective.scoreCondition')?.invalid && (missionForm.get('objective.scoreCondition')?.dirty || missionForm.get('objective.scoreCondition')?.touched) || (missionForm.get('objective.scoreCondition')?.invalid && formSubmitted)" class="text-danger my-1">La condición de puntaje es requerida</p>
+    </div>
+
+    <div class="mb-2">
+      <label class="mb-1" for="ammountSuccesses">Cantidad de completiciones de la condición</label>
+      <input id="ammountSuccesses" formControlName="ammountSuccesses" type="number" class="form-control">
+      <p *ngIf="missionForm.get('objective.ammountSuccesses')?.invalid && (missionForm.get('objective.ammountSuccesses')?.dirty || missionForm.get('objective.ammountSuccesses')?.touched) || (missionForm.get('objective.ammountSuccesses')?.invalid && formSubmitted)" class="text-danger my-1">La cantidad de éxitos es requerida</p>
+    </div>
+  </div>
+
+  
+  <button type="submit">Crear</button>
+</form>
+
+<!-- 🐛 Debugging Output -->
+<pre>Status: {{ missionForm.status }}</pre>
+<pre>Errors: {{ missionForm.errors | json }}</pre>
+<pre>Value: {{ missionForm.value | json }}</pre>

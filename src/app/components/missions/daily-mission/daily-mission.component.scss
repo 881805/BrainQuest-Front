@@ -1,0 +1,36 @@
+@import '../../../../assets/utils/_variables.scss';
+
+mat-grid-tile {
+    border-style: solid;
+    display: flex;
+    flex-direction: column !important; // <-- this makes header stack above content
+    padding: 10px;
+    border-radius: 0.5rem;
+    border-style: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      p {
+        font-size: 0.875rem;
+        color: #4B5563;
+        margin: 0;
+      }
+  }
+  
+  .tile-header, .tile-footer{
+    background-color: rgba(0,0,0,.03) !important;
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .tile-content {
+    padding: 10px;
+  }
+  

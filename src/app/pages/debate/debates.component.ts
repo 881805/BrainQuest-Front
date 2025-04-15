@@ -14,6 +14,7 @@ import { MessageService } from '../../services/message.service';
 import { DebatesService } from '../../services/debate.service';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
+import { DailyMissionService } from '../../services/daily-missions.service';
 
 @Component({
   selector: 'app-debates',           // Component selector
@@ -36,12 +37,13 @@ export class DebatesComponent implements OnDestroy {
   public debatesService: DebatesService = inject(DebatesService);
   public alertService: AlertService = inject(AlertService);
 
+  public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
+
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private initialReconnectDelay = 1000;
   private maxReconnectDelay = 30000;
 
-  @ViewChild('addOrdersModal') public addOrdersModal: any;
   @ViewChild(DebateChatComponent) chat!: DebateChatComponent;
 
   public fb: FormBuilder = inject(FormBuilder);
@@ -53,13 +55,14 @@ export class DebatesComponent implements OnDestroy {
 
   // Keep games as an array
   public games = this.gamesService.game$;
+  public missions = this.missionsXUsersService.dailyMissions$;
   public currentGame: IGame = {};
   public messages: WritableSignal<IMessage[]> = signal([]);
 
   constructor(private gamesService: GamesService) {
 
     this.gamesService.getAllByUser(); 
-
+    this.missionsXUsersService.getAllByUser();
 
     effect(() => {
       const currentGames = this.games();
@@ -103,7 +106,24 @@ export class DebatesComponent implements OnDestroy {
     if (response) {
       this.currentGame = response as unknown as IGame;
       this.messages.set(this.currentGame.conversation!.messages!);
+
+      let missions = this.missions();
+       for (let mission of missions) {
+      if (
+        mission.mission?.objective?.scoreCondition !== undefined &&
+        this.currentGame.pointsEarnedPlayer1 !== undefined &&
+        mission.mission.objective.scoreCondition <= this.currentGame.pointsEarnedPlayer1 &&
+        mission.isCompleted == false
+      ) {
+        mission.user = {id: mission.user?.id};
+        mission.mission.createdBy = {id: mission.mission.createdBy?.id};
+        mission.progress = (mission.progress ?? 0) + 1;
+        console.log(mission);
+        this.missionsXUsersService.update(mission);
+      }
     }
+    }
+
   }
 
   async saveMessage(message: IMessage) {
