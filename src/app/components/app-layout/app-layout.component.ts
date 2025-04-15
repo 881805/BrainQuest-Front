@@ -17,7 +17,8 @@ import { RouterModule } from '@angular/router';
     TopbarComponent,
     // SidebarComponent,
     SvgIconComponent,
-    RouterModule
+    RouterModule,
+    TopbarComponent
   ],
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss'],
