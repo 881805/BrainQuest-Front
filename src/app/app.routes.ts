@@ -23,6 +23,9 @@ import { IndexComponent } from './pages/members/index/index.component';
 import { AboutComponent } from './pages/members/about/about.component';
 import { ContactComponent } from './pages/members/contact/contact.component';
 import { ProductosComponent } from './pages/members/productos/productos.component';
+import { MissionsComponent } from './pages/mission/missions.component';
+import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
+import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +80,24 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Dashboard',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'missions',
+        component: MissionsComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+          name: 'Misiones',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'dailymissions',
+        component: DailyMissionsComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Misiones Disponibles',
           showInSidebar: true,
         },
       },

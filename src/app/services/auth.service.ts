@@ -90,6 +90,12 @@ export class AuthService {
   public hasRole(role: string): boolean {
     return this.user.authorities ?  this.user?.authorities.some(authority => authority.authority == role) : false;
   }
+  public hasRoles(...roles: string[]): boolean {
+    return this.user?.authorities
+      ? this.user.authorities.some(auth => roles.includes(auth.authority))
+      : false;
+  }
+  
 
   public isSuperAdmin(): boolean {
     return this.user.authorities ?  this.user?.authorities.some(authority => authority.authority == IRoleType.superAdmin) : false;
