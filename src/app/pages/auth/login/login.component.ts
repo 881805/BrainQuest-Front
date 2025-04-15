@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, NgModel } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthGoogleService } from '../../../services/auth-google.service';
+//import { AuthGoogleService } from '../../../services/auth-google.service';
 import { AuthService } from '../../../services/auth.service';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +20,7 @@ export class LoginComponent {
   @ViewChild('username') usernameModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
 
-  private authGoogleService = inject(AuthGoogleService);
+  //private authGoogleService = inject(AuthGoogleService);
   private authService = inject(AuthService);
   private http = inject(HttpClient);
   private router = inject(Router);
