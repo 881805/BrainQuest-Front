@@ -31,8 +31,8 @@ export class TypingComponent {
   public loading: boolean = false;
   public gameStarted: boolean = false;
   public gameOver: boolean = false;
-  public category: string = 'general';
-  public difficulty: string = 'baja';
+  public category: string = '';
+  public difficulty: string = '';
   public exercises: ITypingExercise[] = [];
   public currentExerciseIndex: number = 0;
   public timer: number = 160; // Este valor será ajustado dinámicamente
