@@ -11,6 +11,38 @@ export interface IResponse<T> {
   meta: T;
 }
 
+
+export interface IMission{
+  id?: number;
+  createdAt?: Date;
+  createdBy?: IUser;
+  startDate?: Date;
+  endDate?: Date;
+  isDaily?: boolean;
+  isActive?: boolean;
+  objective?: IObjective;
+  experience? : number;
+  gameType? : IGameType;
+}
+
+
+export interface IMissionXUser {
+  id?: number;
+  user?: IUser;
+  mission?: IMission;
+  isCompleted?: boolean;
+  completedAt?: Date;
+  lastUpdated?: Date;
+  progress?: number;
+}
+
+export interface IObjective{
+  id?: number;
+  ammountSuccesses?: number;
+  scoreCondition? : number;
+  objectiveText? : string;
+}
+
 export interface IUser {
   id?: number;
   name?: string;
@@ -120,8 +152,8 @@ export interface ITriviaQuestion {
   category?: string;
   difficulty?: string;
   points?: number;
-  userAnswer?: string;
-
+  userAnswer?: string;
+  feedback?: string; 
 }
 
 export interface IOrder {

@@ -9,6 +9,7 @@ import { RouterModule,Router, ActivatedRoute } from "@angular/router";
 import { OAuthService } from "angular-oauth2-oidc";
 import { AuthService } from "../../services/auth.service";
 import { HttpClient } from '@angular/common/http';
+import { DailyMissionService } from "../../services/daily-missions.service";
 
 @Component({
     selector: 'app-landpage-principal',
@@ -22,9 +23,20 @@ import { HttpClient } from '@angular/common/http';
 export class  LandPagePrincipalComponent implements OnInit{
   public loginError: string = '';
   private authService = inject(AuthService);
+  private dailyMissionService = inject(DailyMissionService);
   private http = inject(HttpClient);
    ngOnInit(): void {
-    // Verifica si la URL tiene el código de autorización
+
+    const hasAccessToMissions = this.authService.hasRoles('ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
+
+    this.activities = this.activities.filter(activity => {
+      if (activity.title === 'Misiones') {
+        return hasAccessToMissions;
+      }
+      return true;
+    });
+    
+   
     this.activatedRoute.queryParams.subscribe((params) => {
       const code = params['code'];
       if (code) {
@@ -44,6 +56,8 @@ export class  LandPagePrincipalComponent implements OnInit{
         });
       }
     });
+     
+    this.dailyMissionService.assignMissions();
   }
 
   async generateJWTToken(googleToken: string){
@@ -74,12 +88,26 @@ export class  LandPagePrincipalComponent implements OnInit{
           iconBgColor: "#94F2F2"
       },
       {
+        icon:  { name: "MessageSquare" },
+        title: 'Misiones',
+        description: 'Aquí podrás configurar las misiones para los usuarios.',
+        buttonColor: "#F2622E",
+        iconBgColor: "#94F2F2"
+    },
+      {
           icon: { name: "keyboard" },
           title: 'Typing',
           description: 'Mejora tu velocidad y precision de escritura.',
           buttonColor: "#80A2A6",
           iconBgColor: "#94F2F2"
       },
+      {
+        icon: { name: "keyboard" },
+        title: 'Misiones Disponibles',
+        description: 'Conoce cuales son los desafios disponibles',
+        buttonColor: "#80A2A6",
+        iconBgColor: "#94F2F2"
+    },
       {
           icon: { name: "help-circle" },
           title: 'Trivia',
@@ -95,6 +123,9 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Debate':
           this.router.navigate(['/app/debates']);
           break;
+        case 'Misiones':
+          this.router.navigate(['/app/missions']);
+          break;
         case 'Typing':
           this.router.navigate(['/app/typing']);
           break;
@@ -106,6 +137,10 @@ export class  LandPagePrincipalComponent implements OnInit{
             this.router.navigate(['/app/trivia']);
             break;
         // etc.
+        case 'Misiones Disponibles':
+            this.router.navigate(['/app/dailymissions']);
+            break;
+        // etc.
         default:
           console.warn('Ruta no definida para esta actividad');
        }
@@ -113,8 +148,8 @@ export class  LandPagePrincipalComponent implements OnInit{
 
 
   constructor(
-  private activatedRoute: ActivatedRoute,   // Primero ActivatedRoute
-  private oauthService: OAuthService,        // Luego OAuthService
-  private router: Router                     // Luego Router
+  private activatedRoute: ActivatedRoute,   
+  private oauthService: OAuthService,      
+  private router: Router                     
 ) {}
 }

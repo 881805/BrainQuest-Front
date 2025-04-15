@@ -201,7 +201,7 @@ html, body {
 .services {
     padding: 2rem 0;
     text-align: center;
-    flex: 1 0 auto; // Allow the services section to grow and fill available space
+    flex: 1 0 auto;
 }
 
 .service-cards {
@@ -236,8 +236,8 @@ html, body {
 
 .testimonial-carousel-container {
     display: flex;
-    align-items: center; // Centra verticalmente los botones y el carrusel
-    justify-content: center; // Centra horizontalmente el contenido
+    align-items: center; 
+    justify-content: center; 
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
@@ -246,12 +246,12 @@ html, body {
 
 .testimonial-carousel {
     display: flex;
-    overflow-x: hidden; // Ocultar el scroll horizontal
+    overflow-x: hidden; 
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth; // Desplazamiento suave
+    scroll-behavior: smooth; 
     padding: 1rem 0;
-    width: 80%; // Ancho del carrusel (ajusta según sea necesario)
-    margin: 0 1rem; // Espacio entre el carrusel y los botones
+    width: 80%; 
+    margin: 0 1rem; 
 }
 
 .testimonial {
@@ -295,9 +295,9 @@ html, body {
     font-size: 1.5rem;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
-    position: static; // Posición relativa al contenedor
-    transform: none; // Elimina el centrado absoluto
-    margin: 0 0.5rem; // Espacio entre los botones y el carrusel
+    position: static;
+    transform: none;
+    margin: 0 0.5rem; 
 }
 
 .carousel-button:hover {
@@ -307,7 +307,7 @@ html, body {
 
 @media (max-width: 768px) {
     .testimonial-carousel {
-        width: 90%; // Más ancho en móviles
+        width: 90%; 
     }
 
     .carousel-button {
