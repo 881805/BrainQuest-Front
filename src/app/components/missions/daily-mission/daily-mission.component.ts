@@ -9,7 +9,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 @Component({
   selector: 'app-daily-mission',
   templateUrl: './daily-mission.component.html',
-  styleUrls: ['./daily-mission.component.scss'],
+  styleUrls: ['./daily-mission.component.scss','../../../../assets/layout/_footer.scss'],
   standalone: true, 
   imports: [NbChatModule, NbCardModule, CommonModule, FormsModule, MatGridListModule], // <-- Add FormsModule here
   providers: [NbStatusService]
