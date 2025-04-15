@@ -40,7 +40,7 @@ export class DailyMissionService extends BaseService<IGame> {
    assignMissions() {
     this.addCustomSource(`assign/${this.authService.getUser()?.id}`,{}).subscribe({
       next: (response: any) => {
-        this.alertService.displayAlert('Misiones actualizadas', response.message, 'center', 'top', ['success-snackbar']);
+        this.alertService.displayAlert('Success', 'Misiones Actualizadas', 'center', 'top', ['success-snackbar']);
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'Misiones no se pudieron actualizar','center', 'top', ['error-snackbar']);

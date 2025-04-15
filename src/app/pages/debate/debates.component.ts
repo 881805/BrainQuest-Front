@@ -112,7 +112,8 @@ export class DebatesComponent implements OnDestroy {
         mission.mission?.objective?.scoreCondition !== undefined &&
         this.currentGame.pointsEarnedPlayer1 !== undefined &&
         mission.mission.objective.scoreCondition <= this.currentGame.pointsEarnedPlayer1 &&
-        mission.isCompleted == false
+        mission.isCompleted == false 
+        && mission.mission.gameType?.gameType === 'DEBATE'
       ) {
         mission.user = {id: mission.user?.id};
         mission.mission.createdBy = {id: mission.mission.createdBy?.id};
