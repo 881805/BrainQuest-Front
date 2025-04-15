@@ -120,8 +120,8 @@ export interface ITriviaQuestion {
   category?: string;
   difficulty?: string;
   points?: number;
-  userAnswer?: string;
-
+  userAnswer?: string;
+  feedback?: string; 
 }
 
 export interface IOrder {

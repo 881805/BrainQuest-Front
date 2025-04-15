@@ -29,11 +29,14 @@ export class TriviaComponent {
   public fb: FormBuilder = inject(FormBuilder);
   @ViewChild('addTriviaModal') public addTriviaModal: any;
 
+  public feedbackList: any[] = [];
+  public userAnswers: { questionId: number, userAnswer: string }[] = [];
+
   public loading: boolean = false;
   public gameStarted: boolean = false;
   public gameOver: boolean = false;
-  public category: string = 'politica';
-  public difficulty: string = 'baja';
+  public category: string = '';
+  public difficulty: string = '';
   public questions: ITriviaQuestion[] = [];
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
@@ -66,15 +69,14 @@ export class TriviaComponent {
 
   startTrivia(): void {
     if (this.triviaForm.valid) {
-        this.gameStarted = true;
-        this.gameOver = false;
-        this.isComponentVisible = false; // Oculta el botón al iniciar
+      this.gameStarted = true;
+      this.gameOver = false;
+      this.isComponentVisible = false; 
 
-        this.category = this.triviaForm.controls['category'].value || '';
-        this.difficulty = this.triviaForm.controls['difficulty'].value || '';
-
-        this.generateNewQuestion();
-        this.startTimer();
+      this.category = this.triviaForm.controls['category'].value || '';
+      this.difficulty = this.triviaForm.controls['difficulty'].value || '';
+      this.generateNewQuestion();
+      this.startTimer();
     }
   }
 
@@ -117,17 +119,25 @@ export class TriviaComponent {
     return this.questions.length > 0 ? this.questions[this.currentQuestionIndex] : null;
   }
 
-  checkAnswer(option: string): void {
+  checkAnswer(option: any): void {
     const currentQuestion = this.getCurrentQuestion();
     if (!currentQuestion) return;
 
-    if (option === currentQuestion.correctAnswer) {
-      console.log('Respuesta correcta:', option);
+    const selectedOption = option.text || option; 
+    
+    if (selectedOption === currentQuestion.correctAnswer) {
+      console.log('Respuesta correcta:', selectedOption);
     } else {
-      console.log('Respuesta incorrecta:', option);
+      console.log('Respuesta incorrecta:', selectedOption);
     }
 
-    currentQuestion.userAnswer = option;
+    currentQuestion.userAnswer = selectedOption;
+
+    this.userAnswers.push({
+      questionId: currentQuestion.id ?? 0,
+      userAnswer: selectedOption
+    });
+
     this.currentQuestionIndex++;
 
     if (this.currentQuestionIndex < 10) {
@@ -136,8 +146,24 @@ export class TriviaComponent {
       this.startTimer(); 
     } else {
       this.stopTimer();
-      this.gameOver = true; 
+      this.gameOver = true;
+      this.enviarFeedback();
     }
+  }
+
+  enviarFeedback(): void {
+    const payload = {
+      answers: this.userAnswers
+    };
+
+    this.triviaService.getFeedback(payload).subscribe({
+      next: (data: any) => {
+        this.feedbackList = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener feedback', err);
+      }
+    });
   }
 
   calculateScore(): number {
@@ -156,10 +182,12 @@ export class TriviaComponent {
     this.gameOver = false;
     this.questions = [];
     this.currentQuestionIndex = 0;
+    this.userAnswers = [];
+    this.feedbackList = [];
     this.triviaForm.reset();
-    this.triviaForm.patchValue({ category: 'politica', difficulty: 'baja' }); // Evita valores nulos
-    this.isComponentVisible = true; // Asegura que el botón se muestre al reiniciar
+    this.triviaForm.patchValue({ category: 'politica', difficulty: 'baja' }); 
+    this.isComponentVisible = true; 
   }
 
-  isComponentVisible: boolean = true;
+  isComponentVisible: boolean = true;
 }
