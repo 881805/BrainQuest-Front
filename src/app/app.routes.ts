@@ -29,8 +29,8 @@ import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.co
 
 export const routes: Routes = [
   {
-    path: 'app/dashboard',  // ¡Debe coincidir exactamente!
-    component: LandPagePrincipalComponent,  // Asegúrate de que este componente existe
+    path: 'app/dashboard',  
+    component: LandPagePrincipalComponent, 
   },
   {
     path: 'login',

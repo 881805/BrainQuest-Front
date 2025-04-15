@@ -1,24 +1,26 @@
 @defer {
-  <section>
-    <div class="row p-4">
-      <div class="col-12 ">
-        <div class="d-flex justify-content-center align-items-center">
-          <h2>Debates</h2>
-        </div>
+  <div class="page-container">
+    <section class="debates-container">
+      <div class="header-container">
+        <h1 class="debates-title">Debates</h1>
       </div>
-    </div>
 
-
-    <button id="gameStart" (click)="playGame()">Empezar a debatir</button>
-    <app-chat 
-    *ngIf="isComponentVisible"
-    (callSaveMethod)="saveMessage($event)"  
-    [messages]="messages">
-  </app-chat>
-  
-</section>
-
-} @loading (minimum 1.5s) {
-    <app-loader/>
+      <button id="gameStart" 
+              class="start-debate-btn"
+              (click)="playGame()"
+              aria-label="Empezar un nuevo debate">
+        Empezar a debatir
+      </button>
+      
+      <app-chat 
+        *ngIf="isComponentVisible"
+        (callSaveMethod)="saveMessage($event)"  
+        [messages]="messages"
+        class="chat-container">
+      </app-chat>
+    </section>
+  </div>
 }
- 
+@loading (minimum 1.5s) {
+  <app-loader/>
+}

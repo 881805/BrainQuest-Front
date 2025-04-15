@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
-import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';  // <-- Add this import
+import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 import { IMessage } from '../../interfaces';
 import { AuthService } from '../../services/auth.service';
 @Component({
@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
   standalone: true, 
-  imports: [NbChatModule, NbCardModule, CommonModule, FormsModule], // <-- Add FormsModule here
+  imports: [NbChatModule, NbCardModule, CommonModule, FormsModule], 
   providers: [NbStatusService]
 })
 export class DebateChatComponent {
@@ -20,7 +20,7 @@ export class DebateChatComponent {
   @Input() messages  = signal<IMessage[]>([]);
 
 
-  messageText: string = '';  //mensaje para enviar
+  messageText: string = '';  
 
 
   constructor(){}
@@ -49,16 +49,6 @@ export class DebateChatComponent {
 
       this.callSaveMethod.emit(message);
     }
-  
-  
-  
-  
-  // sendMessage() {
-  //   if (this.messageText.trim()) {
-  //     this.messages.push({ : this.messageText, reply: true, date: new Date() });
-  //     this.messageText = '';  // Clear input after sending
-  //   }
-  // }
 }
 
 

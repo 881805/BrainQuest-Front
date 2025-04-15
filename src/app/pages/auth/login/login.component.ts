@@ -49,34 +49,4 @@ export class LoginComponent {
       });
     }
   }
-
-// async signInWithGoogle() {
-//   try {
-
-//     await this.authGoogleService.login();
-
-//     // After login, get the Google token
-//     const googleToken = this.authGoogleService.getToken();
-
-//     if (!googleToken) {
-//       this.loginError = 'No se obtuvo token de Google';
-//       return;
-//     }
-
-//     // Send the token to your backend
-//     const response = await this.http
-//       .post<ILoginResponse>('http://localhost:8080/auth/google-login', { token: googleToken })
-//       .toPromise();
-
-//     if (response) {
-//       // Save the login information
-//       this.authService.saveLogin(response);
-//       // Redirect to the dashboard
-//       this.router.navigate(['/app/dashboard']);
-//     }
-//   } catch (err) {
-//     console.error('Error en login con Google:', err);
-//     this.loginError = 'Error al iniciar sesión con Google';
-//   }
-// }
 }
