@@ -89,6 +89,13 @@ export class  LandPagePrincipalComponent implements OnInit{
       },
       {
         icon:  { name: "MessageSquare" },
+        title: 'Interview',
+        description: 'Aquí podrás practicar entrevistas simuladas con IA y mejorar tus respuestas.',
+        buttonColor: "#80A2A6",
+        iconBgColor: "#94F2F2"
+      },
+      {
+        icon:  { name: "MessageSquare" },
         title: 'Misiones',
         description: 'Aquí podrás configurar las misiones para los usuarios.',
         buttonColor: "#F2622E",
@@ -98,7 +105,7 @@ export class  LandPagePrincipalComponent implements OnInit{
           icon: { name: "keyboard" },
           title: 'Typing',
           description: 'Mejora tu velocidad y precision de escritura.',
-          buttonColor: "#80A2A6",
+          buttonColor: "#F2622E",
           iconBgColor: "#94F2F2"
       },
       {
@@ -122,6 +129,9 @@ export class  LandPagePrincipalComponent implements OnInit{
       switch (activity.title) {
         case 'Debate':
           this.router.navigate(['/app/debates']);
+          break;
+          case 'Interview':
+          this.router.navigate(['/app/interview']);
           break;
         case 'Misiones':
           this.router.navigate(['/app/missions']);
