@@ -214,5 +214,11 @@ export interface ITypingExercise {
   completed?: boolean;
 }
 
+export interface IAiConfiguration {
+  id: number;
+  configuracion: string;
+  createdAt: string;
+}
+
 
 

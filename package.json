@@ -27,6 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "angular-oauth2-oidc": "^15.0.1",
     "crypto-browserify": "^3.12.1",
+    "i": "^0.3.7",
     "lucide-angular": "^0.487.0",
     "nebular": "^0.0.1",
     "rxjs": "~7.8.0",

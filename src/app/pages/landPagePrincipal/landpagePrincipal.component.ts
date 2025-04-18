@@ -114,7 +114,14 @@ export class  LandPagePrincipalComponent implements OnInit{
           description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
           buttonColor: "#F2622E",
           iconBgColor: "#94F2F2"
-      }
+      },
+      {
+        icon: { name: "help-circle" },
+        title: 'IA',
+        description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
+        buttonColor: "#F2622E",
+        iconBgColor: "#94F2F2"
+    }
 
   ];
 
@@ -140,6 +147,11 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Misiones Disponibles':
             this.router.navigate(['/app/dailymissions']);
             break;
+        case 'IA':
+          this.router.navigate(['/ai-configuration']);
+          break;
+            
+            
         // etc.
         default:
           console.warn('Ruta no definida para esta actividad');

@@ -26,6 +26,7 @@ import { ProductosComponent } from './pages/members/productos/productos.componen
 import { MissionsComponent } from './pages/mission/missions.component';
 import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
+import { AiConfigurationComponent } from './pages/aiConfiguration/aiconfiguration.component';
 
 export const routes: Routes = [
   {
@@ -163,6 +164,15 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Logros',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'ia-configuration',
+        component: AiConfigurationComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'ia-configuration',
           showInSidebar: true,
         },
       },
