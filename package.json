@@ -23,7 +23,6 @@
     "@ctrl/ngx-emoji-mart": "^9.2.0",
     "@fontsource-variable/onest": "^5.2.5",
     "@fontsource-variable/sora": "^5.2.5",
-    "@nebular/theme": "^9.0.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "angular-oauth2-oidc": "^15.0.1",
     "crypto-browserify": "^3.12.1",

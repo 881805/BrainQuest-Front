@@ -1,20 +1,28 @@
-@defer {
+<!-- @defer {
     <div class="row p-4">
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Configuraciones de IA</h2>
+          <h2>Configuraciones IA</h2>
           @if (authService.isSuperAdmin()) {
-            <button (click)="modalService.displayModal('md', addAiConfigurationModal); this.aiConfigurationForm.reset()" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+            <button 
+              (click)="modalService.displayModal('md', addConfigurationModal); aiConfigurationForm.reset()" 
+              type="button" 
+              class="btn btn-primary"
+            >
+              <i class="fas fa-plus"></i>
+            </button>
           }
         </div>
       </div>
+  
       <div class="col-12">
         <app-ai-configuration-list
           (callModalAction)="callEdition($event)"
           (callDeleteAction)="aiConfigurationService.delete($event)"
-          [aiConfigurations]="aiConfigurationService.configurations$()"
+          [configurations]="aiConfigurationService.configurations$()"
         />
       </div>
+  
       @if(aiConfigurationService.configurations$()?.length) {
         <app-pagination
           [service]="aiConfigurationService"
@@ -27,7 +35,7 @@
     <app-loader/>
   }
   
-  <ng-template #addAiConfigurationModal>
+  <ng-template #addConfigurationModal>
     <app-modal [hideFooter]="true">
       <div>
         <app-ai-configuration-form
@@ -38,4 +46,4 @@
       </div>
     </app-modal>
   </ng-template>
-  
+   -->

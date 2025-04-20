@@ -215,10 +215,15 @@ export interface ITypingExercise {
 }
 
 export interface IAiConfiguration {
-  id: number;
+  id?: number;
   configuracion: string;
-  createdAt: string;
+  createdAt?: Date;
+  user?: {
+    id: number;
+    nombre?: string;
+  };
 }
+
 
 
 

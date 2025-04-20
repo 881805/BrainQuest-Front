@@ -26,7 +26,8 @@ import { ProductosComponent } from './pages/members/productos/productos.componen
 import { MissionsComponent } from './pages/mission/missions.component';
 import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
-import { AiConfigurationComponent } from './pages/aiConfiguration/aiconfiguration.component';
+import { EntrevistadorComponent } from './pages/interview/interviews.component';
+import { AiConfigComponent } from './pages/ai-configuration/ai-configuration.component';
 
 export const routes: Routes = [
   {
@@ -130,6 +131,15 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+      {
+        path: 'interview',
+        component: EntrevistadorComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Interview',
+          showInSidebar: true,
+        },
+      },
 
       {
         path: 'typing',
@@ -168,11 +178,11 @@ export const routes: Routes = [
         },
       },
       {
-        path: 'ia-configuration',
-        component: AiConfigurationComponent,
+        path: 'ai-configuration',
+        component: AiConfigComponent,
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'ia-configuration',
+          name: 'ai-configuration',
           showInSidebar: true,
         },
       },

@@ -89,6 +89,13 @@ export class  LandPagePrincipalComponent implements OnInit{
       },
       {
         icon:  { name: "MessageSquare" },
+        title: 'Interview',
+        description: 'Aquí podrás practicar entrevistas simuladas con IA y mejorar tus respuestas.',
+        buttonColor: "#80A2A6",
+        iconBgColor: "#94F2F2"
+      },
+      {
+        icon:  { name: "MessageSquare" },
         title: 'Misiones',
         description: 'Aquí podrás configurar las misiones para los usuarios.',
         buttonColor: "#F2622E",
@@ -130,6 +137,9 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Debate':
           this.router.navigate(['/app/debates']);
           break;
+        case 'Interview':
+          this.router.navigate(['/app/interview']);
+          break;
         case 'Misiones':
           this.router.navigate(['/app/missions']);
           break;
@@ -139,24 +149,20 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Entrevista':
           this.router.navigate(['/interview']);
           break;
-
         case 'Trivia':
             this.router.navigate(['/app/trivia']);
             break;
-        // etc.
         case 'Misiones Disponibles':
             this.router.navigate(['/app/dailymissions']);
             break;
         case 'IA':
-          this.router.navigate(['/ai-configuration']);
+          this.router.navigate(['/app/ai-configuration']);
           break;
-            
-            
         // etc.
         default:
           console.warn('Ruta no definida para esta actividad');
-       }
-    }
+      }
+    }
 
 
   constructor(
