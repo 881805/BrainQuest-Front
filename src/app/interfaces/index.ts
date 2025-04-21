@@ -6,11 +6,19 @@ export interface ILoginResponse {
 }
 
 export interface IResponse<T> {
+  id: any;
   data: T;
   message: string,
   meta: T;
 }
 
+export interface IHistory{
+  id? : number;
+  createdAt?: Date;
+  game? : IGame;
+  lastPlayed?: Date;
+  user?: IUser;
+}
 
 export interface IMission{
   id?: number;

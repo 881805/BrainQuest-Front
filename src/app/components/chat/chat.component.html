@@ -2,6 +2,7 @@
   <nb-card-header>Debates - BrainQuest</nb-card-header>
   <nb-card-body>
     <nb-chat title="Debates ">
+      <nb-chat-message *ngIf="messages().length === 0" message="No hay mensajes todavía. ¡Empieza el debate!" sender="Gemini"></nb-chat-message>
       <nb-chat-message 
         *ngFor="let msg of messages()"
         [message]="msg.contentText"
@@ -13,7 +14,7 @@
   </nb-card-body>
   <nb-card-footer>
     <div class="chat-input">
-      <input [(ngModel)]="messageText" placeholder="Type your message..." />
+      <input [(ngModel)]="messageText" placeholder="Escribe sobre lo que quieras debatir..." />
       <button nbButton (click)="callSave()">Enviar</button>
     </div>
   </nb-card-footer>
