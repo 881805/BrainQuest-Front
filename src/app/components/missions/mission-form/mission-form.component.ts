@@ -23,12 +23,14 @@ export class MissionFormComponent {
   gameTypeOptions = Object.values(GameTypeEnum);
 
   gameTypeData = [
-    { "id": 1, "created_at": "2025-04-03 18:40:19.107000", "description": "Triva game mode", "game_type": "TRIVIA" },
-    { "id": 2, "created_at": "2025-04-03 18:40:19.122000", "description": "Debate game mode", "game_type": "DEBATE" },
-    { "id": 3, "created_at": "2025-04-03 18:40:19.127000", "description": " Multiplayer debate game mode", "game_type": "MULTIPLAYER_DEBATE" },
-    { "id": 4, "created_at": "2025-04-03 18:40:19.133000", "description": "Interview game mode", "game_type": "INTERVIEW" },
-    { "id": 5, "created_at": "2025-04-03 18:40:19.138000", "description": "Story builder game mode", "game_type": "STORYBUILDER" }
+    { "id": 1, "created_at": "2025-04-03 18:40:19.107000", "description": "Modo de juego de trivia", "game_type": "TRIVIA" },
+    { "id": 2, "created_at": "2025-04-03 18:40:19.122000", "description": "Modo de juego de debate", "game_type": "DEBATE" },
+    { "id": 3, "created_at": "2025-04-03 18:40:19.127000", "description": "Modo de juego de debate multijugador", "game_type": "MULTIPLAYER_DEBATE" },
+    { "id": 4, "created_at": "2025-04-03 18:40:19.133000", "description": "Modo de juego de entrevista", "game_type": "INTERVIEW" },
+    { "id": 5, "created_at": "2025-04-03 18:40:19.138000", "description": "Modo de juego de creación de historias", "game_type": "STORYBUILDER" },
+    { "id": 6, "created_at": "2025-04-03 18:40:19.138000", "description": "Modo de juego de mecanografía", "game_type": "TYPING" }
   ];
+  
   formSubmitted = false; // Flag to track form submission
 
   transformGameTypeToId(gameType: GameTypeEnum, gameTypeData: any[]): { id: number } | undefined {

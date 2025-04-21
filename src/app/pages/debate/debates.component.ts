@@ -115,7 +115,15 @@ export class DebatesComponent implements OnDestroy {
       this.currentGame = response as unknown as IGame;
       this.messages.set(this.currentGame.conversation!.messages!);
       await this.updateHistory();
-      let missions = this.missions();
+      await this.checkMissions();
+    }
+    this.updateHistory();
+    
+
+  }
+
+  async checkMissions(){
+    let missions = this.missions();
        for (let mission of missions) {
       if (
         mission.mission?.objective?.scoreCondition !== undefined &&
@@ -131,9 +139,6 @@ export class DebatesComponent implements OnDestroy {
         this.missionsXUsersService.update(mission);
       }
     }
-    this.updateHistory();
-    }
-
   }
 
   async saveMessage(message: IMessage) {

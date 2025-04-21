@@ -9,6 +9,7 @@ import { ModalService } from '../../services/modal.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { interval } from 'rxjs';
+import { DailyMissionService } from '../../services/daily-missions.service';
 
 @Component({
   selector: 'app-trivia-page',
@@ -41,14 +42,19 @@ export class TriviaComponent {
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
   public intervalTimer: any;
-
+  public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
+  
   public triviaForm = this.fb.group({
     category: [this.category, Validators.required],
     difficulty: [this.difficulty, Validators.required]
   });
 
+
+  public missions = this.missionsXUsersService.dailyMissions$;
+
   constructor() {
     this.loadTriviaQuestions();
+    this.missionsXUsersService.getAllByUser();
   }
 
   ngOnInit(): void {}
@@ -148,6 +154,28 @@ export class TriviaComponent {
       this.stopTimer();
       this.gameOver = true;
       this.enviarFeedback();
+      this.checkMissions();
+    }
+  }
+
+  async checkMissions(){
+
+    let pointsEarned  = this.calculateScore();
+    let missions = this.missions();
+       for (let mission of missions) {
+      if (
+        mission.mission?.objective?.scoreCondition !== undefined &&
+        pointsEarned !== undefined &&
+        mission.mission.objective.scoreCondition <= pointsEarned &&
+        mission.isCompleted == false 
+        && mission.mission.gameType?.gameType === 'TRIVIA'
+      ) {
+        mission.user = {id: mission.user?.id};
+        mission.mission.createdBy = {id: mission.mission.createdBy?.id};
+        mission.progress = (mission.progress ?? 0) + 1;
+        console.log(mission);
+        this.missionsXUsersService.update(mission);
+      }
     }
   }
 

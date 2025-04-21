@@ -8,6 +8,7 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DailyMissionService } from '../../services/daily-missions.service';
 
 @Component({
   selector: 'app-typing-page',
@@ -27,6 +28,10 @@ export class TypingComponent {
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
   @ViewChild('addTypingModal') public addTypingModal: any;
+
+
+  public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
+  public missions = this.missionsXUsersService.dailyMissions$;
 
   public loading: boolean = false;
   public gameStarted: boolean = false;
@@ -50,6 +55,7 @@ export class TypingComponent {
 
   constructor() {
     this.loadTypingExercises();
+    this.missionsXUsersService.getAllByUser();
   }
 
   ngOnInit(): void {}
@@ -143,8 +149,31 @@ export class TypingComponent {
       this.stopTimer();
       this.gameOver = true;
       this.gameStarted = false;
+      this.checkMissions();
     }
   }
+
+  async checkMissions(){
+
+    let pointsEarned  = this.score;
+    let missions = this.missions();
+       for (let mission of missions) {
+      if (
+        mission.mission?.objective?.scoreCondition !== undefined &&
+        pointsEarned !== undefined &&
+        mission.mission.objective.scoreCondition <= pointsEarned &&
+        mission.isCompleted == false 
+        && mission.mission.gameType?.gameType === 'TYPING'
+      ) {
+        mission.user = {id: mission.user?.id};
+        mission.mission.createdBy = {id: mission.mission.createdBy?.id};
+        mission.progress = (mission.progress ?? 0) + 1;
+        console.log(mission);
+        this.missionsXUsersService.update(mission);
+      }
+    }
+  }
+
 
   restartTyping(): void {
     this.gameStarted = false;
