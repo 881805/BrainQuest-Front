@@ -3,12 +3,18 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 import { IMessage } from '../../interfaces';
 import { AuthService } from '../../services/auth.service';
+import { NbCardModule, NbChatModule } from '@nebular/theme';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
   standalone: true, 
-  imports: [ CommonModule, FormsModule], 
+  imports: [ 
+    CommonModule, 
+    FormsModule, 
+    NbCardModule,
+    NbChatModule
+  ], 
   providers: []
 })
 export class DebateChatComponent {

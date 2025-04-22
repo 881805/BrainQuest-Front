@@ -54,7 +54,6 @@ export class EntrevistadorComponent implements OnDestroy {
     total: ['', Validators.required],
   });
 
-  public games = this.gamesService.game$;
   public missions = this.missionsXUsersService.dailyMissions$;
   public currentGame: IGame = {};
   public messages: WritableSignal<IMessage[]> = signal([]);
@@ -65,13 +64,13 @@ export class EntrevistadorComponent implements OnDestroy {
     this.missionsXUsersService.getAllByUser();
 
     effect(() => {
-      const currentGames = this.games();
-      this.currentGame = currentGames[0];
-      this.messages.set(this.currentGame.conversation?.messages ?? []);
-      if (this.games.length === 0) {
+      const currentGames = this.gamesService.game$();
+      if (currentGames.length !== 0) {
+        this.currentGame = currentGames[0];
+        this.messages.set(this.currentGame.conversation?.messages ?? []);
         console.log('Games updated:', currentGames);
       } else {
-        console.log('Games updated:', this.games);
+        console.log('Games updated:', currentGames);
       }
     }, { allowSignalWrites: true });
   }

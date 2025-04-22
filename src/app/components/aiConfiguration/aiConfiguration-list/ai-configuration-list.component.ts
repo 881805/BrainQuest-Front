@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { AuthService } from './../../../services/auth.service';
 import { IAiConfiguration } from '../../../interfaces';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-ai-configuration-list',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './ai-configuration-list.component.html',
   styleUrl: './ai-configuration-list.component.scss'
 })

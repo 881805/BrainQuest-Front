@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 import { IMessage } from '../../interfaces';
 import { AuthService } from '../../services/auth.service';
+import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
 
 @Component({
   selector: 'app-interview-chat',
-  templateUrl: './interview-chat.component.html',
-  styleUrls: ['./interview-chat.component.scss'],
+  templateUrl: './chat-interview.html',
+  styleUrls: ['./chat-interview.scss'],
   standalone: true,
-  imports: [ CommonModule, FormsModule],
+  imports: [ CommonModule, FormsModule, NbCardModule, NbChatModule ],
   providers: []
 })
 export class InterviewChatComponent {

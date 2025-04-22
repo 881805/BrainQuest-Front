@@ -6,7 +6,7 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { ModalService } from '../../services/modal.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormsModule, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -19,14 +19,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoaderComponent,
     PaginationComponent,
     ModalComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+    FormsModule
   ]
 })
 export class TypingComponent {
   public typingService: TypingService = inject(TypingService);
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
+  public currentText: string = '';
   @ViewChild('addTypingModal') public addTypingModal: any;
+  public exerciseStarted: boolean = false;
 
   public loading: boolean = false;
   public gameStarted: boolean = false;
@@ -43,6 +46,8 @@ export class TypingComponent {
   public hasError: boolean = false;
   public score: number = 0;
 
+  public userInput: string = '';
+
   public typingForm = this.fb.group({
     category: [this.category, Validators.required],
     difficulty: [this.difficulty, Validators.required]
@@ -52,7 +57,7 @@ export class TypingComponent {
     this.loadTypingExercises();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   loadTypingExercises(): void {
     this.loading = true;
@@ -190,6 +195,10 @@ export class TypingComponent {
       case 'baja':
       default:
         return 1;
-}
-}
+    }
+  }
+
+  checkTyping (): void {
+
+  }
 }

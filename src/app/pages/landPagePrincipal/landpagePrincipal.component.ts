@@ -128,7 +128,14 @@ export class  LandPagePrincipalComponent implements OnInit{
         description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
         buttonColor: "#F2622E",
         iconBgColor: "#94F2F2"
-    }
+    },
+    {
+      icon: { name: "help-circle" },
+      title: 'Aprendizaje Progresivo',
+      description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+  },
 
   ];
 
@@ -157,6 +164,9 @@ export class  LandPagePrincipalComponent implements OnInit{
             break;
         case 'IA':
           this.router.navigate(['/app/ai-configuration']);
+          break;
+        case 'Aprendizaje Progresivo':
+          this.router.navigate(['/app/learning-scenario']);
           break;
         // etc.
         default:

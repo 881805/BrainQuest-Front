@@ -1,0 +1,55 @@
+<section *ngIf="isComponentVisible">
+  <h1>Escoge un tema de aprendizaje</h1>
+
+  <form [formGroup]="learningForm" (ngSubmit)="startLearning()">
+    <label for="topic">Tema:</label>
+    <select id="topic" formControlName="topic">
+      <option value="">Selecciona un tema</option>
+      <option value="energia solar">Energía Solar</option>
+      <option value="inteligencia artificial">Inteligencia Artificial</option>
+      <option value="economía circular">Economía Circular</option>
+      <option value="revolución francesa">Revolución Francesa</option>
+      <option value="sistema digestivo">Sistema Digestivo</option>
+    </select>
+
+    <button type="submit" [disabled]="loading || learningForm.invalid || gameStarted">Comenzar</button>
+  </form>
+</section>
+
+<section *ngIf="gameStarted && getCurrentScenario() as scenario">
+  <div class="scenario-card">
+    <h2>Historia educativa</h2>
+    <p class="narrative">{{ scenario.narrative }}</p>
+
+    <h3 class="question">{{ scenario.question }}</h3>
+
+    <ul class="options">
+      <li *ngFor="let option of scenario.options">
+        <button 
+          [disabled]="isOptionDisabled(option.text)" 
+          (click)="submitAnswer(option.text)">
+          {{ option.text }}
+        </button>
+      </li>
+    </ul>
+
+    <div *ngIf="scenario.incorrectFeedback?.length && !scenario.completed">
+      <div *ngFor="let fb of scenario.incorrectFeedback">
+        <p><strong>Intento con "{{ fb.option }}":</strong> {{ fb.feedback }}</p>
+      </div>
+    </div>
+    
+    <div *ngIf="scenario.completed && !gameOver">
+      <button (click)="goToNextScenario()">Siguiente paso</button>
+    </div>
+    
+    <div *ngIf="gameOver" class="game-over-message">
+      <h2>¡Has completado todos los escenarios!</h2>
+      <p>Gracias por participar, puedes volver a jugar.</p>
+      <button (click)="restartLearning()">Volver a jugar</button>
+    </div>
+  </div>
+
+  <div *ngIf="loading">Cargando escenario...</div>
+  <p>Progreso: {{ currentStep }} de {{ totalSteps }}</p>
+</section>

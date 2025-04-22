@@ -12,12 +12,12 @@
           Empezar entrevista
         </button>
         
-        <app-chat 
+        <app-interview-chat
           *ngIf="isComponentVisible"
           (callSaveMethod)="saveMessage($event)"  
           [messages]="messages"
           class="chat-container">
-        </app-chat>
+        </app-interview-chat>
       </section>
     </div>
   }

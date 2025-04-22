@@ -10,12 +10,13 @@ import { IAiConfiguration } from '../../interfaces';
 import { AiConfigurationFormComponent } from '../../components/aiConfiguration/aiConfiguration-form/ai-configuration-form.component';
 import { CommonModule } from '@angular/common';
 import { AiConfigurationListComponent } from '../../components/aiConfiguration/aiConfiguration-list/ai-configuration-list.component';
+import { NbCardModule } from '@nebular/theme';
 
 @Component({
   selector: 'ai-configuration',
   standalone: true,
   imports: [
-
+    NbCardModule,
     AiConfigurationFormComponent,
     PaginationComponent,
     ModalComponent,
@@ -23,6 +24,7 @@ import { AiConfigurationListComponent } from '../../components/aiConfiguration/a
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    AiConfigurationListComponent
   ],
   templateUrl: './ai-configuration.component.html',
   styleUrl: './ai-configuration.component.scss'

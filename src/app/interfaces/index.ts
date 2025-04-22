@@ -147,13 +147,14 @@ export interface IMessage {
 export interface ITriviaQuestion {
   id?: number; 
   question?: string;
-  options?: string[];
+  options?: any[];
   correctAnswer?: string;
   category?: string;
   difficulty?: string;
   points?: number;
   userAnswer?: string;
   feedback?: string; 
+  text?: string;
 }
 
 export interface IOrder {
@@ -224,6 +225,33 @@ export interface IAiConfiguration {
   };
 }
 
+export interface ILearningScenario {
+  id?: number;
+  topic?: string;
+  step?: number;
+  story?: string;
+  question?: string;
+  correctAnswer?: string;
+  userAnswer?: string;
+  feedback?: string;
+  points?: number;
+  explanation?: string; 
+  options: { text: string; correct: boolean }[];
+  selectedOption?: string; 
+  difficulty: 'baja' | 'media' | 'alta';
+  attemptedOptions?: string[];
+  completed?: boolean; 
+  blocked?: boolean; 
+  attempts?: number;
+  incorrectFeedback?: { option: string, feedback: string }[];
+  narrative?: any;
+}
 
-
+export interface IFeedback {
+  questionId: number;
+  question: string;
+  userAnswer: string;
+  correctAnswer: string;
+  feedback: string;
+}
 

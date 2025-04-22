@@ -41,6 +41,7 @@ export class TriviaComponent {
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
   public intervalTimer: any;
+  public currentQuestion: ITriviaQuestion | null = null;
 
   public triviaForm = this.fb.group({
     category: [this.category, Validators.required],
