@@ -190,9 +190,13 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
   }
 
   
-  getAIFeedback(prompt: string): Observable<string> {
-    return this.http.post<string>('learning/feedback', { prompt });
+  getAIFeedback(id: number, userAnswer: string): Observable<{ feedback: string, blockedOption: string }> {
+    return this.http.post<{ feedback: string, blockedOption: string }>(
+      `learning/feedback/${id}?userAnswer=${encodeURIComponent(userAnswer)}`, 
+      {} 
+    );
   }
+  
 
   open(title: string, message: string): void {
     console.log(`Modal Opened: ${title} - ${message}`);

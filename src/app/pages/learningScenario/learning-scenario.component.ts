@@ -37,7 +37,7 @@ export class LearningScenarioComponent {
   public gameOver = false;
   public topic = '';
   public currentStep = 1;
-  public totalSteps = 3;
+  public totalSteps = 5;
   public scenarios: ILearningScenario[] = [];
   public currentScenarioIndex = 0;
   public timer = 60;
@@ -86,7 +86,7 @@ export class LearningScenarioComponent {
           this.scenarios.push(scenario);
           this.currentScenarioIndex = this.scenarios.length - 1;
           this.loading = false;
-          this.startTimer(); // Reiniciar el cronómetro
+          this.startTimer(); 
        },
        error: (error) => {
           console.error('Error al generar el escenario', error);
@@ -129,7 +129,7 @@ export class LearningScenarioComponent {
       scenario.attempts = (scenario.attempts ?? 0) + 1;
       scenario.attemptedOptions.push(selectedOption);
   
-      if (scenario.attempts >= 3) {
+      if (scenario.attempts >= 5) {
         scenario.blocked = true;
       }
   
@@ -146,7 +146,7 @@ export class LearningScenarioComponent {
         correctAnswer: scenario.correctAnswer
       };
       
-      this.learningScenarioService.getAIFeedback(JSON.stringify(feedbackRequest)).subscribe({
+      this.learningScenarioService.getAIFeedback(scenario.id ?? 0, selectedOption).subscribe({
         next: (data: any) => {
           console.log('Feedback recibido:', data);
           const feedbackText = typeof data === 'string' ? data : data.feedback || "No se pudo obtener un feedback válido.";
@@ -234,7 +234,7 @@ export class LearningScenarioComponent {
   sendFeedback(): void {
     const payload = { answers: this.userAnswers };
   
-    this.learningScenarioService.getAIFeedback(JSON.stringify(payload)).subscribe({
+    this.learningScenarioService.getAIFeedback(0, JSON.stringify(payload)).subscribe({
       next: (data: any) => {
         this.feedbackList = data; // ← aquí corregido: quitamos JSON.parse
       },

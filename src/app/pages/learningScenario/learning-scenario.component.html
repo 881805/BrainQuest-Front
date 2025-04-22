@@ -10,6 +10,19 @@
       <option value="economía circular">Economía Circular</option>
       <option value="revolución francesa">Revolución Francesa</option>
       <option value="sistema digestivo">Sistema Digestivo</option>
+      <option value="dilemas éticos">Dilemas Éticos</option>
+      <option value="dilemas éticos">Dilemas Éticos</option>
+      <option value="decisiones morales">Decisiones Morales</option>
+      <option value="conflictos sociales">Conflictos Sociales</option>
+      <option value="justicia y equidad">Justicia y Equidad</option>
+      <option value="psicología humana">Psicología Humana</option>
+      <option value="bioética">Bioética</option>
+      <option value="empatía y compasión">Empatía y Compasión</option>
+      <option value="ética médica">Ética Médica</option>
+      <option value="valores humanos">Valores Humanos</option>
+      <option value="derechos humanos">Derechos Humanos</option>
+      <option value="situaciones límite">Situaciones Límite</option>
+      <option value="tomar decisiones difíciles">Tomar Decisiones Difíciles</option>
     </select>
 
     <button type="submit" [disabled]="loading || learningForm.invalid || gameStarted">Comenzar</button>
@@ -27,7 +40,11 @@
       <li *ngFor="let option of scenario.options">
         <button 
           [disabled]="isOptionDisabled(option.text)" 
-          (click)="submitAnswer(option.text)">
+          (click)="submitAnswer(option.text)"
+          [ngClass]="{
+            'correct': scenario.selectedOption === option.text && option.text === scenario.correctAnswer,
+            'incorrect': scenario.attemptedOptions?.includes(option.text) && option.text !== scenario.correctAnswer
+          }">
           {{ option.text }}
         </button>
       </li>
@@ -52,4 +69,7 @@
 
   <div *ngIf="loading">Cargando escenario...</div>
   <p>Progreso: {{ currentStep }} de {{ totalSteps }}</p>
+  <div *ngIf="scenario.completed" class="answer-message success">
+    ¡Respuesta correcta! ✅ 
+  </div>
 </section>
