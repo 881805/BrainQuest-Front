@@ -50,6 +50,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
     });
   }
   
+
   generateLearningScenario(topic: string): Observable<ILearningScenario> {
     const body = { topic }; 
   
@@ -103,7 +104,6 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
   }
   
   
-
   save(item: ILearningScenario) {
     this.add(item).subscribe({
       next: (response: IResponse<ILearningScenario>) => {
@@ -116,6 +116,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
       }
     });
   }
+
 
   update(item: ILearningScenario) {
     this.editCustomSource('', item).subscribe({
@@ -130,6 +131,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
     });
   }
 
+
   delete(item: ILearningScenario) {
     this.del(item.id).subscribe({
       next: (response: IResponse<ILearningScenario>) => {
@@ -142,6 +144,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
       }
     });
   }
+
 
   generateScenario(topic: string, step: number): Observable<ILearningScenario> {
     const body = { topic, step };
@@ -165,6 +168,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
     );
   }
 
+
   submitAnswer(scenarioId: number, selectedOption: string): Observable<ILearningScenario> {
     const body = { scenarioId, selectedOption };
     
@@ -185,6 +189,7 @@ export class LearningScenarioService extends BaseService<ILearningScenario> {
     );
   }
 
+  
   getAdditionalExplanation(scenario: ILearningScenario): Observable<string> {
     return of(`This is additional information about the topic: ${scenario.topic}`);
   }

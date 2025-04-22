@@ -28,10 +28,8 @@ export class LearningScenarioComponent {
   public learningScenarioService = inject(LearningScenarioService);
   public modalService = inject(ModalService);
   public fb = inject(FormBuilder);
-
   public feedbackList: any[] = [];
   public userAnswers: { scenarioId: number, selectedOption: string }[] = [];
-
   public loading = false;
   public gameStarted = false;
   public gameOver = false;
@@ -42,9 +40,7 @@ export class LearningScenarioComponent {
   public currentScenarioIndex = 0;
   public timer = 60;
   public intervalTimer: any;
-
   public isComponentVisible = true;
-
   public learningForm = this.fb.group({
     topic: [this.topic, Validators.required]
   });
@@ -52,6 +48,7 @@ export class LearningScenarioComponent {
   constructor() {
     this.loadLearningScenarios();
   }
+
 
   loadLearningScenarios(): void {
     this.loading = true;
@@ -67,6 +64,7 @@ export class LearningScenarioComponent {
     });
   }
 
+
   startLearning(): void {
     if (this.learningForm.valid) {
       this.gameStarted = true;
@@ -78,6 +76,7 @@ export class LearningScenarioComponent {
       this.startTimer();
     }
   }
+
 
   generateNewScenario(): void {
     this.loading = true;
@@ -95,28 +94,24 @@ export class LearningScenarioComponent {
     });
  }
 
+
   getCurrentScenario(): ILearningScenario | null {
     const scenario = this.scenarios[this.currentScenarioIndex];
     return scenario && scenario.question && scenario.options ? scenario : null;
   }
 
+
   submitAnswer(selectedOption: string): void {
     console.log(`Opción seleccionada: ${selectedOption}`);
-  
     const scenario = this.getCurrentScenario();
     if (!scenario || !selectedOption) return;
-  
     console.log(`Respuesta correcta: ${scenario.correctAnswer}`);
-  
     if (!scenario.attemptedOptions) scenario.attemptedOptions = [];
-  
-    // Si ya se respondió correctamente, no dejar seguir
     if (scenario.selectedOption === scenario.correctAnswer) return;
   
     scenario.selectedOption = selectedOption;
   
     if (selectedOption === scenario.correctAnswer) {
-      // ✅ Lógica cuando se responde correctamente
       scenario.completed = true;
       this.userAnswers.push({
         scenarioId: scenario.id ?? 0,
@@ -125,20 +120,15 @@ export class LearningScenarioComponent {
       this.stopTimer();
       console.log('¡Respuesta correcta!');
     } else {
-      // ❌ Lógica para respuestas incorrectas
       scenario.attempts = (scenario.attempts ?? 0) + 1;
       scenario.attemptedOptions.push(selectedOption);
-  
       if (scenario.attempts >= 5) {
         scenario.blocked = true;
       }
-  
-      // Asegurar que incorrectFeedback sea un array
       if (!scenario.incorrectFeedback) {
         scenario.incorrectFeedback = [];
       }
   
-      // Obtener feedback de IA
       const feedbackRequest = {
         topic: this.topic,
         question: scenario.question,
@@ -150,7 +140,6 @@ export class LearningScenarioComponent {
         next: (data: any) => {
           console.log('Feedback recibido:', data);
           const feedbackText = typeof data === 'string' ? data : data.feedback || "No se pudo obtener un feedback válido.";
-          // Aseguramos que incorrectFeedback sea un arreglo
           if (!scenario.incorrectFeedback) {
             scenario.incorrectFeedback = [];
           }
@@ -173,31 +162,28 @@ export class LearningScenarioComponent {
     }
   }
   
+
   isOptionDisabled(option: string): boolean {
     const scenario = this.getCurrentScenario();
     if (!scenario) return true;
-  
-    // Bloquear opción si ya se intentó o si ya se respondió correctamente
     return (
       scenario.selectedOption === scenario.correctAnswer ||
       (scenario.attemptedOptions?.includes(option) ?? false)
     );
   }
   
+
   goToNextScenario(): void {
-    // Primero verificamos si ya estamos en el último paso
     if (this.currentStep >= this.totalSteps) {
       this.gameOver = true;
-      this.sendFeedback(); // guardar resumen final
+      this.sendFeedback(); 
       return;
     }
   
-    // Aumentamos el paso solo si aún no se ha completado
     this.currentStep++;
     this.currentScenarioIndex++;
-  
     if (this.currentScenarioIndex >= this.scenarios.length) {
-      this.generateNewScenario(); // genera uno nuevo si estás al final
+      this.generateNewScenario(); 
       return;
     }
   
@@ -213,6 +199,7 @@ export class LearningScenarioComponent {
     }
   }
   
+
   startTimer(): void {
     this.timer = 60;
     this.stopTimer();
@@ -220,10 +207,11 @@ export class LearningScenarioComponent {
       if (this.timer > 0) {
         this.timer--;
       } else {
-        this.submitAnswer(''); // Intento vacío al terminar tiempo
+        this.submitAnswer(''); 
       }
     });
   }
+
 
   stopTimer(): void {
     if (this.intervalTimer) {
@@ -231,12 +219,13 @@ export class LearningScenarioComponent {
     }
   }
 
+
   sendFeedback(): void {
     const payload = { answers: this.userAnswers };
   
     this.learningScenarioService.getAIFeedback(0, JSON.stringify(payload)).subscribe({
       next: (data: any) => {
-        this.feedbackList = data; // ← aquí corregido: quitamos JSON.parse
+        this.feedbackList = data;
       },
       error: (err) => {
         console.error('Error al obtener feedback', err);
