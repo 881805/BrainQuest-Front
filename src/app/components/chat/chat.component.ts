@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 import { IMessage } from '../../interfaces';
 import { AuthService } from '../../services/auth.service';
-import { NbCardModule, NbChatModule } from '@nebular/theme';
+import { NbCardModule, NbChatModule, NbStatusService } from '@nebular/theme';
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -13,9 +14,9 @@ import { NbCardModule, NbChatModule } from '@nebular/theme';
     CommonModule, 
     FormsModule, 
     NbCardModule,
-    NbChatModule
+    NbChatModule,
   ], 
-  providers: []
+  providers: [NbStatusService]
 })
 export class DebateChatComponent {
   public fb: FormBuilder = inject(FormBuilder);
@@ -24,9 +25,7 @@ export class DebateChatComponent {
   private authService: AuthService = inject(AuthService);
   @Input() messages  = signal<IMessage[]>([]);
 
-
   messageText: string = '';  
-
 
   constructor(){}
   isReply(message: IMessage) {
@@ -39,9 +38,6 @@ export class DebateChatComponent {
     return true;
   }
 
-
-
-
   callSave() {
     let message: IMessage = {
       conversation: {id: 0},
@@ -50,8 +46,6 @@ export class DebateChatComponent {
       user: {id: this.authService.getUser()?.id ?? 0},
       isSent: true,
     }
-  
-
       this.callSaveMethod.emit(message);
     }
 }

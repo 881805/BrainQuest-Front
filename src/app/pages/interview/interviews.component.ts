@@ -17,7 +17,7 @@ import { AuthService } from '../../services/auth.service';
 import { InterviewService } from '../../services/interview.Service';
 
 @Component({
-  selector: 'interview',
+  selector: 'app-interview',
   standalone: true, 
   imports: [
     PaginationComponent,
@@ -32,7 +32,7 @@ import { InterviewService } from '../../services/interview.Service';
 
 export class EntrevistadorComponent implements OnDestroy { 
 
-    public modalService: ModalService = inject(ModalService);
+  public modalService: ModalService = inject(ModalService);
   public authService: AuthService = inject(AuthService);
   public messageService: MessageService = inject(MessageService);
   public interviewService: InterviewService = inject(InterviewService);
@@ -54,6 +54,7 @@ export class EntrevistadorComponent implements OnDestroy {
     total: ['', Validators.required],
   });
 
+  public games = this.gamesService.game$;
   public missions = this.missionsXUsersService.dailyMissions$;
   public currentGame: IGame = {};
   public messages: WritableSignal<IMessage[]> = signal([]);
@@ -64,23 +65,23 @@ export class EntrevistadorComponent implements OnDestroy {
     this.missionsXUsersService.getAllByUser();
 
     effect(() => {
-      const currentGames = this.gamesService.game$();
-      if (currentGames.length !== 0) {
-        this.currentGame = currentGames[0];
-        this.messages.set(this.currentGame.conversation?.messages ?? []);
+      const currentGames = this.games();
+      this.currentGame= currentGames[0];
+      this.messages.set(this.currentGame.conversation?.messages ?? []);
+      if (this.games.length === 0) {
         console.log('Games updated:', currentGames);
       } else {
-        console.log('Games updated:', currentGames);
+        console.log('Games updated:', this.games);
       }
     }, { allowSignalWrites: true });
   }
 
   ngOnDestroy(): void {}
 
-  private async saveNewInterview() { 
-    let interviewToSave: IGame = { 
+  private async saveNewGame() { 
+    let gameToSave: IGame = { 
       winner: { id: this.authService.getUser()?.id },
-      gameType: { id: 1 }, 
+      gameType: { id: 2 }, 
       isOngoing: true,
       pointsEarnedPlayer1: 0,
       pointsEarnedPlayer2: 0,
@@ -89,7 +90,7 @@ export class EntrevistadorComponent implements OnDestroy {
       expirationTime: null
     };
 
-    const response = await firstValueFrom(this.gamesService.add(interviewToSave)); 
+    const response = await firstValueFrom(this.gamesService.add(gameToSave)); 
     if (response?.data) {
       this.gamesService.game$.set([
         ...this.gamesService.game$(), 
@@ -98,7 +99,7 @@ export class EntrevistadorComponent implements OnDestroy {
     }
   }
 
-  async endInterview(interview: IGame) { 
+  async endGame(game: IGame) { 
     const response = await firstValueFrom(this.interviewService.save(this.currentGame));
     if (response) {
       this.currentGame = response as unknown as IGame;
@@ -135,9 +136,9 @@ export class EntrevistadorComponent implements OnDestroy {
 
     try {
       this.currentGame.conversation?.messages?.push(updatedMessage);
-      this.currentGame = this.createInterviewRequest(this.currentGame); 
+      this.currentGame = this.createGameRequest(this.currentGame); 
       if ((this.currentGame?.elapsedTurns ?? 0) >= (this.currentGame?.maxTurns ?? 0)) {
-        const resp = await this.endInterview(this.currentGame); 
+        const resp = await this.endGame(this.currentGame); 
         return;
       }
       const response = await firstValueFrom(this.interviewService.save(this.currentGame)); 
@@ -151,25 +152,25 @@ export class EntrevistadorComponent implements OnDestroy {
     }
   }
 
-  createInterviewRequest(interview: IGame): IGame { 
-    const interviewRequest: IGame = {
-      id: interview.id,
-      conversation: interview.conversation ? {
-        id: interview.conversation.id,
-        messages: this.makeMessagesWithoutUser(interview.conversation)
+  createGameRequest(game: IGame): IGame { 
+    const gameRequest: IGame = {
+      id: game.id,
+      conversation: game.conversation ? {
+        id: game.conversation.id,
+        messages: this.makeMessagesWithoutUser(game.conversation)
       } : null,
-      winner: interview.winner ? { id: interview.winner.id } : undefined,
-      question: interview.question ? { id: interview.question.id } : null,
-      gameType: interview.gameType ? { id: interview.gameType.id } : undefined,
-      isOngoing: interview.isOngoing,
-      pointsEarnedPlayer1: interview.pointsEarnedPlayer1,
-      pointsEarnedPlayer2: interview.pointsEarnedPlayer2,
-      expirationTime: interview.expirationTime,
-      timeLeft: interview.timeLeft,
-      maxTurns: interview.maxTurns,
-      elapsedTurns: interview.elapsedTurns,
+      winner: game.winner ? { id: game.winner.id } : undefined,
+      question: game.question ? { id: game.question.id } : null,
+      gameType: game.gameType ? { id: game.gameType.id } : undefined,
+      isOngoing: game.isOngoing,
+      pointsEarnedPlayer1: game.pointsEarnedPlayer1,
+      pointsEarnedPlayer2: game.pointsEarnedPlayer2,
+      expirationTime: game.expirationTime,
+      timeLeft: game.timeLeft,
+      maxTurns: game.maxTurns,
+      elapsedTurns: game.elapsedTurns,
     };
-    return interviewRequest;
+    return gameRequest;
   }
 
   makeMessagesWithoutUser(conversation: IConversation): IMessage[] {
@@ -191,9 +192,9 @@ export class EntrevistadorComponent implements OnDestroy {
     return messageRequests;
   }
 
-  async getReplyAI(interview: IGame) { 
+  async getReplyAI(game: IGame) { 
     try {
-      const response = await this.interviewService.save(interview).toPromise();
+      const response = await this.interviewService.save(game).toPromise();
       console.log('Reply gotten successfully:', response);
       this.gamesService.getAllByUser();
     } catch (err) {
@@ -203,10 +204,10 @@ export class EntrevistadorComponent implements OnDestroy {
     }
   }
 
-  async startInterview() { 
+  async playGame() { 
     try {
       if (this.gamesService.game$().length < 1) {
-        await this.saveNewInterview(); 
+        await this.playGame(); 
         window.location.reload();
       } else {
         this.isComponentVisible = true;

@@ -29,6 +29,7 @@ import { DailyMissionService } from '../../services/daily-missions.service';
   templateUrl: './debates.component.html',  
   styleUrls: ['./debates.component.scss'], 
 })
+
 export class DebatesComponent implements OnDestroy {
 
   public modalService: ModalService = inject(ModalService);
@@ -75,9 +76,7 @@ export class DebatesComponent implements OnDestroy {
     }, { allowSignalWrites: true });
   }
 
-  ngOnDestroy(): void {
-
-  }
+  ngOnDestroy(): void {}
 
   private async saveNewGame() {
     let gameToSave: IGame = {
@@ -209,11 +208,7 @@ export class DebatesComponent implements OnDestroy {
     try {
       if (this.gamesService.game$().length < 1) {
         await this.saveNewGame();
-  
-
         window.location.reload();
-  
-  
       } else {
         this.isComponentVisible = true;
       }
@@ -222,8 +217,6 @@ export class DebatesComponent implements OnDestroy {
     }
   }
   
-  
-
   isComponentVisible: boolean = false;
 
   async toggleChatVisibility() {

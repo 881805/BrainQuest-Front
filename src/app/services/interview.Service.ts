@@ -3,7 +3,6 @@ import { BaseService } from './base-service';
 import { IGame, IMessage, IPreferenceList, IResponse, ISearch } from '../interfaces';
 import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
-import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({

@@ -7,8 +7,6 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -26,6 +24,7 @@ export class DebatesService extends BaseService<IGame> {
   public totalItems: any = [];
   
   private stompClient: any;
+  
   constructor(){
     super();
 

@@ -5,7 +5,7 @@
         <h2>Configuraciones IA</h2>
         @if (authService.isSuperAdmin()) {
           <button 
-            (click)="modalService.displayModal('md', addConfigurationModal); aiConfigurationForm.reset()" 
+            (click)="modalService.displayModal('md', addConfigurationsModal); aiConfigurationForm.reset()" 
             type="button" 
             class="btn btn-primary"
           >
@@ -35,7 +35,7 @@
   <app-loader/>
 }
 
-<ng-template #addConfigurationModal>
+<ng-template #addConfigurationsModal>
   <app-modal [hideFooter]="true">
     <div>
       <app-ai-configuration-form

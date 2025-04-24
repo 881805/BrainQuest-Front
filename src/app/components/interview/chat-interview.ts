@@ -10,7 +10,12 @@ import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
   templateUrl: './chat-interview.html',
   styleUrls: ['./chat-interview.scss'],
   standalone: true,
-  imports: [ CommonModule, FormsModule, NbCardModule, NbChatModule ],
+  imports: [ 
+    CommonModule, 
+    FormsModule, 
+    NbCardModule, 
+    NbChatModule 
+  ],
   providers: []
 })
 export class InterviewChatComponent {
@@ -23,19 +28,16 @@ export class InterviewChatComponent {
   messageText: string = '';
 
   constructor() {}
-
-  // Determina si el mensaje es una respuesta de la IA o del usuario
   isReply(message: IMessage) {
     const user = this.authService.getUser();
     
     if (user && user.id === message.user.id) {
-      return false;  // Si es el usuario, no es respuesta
+      return false; 
     }
     
-    return true; // Si es de la IA, es una respuesta
+    return true; 
   }
 
-  // Método que emite el mensaje cuando se envía
   callSave() {
     let message: IMessage = {
       conversation: { id: 0 },
@@ -44,8 +46,6 @@ export class InterviewChatComponent {
       user: { id: this.authService.getUser()?.id ?? 0 },
       isSent: true,
     };
-
-    // Emitimos el mensaje para que el padre lo guarde
     this.callSaveMethod.emit(message);
   }
 }

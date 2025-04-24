@@ -24,20 +24,11 @@ export class AiConfigurationService extends BaseService<IAiConfiguration> {
   private alertService: AlertService = inject(AlertService);
 
   getAll() {
-    this.findAllWithParams({ page: this.search.page, size: this.search.size}).subscribe({
-      next: (response: any) => {
+    this.http.get<IAiConfiguration[]>(`ai-configurations/list`).subscribe({
+      next: (response: IAiConfiguration[]) => {
         console.log('Response:', response);
-        if (Array.isArray(response)) {
-          this.aiConfigListSignal.set(response);
-          this.search = {...this.search, totalPages: 1};
-          const totalPages = this.search.totalPages ?? 0;
-          this.totalItems = Array.from({length: totalPages}, (_, i) => i+1);
-        }
-        else {
-          console.error('Invalid response format:', response);
-        }
+        this._configurations.set(response);
       },
-      
       error: (err: any) => {
         console.error('error', err);
       }
