@@ -6,11 +6,19 @@ export interface ILoginResponse {
 }
 
 export interface IResponse<T> {
+  id: any;
   data: T;
   message: string,
   meta: T;
 }
 
+export interface IHistory{
+  id? : number;
+  createdAt?: Date;
+  game? : IGame;
+  lastPlayed?: Date;
+  user?: IUser;
+}
 
 export interface IMission{
   id?: number;
@@ -46,6 +54,7 @@ export interface IObjective{
 export interface IUser {
   id?: number;
   name?: string;
+  experience?: number;
   lastname?: string;
   email?: string;
   password?: string;
@@ -132,7 +141,8 @@ export enum GameTypeEnum {
   DEBATE = 'DEBATE',
   MULTIPLAYER_DEBATE = 'MULTIPLAYER_DEBATE',
   INTERVIEW = 'INTERVIEW',
-  STORYBUILDER = 'STORYBUILDER'
+  STORYBUILDER = 'STORYBUILDER',
+  TYPING = 'TYPING'
 }
 
 export interface IMessage {

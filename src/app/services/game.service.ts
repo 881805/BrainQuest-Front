@@ -63,54 +63,16 @@ export class GamesService extends BaseService<IGame> {
         catchError((error: HttpErrorResponse) => {
             let errorMessage = 'An unknown error occurred.';
             if (error.error instanceof ErrorEvent) {
-                // Client-side errors
+
                 errorMessage = `Error: ${error.error.message}`;
             } else {
-                // Server-side errors
+
                 errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
             }
             console.error(errorMessage);
-            return of({ data: [], meta: [], message: errorMessage }); // meta is now an empty array
+            return of({ id:null, data: [], meta: [], message: errorMessage }); // meta is now an empty array
         })
     );
 }
-  // save(item: IPreferenceList) {
-  //   this.add(item).subscribe({
-  //     next: (response: IResponse<IPreferenceList>) => {
-  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-  //       this.getAll();
-  //     },
-  //     error: (err: any) => {
-  //       this.alertService.displayAlert('error', 'An error occurred adding the preference list', 'center', 'top', ['error-snackbar']);
-  //       console.error('error', err);
-  //     }
-  //   });
-  // }
-
-  // update(item: IPreferenceList) {
-  //   this.editCustomSource('', item).subscribe({
-  //     next: (response: IResponse<IPreferenceList>) => {
-  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-  //       this.getAll();
-  //     },
-  //     error: (err: any) => {
-  //       this.alertService.displayAlert('error', 'An error occurred updating the order', 'center', 'top', ['error-snackbar']);
-  //       console.error('error', err);
-  //     }
-  //   });
-  // }
-
-  // delete(item: IPreferenceList) {
-  //   this.del(item.id).subscribe({
-  //     next: (response: IResponse<IPreferenceList>) => {
-  //       this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-  //       this.getAll();
-  //     },
-  //     error: (err: any) => {
-  //       this.alertService.displayAlert('error', 'An error occurred deleting the order', 'center', 'top', ['error-snackbar']);
-  //       console.error('error', err);
-  //     }
-  //   });
-  // }
 
 }

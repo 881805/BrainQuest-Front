@@ -14,6 +14,10 @@ export class BaseService<T> {
     return this.http.get<IResponse<T>>(this.source + '/' + id);
   }
 
+  public findWithCustomSource(customUrlSource: string, id: string | number): Observable<IResponse<T>> {
+    return this.http.get<IResponse<T>>(this.source +`/${customUrlSource}`+ '/' + id);
+  }
+
   public findAll(): Observable<IResponse<T[]>> {
     return this.http.get<IResponse<T[]>>(this.source);
   }

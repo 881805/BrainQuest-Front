@@ -1,0 +1,8 @@
+<div class="col-12">
+    <app-history-list
+      [historyList]="historyService.history$()"
+    />
+    @if(historyService.history$().length) {
+      <app-pagination [service]="historyService" />
+    }
+  </div>

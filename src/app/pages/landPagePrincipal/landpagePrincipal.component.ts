@@ -114,6 +114,13 @@ export class  LandPagePrincipalComponent implements OnInit{
           description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
           buttonColor: "#F2622E",
           iconBgColor: "#94F2F2"
+      },
+      {
+          icon: { name: "help-circle" },
+          title: 'Historial',
+          description: 'Revisa en cuales actividades has participado.',
+          buttonColor: "#F2622E",
+          iconBgColor: "#94F2F2"
       }
 
   ];
@@ -136,11 +143,14 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Trivia':
             this.router.navigate(['/app/trivia']);
             break;
-        // etc.
         case 'Misiones Disponibles':
             this.router.navigate(['/app/dailymissions']);
             break;
-        // etc.
+
+        case 'Historial':
+          this.router.navigate(['/app/history']);
+          break;
+
         default:
           console.warn('Ruta no definida para esta actividad');
        }

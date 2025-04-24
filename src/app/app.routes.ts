@@ -26,6 +26,7 @@ import { ProductosComponent } from './pages/members/productos/productos.componen
 import { MissionsComponent } from './pages/mission/missions.component';
 import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 export const routes: Routes = [
   {
@@ -89,6 +90,15 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Misiones',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, , IRoleType.user],
+          name: 'Historial',
           showInSidebar: true,
         },
       },
