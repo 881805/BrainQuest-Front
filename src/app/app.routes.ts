@@ -17,7 +17,6 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { TypingComponent } from './pages/typing/typing.component';
 import { TriviaComponent } from './pages/trivia/trivia.component';
 import { EstadisticasComponent } from './pages/estadisticas/estadisticas.component';
-import { LogrosComponent } from './pages/logros/logros.component';
 import { SignUpComponent } from './pages/auth/sign-up/signup.component';
 import { IndexComponent } from './pages/members/index/index.component';
 import { AboutComponent } from './pages/members/about/about.component';
@@ -26,6 +25,8 @@ import { ProductosComponent } from './pages/members/productos/productos.componen
 import { MissionsComponent } from './pages/mission/missions.component';
 import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
+import { AchievementComponent } from './pages/achievement/achievement.component';
+import { AchievementBadgesComponent } from './pages/achievementsbadges/achievementsbadges.component';
 
 export const routes: Routes = [
   {
@@ -102,6 +103,24 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'achievements',
+        component: AchievementComponent,
+        data:{
+          authorities: [IRoleType.admin, IRoleType.superAdmin],
+          name: 'Logros',
+          showInSidebar: true,
+        }
+      },
+      {
+        path: 'achievementsbadges',
+        component: AchievementBadgesComponent,
+        data:{
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Logros y Badges',
+          showInSidebar: true,
+        }
+      },
+      {
         path: 'users',
         component: UsersComponent,
         canActivate: [AdminRoleGuard],
@@ -154,15 +173,6 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Estadísticas',
-          showInSidebar: true,
-        },
-      },
-      {
-        path: 'logros',
-        component: LogrosComponent,
-        data: {
-          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
-          name: 'Logros',
           showInSidebar: true,
         },
       },

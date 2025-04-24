@@ -1,0 +1,19 @@
+<mat-grid-list cols="4" rowHeight="1:1" gutterSize="10px">
+  @for (item of userAchievement; track item.id) {
+    <mat-grid-tile>
+      <mat-grid-tile-header class="tile-header"></mat-grid-tile-header>
+      <div class="tile-content">
+        <p><strong>Logro:</strong> {{ item.achievement?.aim?.description }}</p>
+        <p><strong>Progreso:</strong> {{ item.progress }}</p>
+        <p><strong>Completado:</strong> {{ item.isCompleted ? 'Sí' : 'No' }}</p>
+      </div>
+      <mat-grid-tile-footer class="tile-footer"></mat-grid-tile-footer>
+    </mat-grid-tile>
+  }
+  @empty {
+    <mat-grid-tile>
+      <div class="tile-content text-center">
+        <p class="mb-0">No hay logros disponibles, Próximamente!</p>
+      </div>
+    </mat-grid-tile>
+  }

@@ -1,0 +1,40 @@
+<app-topbar></app-topbar>
+@defer{
+    <div class="row p-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Logros</h2>
+                <button
+                    (click)="modalService.displayModal('md', addAchievementModal)"
+                    type="button"
+                    class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <app-achievement-list
+                (callModalAction)="callEdition($event)"
+                (callDeleteAction)="achievementService.delete($event)"
+                [achievements]="achievementService.achievements$()"
+            />
+            @if(achievementService.achievements$().length) {
+                <app-pagination [service]="achievementService" />
+            }
+        </div>
+        <ng-template #addAchievementModal>
+            <app-modal [hideFooter]="true">
+                <div>
+                    <app-achievement-form
+                        [achievementForm]="achievementForm"
+                        (callSaveMethod)="saveAchievement($event)"
+                        (callUpdateMethod)="updateAchievement($event)"
+                    />
+                </div>
+            </app-modal>
+        </ng-template>
+    </div>
+}   @loading (minimum 1.5s) {
+        <app-loader></app-loader>
+    } 

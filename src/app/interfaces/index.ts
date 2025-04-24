@@ -36,6 +36,44 @@ export interface IMissionXUser {
   progress?: number;
 }
 
+export interface IAchievementPayload {
+  id?: number;
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  experience?: number;
+  gameType: { id: number };
+  aim?: IAim;
+}
+
+export interface IAchievement{
+  id?: number;
+  name?: string;  
+  description?: string;
+  active?: true;
+  experience?: number;
+  createdBy?: IUser;
+  gameType?: IGameType;
+  aim?: IAim;
+}
+
+export interface IUserAchievement{
+  id?: number;
+  isCompleted?: boolean;
+  completedAt?: Date;
+  progress?: number;
+  user?: IUser;
+  achievement?: IAchievement;
+}
+
+export interface IAim{
+  id?: number;
+  name?: string;
+  description?: string;
+  isActive?: boolean;
+  value?: number;
+}
+
 export interface IObjective{
   id?: number;
   ammountSuccesses?: number;

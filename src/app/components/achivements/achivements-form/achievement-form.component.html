@@ -1,0 +1,63 @@
+<form [formGroup]="achievementForm" class="row" (ngSubmit)="callSave()">
+    
+    <div class="title">
+        Crear Logro
+    </div>
+
+    <div class="name">
+        <label class="name" for="name">Name: </label>
+        <input id="name" formControlName="name" type="text" class="form-control">
+        <p *ngIf="achievementForm.controls['name'].invalid && (achievementForm.controls['name'].dirty || achievementForm.controls['name'].touched) || (achievementForm.controls['name'].invalid && formSubmitted)" class="text-danger my-1">El nombre es requerido</p>
+    </div>
+
+    <div class="description">
+        <label class="description" for="description">Description: </label>
+        <input id="description" formControlName="description" type="text" class="form-control">
+        <p *ngIf="achievementForm.controls['description'].invalid && (achievementForm.controls['description'].dirty || achievementForm.controls['description'].touched) || (achievementForm.controls['description'].invalid && formSubmitted)" class="text-danger my-1">La descripción es requerida</p>
+    </div>
+
+    <div class="experience">
+        <label class="experience" for="experience">Cantidad de Experiencia: </label>
+        <input id="experience" formControlName="experience" type="number" class="form-control">
+        <p *ngIf="achievementForm.controls['experience'].invalid && (achievementForm.controls['experience'].dirty || achievementForm.controls['experience'].touched) || (achievementForm.controls['experience'].invalid && formSubmitted)" class="text-danger my-1">La experiencia es requerida</p>
+    </div>
+
+    <div class="gameType">
+        <label class="gameType" for="gameType">Game Type: </label>
+        <select id="gameType" formControlName="gameType" class="form-select">
+            <option value="" disabled selected>Selecciona el tipo de juego</option>
+            <option *ngFor="let gameType of gameTypeData" [value]="gameType.game_type">
+                ({{ gameType.game_type }})
+            </option>
+        </select>
+        <p *ngIf="achievementForm.controls['gameType'].invalid && (achievementForm.controls['gameType'].dirty || achievementForm.controls['gameType'].touched) || (achievementForm.controls['gameType'].invalid && formSubmitted)" class="text-danger my-1">El tipo de juego es requerido</p>
+    </div>
+
+    <div formGroupName="aim" class="aim-fields">
+        <div class="aim-name">
+            <label for="aimName">Nombre del Objetivo</label>
+            <input id="aimName" formControlName="name" type="text" class="form-control" />
+            <p *ngIf="achievementForm.get('aim.name')?.invalid && (achievementForm.get('aim.name')?.dirty || formSubmitted)" class="text-danger">El nombre del objetivo es requerido</p>
+        </div>
+    
+        <div class="aim-description">
+            <label for="aimDescription">Descripción del Objetivo</label>
+            <input id="aimDescription" formControlName="description" type="text" class="form-control" />
+            <p *ngIf="achievementForm.get('aim.description')?.invalid && (achievementForm.get('aim.description')?.dirty || formSubmitted)" class="text-danger">La descripción del objetivo es requerida</p>
+        </div>
+    
+        <div class="aim-active">
+            <input id="aimActive" formControlName="isActive" type="checkbox" class="form-check-input" />
+            <label class="form-check-label" for="aimActive">¿Objetivo activo?</label>
+        </div>
+    
+        <div class="aim-value">
+            <label for="aimValue">Valor del Objetivo</label>
+            <input id="aimValue" formControlName="value" type="number" class="form-control" />
+            <p *ngIf="achievementForm.get('aim.value')?.invalid && (achievementForm.get('aim.value')?.dirty || formSubmitted)" class="text-danger">El valor del objetivo es requerido</p>
+        </div>
+    </div>
+     
+    <button type="submit">Crear</button>
+
+</form>

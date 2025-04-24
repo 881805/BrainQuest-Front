@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivityCard, Challenge, ILoginResponse } from "../../interfaces";
 import { CommonModule } from "@angular/common";
-import { BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from "lucide-angular";
+import { LucideAngularModule} from "lucide-angular";
 import { MyAccountComponent } from "../../components/my-account/my-account.component";
 import { TopbarComponent } from "../../components/app-layout/elements/topbar/topbar.component";
 import { AppLayoutComponent } from "../../components/app-layout/app-layout.component";
@@ -114,7 +114,14 @@ export class  LandPagePrincipalComponent implements OnInit{
           description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
           buttonColor: "#F2622E",
           iconBgColor: "#94F2F2"
-      }
+      },
+      {
+        icon: {name: "award"},
+        title: 'Logros',
+        description: 'Conoce tus logros y habilidades adquiridas.',
+        buttonColor: "#80A2A6",
+        iconBgColor: "#94F2F2"
+      },
 
   ];
 
@@ -139,6 +146,10 @@ export class  LandPagePrincipalComponent implements OnInit{
         // etc.
         case 'Misiones Disponibles':
             this.router.navigate(['/app/dailymissions']);
+            break;
+
+        case 'Logros':
+            this.router.navigate(['/app/achievements']);
             break;
         // etc.
         default:

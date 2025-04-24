@@ -6,7 +6,6 @@ import { CommonModule } from '@angular/common';
 import { LayoutService } from '../../services/layout.service';
 import { SvgIconComponent } from '../svg-icon/svg-icon.component';
 import { RouterModule } from '@angular/router'; 
-// import { SidebarComponent } from './elements/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-layout',
@@ -15,7 +14,6 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterOutlet,
     TopbarComponent,
-    // SidebarComponent,
     SvgIconComponent,
     RouterModule
   ],
