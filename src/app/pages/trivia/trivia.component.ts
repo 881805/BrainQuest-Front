@@ -1,6 +1,6 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { TriviaService } from '../../services/trivia.service';
-import { ITriviaQuestion } from '../../interfaces';
+import { IGame, IHistory, ITriviaQuestion } from '../../interfaces';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
@@ -8,7 +8,11 @@ import { ModalComponent } from '../../components/modal/modal.component';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { interval } from 'rxjs';
+import { firstValueFrom, interval } from 'rxjs';
+import { DailyMissionService } from '../../services/daily-missions.service';
+import { AuthService } from '../../services/auth.service';
+import { GamesService } from '../../services/game.service';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-trivia-page',
@@ -28,7 +32,9 @@ export class TriviaComponent {
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
   @ViewChild('addTriviaModal') public addTriviaModal: any;
-
+  public gamesService: GamesService = inject(GamesService);
+  public authService: AuthService = inject(AuthService);
+  public historyService: HistoryService = inject(HistoryService);
   public feedbackList: any[] = [];
   public userAnswers: { questionId: number, userAnswer: string }[] = [];
 
@@ -41,14 +47,19 @@ export class TriviaComponent {
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
   public intervalTimer: any;
-
+  public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
+  
   public triviaForm = this.fb.group({
     category: [this.category, Validators.required],
     difficulty: [this.difficulty, Validators.required]
   });
 
+
+  public missions = this.missionsXUsersService.dailyMissions$;
+
   constructor() {
     this.loadTriviaQuestions();
+    this.missionsXUsersService.getAllByUser();
   }
 
   ngOnInit(): void {}
@@ -80,6 +91,30 @@ export class TriviaComponent {
     }
   }
 
+
+   private async saveNewGame() {
+      let gameToSave: IGame = {
+        winner: { id: this.authService.getUser()?.id },
+        gameType: { id: 1 },
+        isOngoing: false, //falso ya que estamos creando la entidad game al final
+        pointsEarnedPlayer1: this.calculateScore(),
+        pointsEarnedPlayer2: 0,
+        elapsedTurns: 0,
+        maxTurns: 0,
+        expirationTime: null
+      };
+  
+      const response = await firstValueFrom(this.gamesService.add(gameToSave));
+      if (response) {
+        const history: IHistory = {
+          lastPlayed: new Date(),
+          user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+          game: { id: response.id }
+        };
+        
+        await this.historyService.save(history);
+      }
+    }
   generateNewQuestion(): void {
     if (this.currentQuestionIndex < 15) {
       this.loading = true;
@@ -148,6 +183,29 @@ export class TriviaComponent {
       this.stopTimer();
       this.gameOver = true;
       this.enviarFeedback();
+      this.checkMissions();
+      this.saveNewGame();
+    }
+  }
+
+  async checkMissions(){
+
+    let pointsEarned  = this.calculateScore();
+    let missions = this.missions();
+       for (let mission of missions) {
+      if (
+        mission.mission?.objective?.scoreCondition !== undefined &&
+        pointsEarned !== undefined &&
+        mission.mission.objective.scoreCondition <= pointsEarned &&
+        mission.isCompleted == false 
+        && mission.mission.gameType?.gameType === 'TRIVIA'
+      ) {
+        mission.user = {id: mission.user?.id};
+        mission.mission.createdBy = {id: mission.mission.createdBy?.id};
+        mission.progress = (mission.progress ?? 0) + 1;
+        console.log(mission);
+        this.missionsXUsersService.update(mission);
+      }
     }
   }
 
