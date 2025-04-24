@@ -5,7 +5,7 @@
         <h1 class="debates-title">Debates</h1>
       </div>
 
-      <button id="gameStart" 
+      <button *ngIf="!isComponentVisible" id="gameStart" 
               class="start-debate-btn"
               (click)="playGame()"
               aria-label="Empezar un nuevo debate">

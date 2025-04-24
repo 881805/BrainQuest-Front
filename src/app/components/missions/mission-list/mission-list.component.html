@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Objetivo</th>
         <th scope="col">Creado por</th>
         <th scope="col">Inicio</th>
         <th scope="col">Fin</th>
@@ -10,7 +11,7 @@
         <th scope="col">Activo?</th>
         <th scope="col">Experiencia</th>
         <th scope="col">Tipo de juego</th>
-        <th scope="col">Objetivo</th>
+
         <th class="text-center" scope="col">Acciones</th>
       </tr>
     </thead>
@@ -18,19 +19,20 @@
       @for (mission of missions; track mission.id) {
         <tr>
           <th scope="row">{{ mission.id }}</th>
-          <td>{{ mission.createdBy?.name || '—' }}</td>
-          <td>{{ mission.startDate | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ mission.endDate | date: 'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ mission.isDaily ? 'Yes' : 'No' }}</td>
-          <td>{{ mission.isActive ? 'Yes' : 'No' }}</td>
-          <td>{{ mission.experience }}</td>
-          <td>{{ mission.gameType?.gameType || '—' }}</td>
           <td>
             <div>
               <strong>{{ mission.objective?.objectiveText }}</strong><br>
               <small>Puntaje: {{ mission.objective?.scoreCondition }}, Cantidad Éxitos: {{ mission.objective?.ammountSuccesses }}</small>
             </div>
           </td>
+          <td>{{ mission.createdBy?.name || '—' }}</td>
+          <td>{{ mission.startDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ mission.endDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ mission.isDaily ? 'Sí' : 'No' }}</td>
+          <td>{{ mission.isActive ? 'Sí' : 'No' }}</td>
+          <td>{{ mission.experience }}</td>
+          <td>{{ mission.gameType?.gameType || '—' }}</td>
+     
           <td>
             <button (click)="callModalAction.emit(mission)" class="btn btn-warning me-2" type="button">
               <i class="fas fa-pen"></i>

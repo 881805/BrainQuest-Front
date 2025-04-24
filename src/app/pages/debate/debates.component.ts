@@ -4,7 +4,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 import { ModalComponent } from '../../components/modal/modal.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ModalService } from '../../services/modal.service';
-import { IConversation, IGame, IMessage, IUser } from '../../interfaces';
+import { IConversation, IGame, IHistory, IMessage, IUser } from '../../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { DebateChatComponent } from '../../components/chat/chat.component';
@@ -15,6 +15,7 @@ import { DebatesService } from '../../services/debate.service';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { DailyMissionService } from '../../services/daily-missions.service';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-debates',           
@@ -37,6 +38,7 @@ export class DebatesComponent implements OnDestroy {
   public messageService: MessageService = inject(MessageService);
   public debatesService: DebatesService = inject(DebatesService);
   public alertService: AlertService = inject(AlertService);
+  public historyService: HistoryService = inject(HistoryService);
 
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
 
@@ -63,7 +65,11 @@ export class DebatesComponent implements OnDestroy {
 
     this.gamesService.getAllByUser(); 
     this.missionsXUsersService.getAllByUser();
-
+    const showComponent = localStorage.getItem('showComponent');
+    if (showComponent === 'true') {
+      this.isComponentVisible = true;
+      localStorage.removeItem('showComponent'); // Optional: remove after reading
+    }
     effect(() => {
       const currentGames = this.games();
       this.currentGame= currentGames[0];
@@ -91,11 +97,14 @@ export class DebatesComponent implements OnDestroy {
     };
 
     const response = await firstValueFrom(this.gamesService.add(gameToSave));
-    if (response?.data) {
-      this.gamesService.game$.set([
-        ...this.gamesService.game$(), 
-        response.data 
-      ]);
+    if (response) {
+      const history: IHistory = {
+        lastPlayed: new Date(),
+        user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+        game: { id: response.id }
+      };
+      
+      await this.historyService.save(history);
     }
   }
 
@@ -104,8 +113,16 @@ export class DebatesComponent implements OnDestroy {
     if (response) {
       this.currentGame = response as unknown as IGame;
       this.messages.set(this.currentGame.conversation!.messages!);
+      await this.updateHistory();
+      await this.checkMissions();
+    }
+    this.updateHistory();
+    
 
-      let missions = this.missions();
+  }
+
+  async checkMissions(){
+    let missions = this.missions();
        for (let mission of missions) {
       if (
         mission.mission?.objective?.scoreCondition !== undefined &&
@@ -121,8 +138,6 @@ export class DebatesComponent implements OnDestroy {
         this.missionsXUsersService.update(mission);
       }
     }
-    }
-
   }
 
   async saveMessage(message: IMessage) {
@@ -147,9 +162,35 @@ export class DebatesComponent implements OnDestroy {
         console.log('Message from server:', response);
       }
       this.gamesService.getAllByUser();
+      await this.updateHistory();
+      
     } catch (err) {
       console.error('Error saving message:', err);
       this.alertService.displayAlert('error', 'An error occurred while sending the message', 'center', 'top', ['error-snackbar']);
+    }
+  }
+
+  async updateHistory(){
+    try {
+      const response = await firstValueFrom(
+        this.historyService.getByGame('DEBATE', this.authService.getUser()?.id || 1)
+      );
+  
+      if (response && Array.isArray(response.data) && response.data.length > 0) {
+        response.data[0].lastPlayed = new Date();
+        response.data[0].game = {id: response.data[0].game.id};
+        response.data[0].user = {id: response.data[0].user.id};
+        this.historyService.update(response.data[0]);
+      }
+    } catch (err) {
+      this.alertService.displayAlert(
+        'error',
+        'Error cargando historial',
+        'center',
+        'top',
+        ['error-snackbar']
+      );
+      console.error('Error getting history', err);
     }
   }
 
@@ -208,6 +249,9 @@ export class DebatesComponent implements OnDestroy {
     try {
       if (this.gamesService.game$().length < 1) {
         await this.saveNewGame();
+  
+        localStorage.setItem('showComponent', 'true');
+
         window.location.reload();
       } else {
         this.isComponentVisible = true;

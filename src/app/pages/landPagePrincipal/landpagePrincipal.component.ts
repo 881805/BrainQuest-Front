@@ -136,6 +136,13 @@ export class  LandPagePrincipalComponent implements OnInit{
       buttonColor: "#F2622E",
       iconBgColor: "#94F2F2"
   },
+  {
+          icon: { name: "help-circle" },
+          title: 'Historial',
+          description: 'Revisa en cuales actividades has participado.',
+          buttonColor: "#F2622E",
+          iconBgColor: "#94F2F2"
+      }
 
   ];
 
@@ -169,6 +176,11 @@ export class  LandPagePrincipalComponent implements OnInit{
           this.router.navigate(['/app/learning-scenario']);
           break;
         // etc.
+
+        case 'Historial':
+          this.router.navigate(['/app/history']);
+          break;
+
         default:
           console.warn('Ruta no definida para esta actividad');
       }

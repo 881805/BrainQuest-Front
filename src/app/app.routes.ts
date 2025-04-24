@@ -26,6 +26,7 @@ import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.co
 import { EntrevistadorComponent } from './pages/interview/interviews.component';
 import { AiConfigComponent } from './pages/ai-configuration/ai-configuration.component';
 import { LearningScenarioComponent } from './pages/learningScenario/learning-scenario.component';
+import { HistoryComponent } from './pages/history/history.component';
 
 export const routes: Routes = [
   {
@@ -89,6 +90,15 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin],
           name: 'Misiones',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'history',
+        component: HistoryComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, , IRoleType.user],
+          name: 'Historial',
           showInSidebar: true,
         },
       },

@@ -1,0 +1,43 @@
+<div class="table-container table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Fecha de juego Inicial</th>
+          <th scope="col">Última partida</th>
+          <th scope="col">Tipo de juego</th>
+          <th scope="col">Estado</th>
+          <th scope="col">Puntos Jugador 1</th>
+          <th scope="col">Puntos Jugador 2</th>
+          <th scope="col">Ganador</th>
+          <th scope="col">Turnos</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        @for (history of historyList; track history.id)
+ {
+          <tr>
+            <th scope="row">{{ history.id }}</th>
+            <td>{{ history.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ history.lastPlayed | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td>{{ history.game?.gameType?.gameType || '—' }}</td>
+            <td>{{ history.game?.isOngoing ? 'En curso' : 'Finalizado' }}</td>
+            <td>{{ history.game?.pointsEarnedPlayer1 ?? '—' }}</td>
+            <td>{{ history.game?.pointsEarnedPlayer2 ?? '—' }}</td>
+            <td>{{ history.game?.winner?.name || '—' }}</td>
+            <td>{{ history.game?.elapsedTurns }}/{{ history.game?.maxTurns }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="10">
+              <div class="d-flex justify-content-center align-items-center w-100">
+                <p class="mb-0">No hay historial disponible</p>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  

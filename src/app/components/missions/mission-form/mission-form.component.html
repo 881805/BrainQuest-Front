@@ -32,7 +32,7 @@
   </div>
 
   <div class="mb-2">
-    <label class="mb-1" for="gameType">Game Type*</label>
+    <label class="mb-1" for="gameType">Tipo de Juego*</label>
     <select id="gameType" formControlName="gameType" class="form-select">
       <option value="" disabled selected>Selecciona el tipo de juego</option>
       <option *ngFor="let gameType of gameTypeData" [value]="gameType.id">{{ gameType.description }} ({{ gameType.game_type }})</option>
