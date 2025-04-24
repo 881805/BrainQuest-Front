@@ -16,7 +16,7 @@ import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
     NbCardModule, 
     NbChatModule 
   ],
-  providers: []
+  providers: [NbStatusService]
 })
 export class InterviewChatComponent {
   public fb: FormBuilder = inject(FormBuilder);

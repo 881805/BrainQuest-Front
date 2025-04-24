@@ -8,7 +8,7 @@ import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
-import { ArrowRight, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
+import { Apple, ArrowRight, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,7 +32,8 @@ export const appConfig: ApplicationConfig = {
         BookOpen,
         HelpCircle,
         Users,
-        ArrowRight})
+        ArrowRight,
+      Apple})
     )
   ]
 };

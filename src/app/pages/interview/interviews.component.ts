@@ -63,6 +63,11 @@ export class EntrevistadorComponent implements OnDestroy {
 
     this.gamesService.getAllByUser();
     this.missionsXUsersService.getAllByUser();
+    const showComponent = localStorage.getItem('showComponent');
+    if (showComponent === 'true') {
+      this.isComponentVisible = true;
+      localStorage.removeItem('showComponent'); // Optional: remove after reading
+    }
 
     effect(() => {
       const currentGames = this.games();
@@ -204,16 +209,19 @@ export class EntrevistadorComponent implements OnDestroy {
     }
   }
 
-  async playGame() { 
+  async playGame() {
     try {
       if (this.gamesService.game$().length < 1) {
-        await this.playGame(); 
+        await this.saveNewGame();
+  
+        localStorage.setItem('showComponent', 'true');
+
         window.location.reload();
       } else {
         this.isComponentVisible = true;
       }
     } catch (e) {
-      console.error("Error in startInterview:", e);
+      console.error("Error in playGame:", e);
     }
   }
 

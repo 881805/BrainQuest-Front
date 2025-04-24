@@ -13,7 +13,7 @@ export class InterviewService extends BaseService<IGame> {
   private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
 
-  protected override source: string = 'interview';
+  protected override source: string = 'interviews';
 
   public search: ISearch = {
     page: 1,

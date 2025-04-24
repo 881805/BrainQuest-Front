@@ -2,6 +2,7 @@
     <nb-card-header>Entrevista - BrainQuest</nb-card-header>
     <nb-card-body>
       <nb-chat title="Entrevista">
+        <nb-chat-message *ngIf="messages().length === 0" message="No hay mensajes todavía. ¡Empieza la entrevista presentandote y escribiendo el rol al que desea aplicar!" sender="Sistema"></nb-chat-message>
         <nb-chat-message 
           *ngFor="let msg of messages()"
           [message]="msg.contentText"

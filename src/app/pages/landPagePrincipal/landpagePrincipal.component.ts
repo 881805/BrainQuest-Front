@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivityCard, Challenge, ILoginResponse } from "../../interfaces";
 import { CommonModule } from "@angular/common";
-import { BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from "lucide-angular";
+import { BookOpen, Headphones, HelpCircle, Keyboard, Apple, LucideAngularModule, MessageSquare, Users, Home, AlarmClock, FolderOpen } from "lucide-angular";
 import { MyAccountComponent } from "../../components/my-account/my-account.component";
 import { TopbarComponent } from "../../components/app-layout/elements/topbar/topbar.component";
 import { AppLayoutComponent } from "../../components/app-layout/app-layout.component";
@@ -11,10 +11,12 @@ import { AuthService } from "../../services/auth.service";
 import { HttpClient } from '@angular/common/http';
 import { DailyMissionService } from "../../services/daily-missions.service";
 
+
 @Component({
     selector: 'app-landpage-principal',
     standalone: true,
-    imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule, ],
+    imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule,   ]
+    ,
     templateUrl: './landpagePrincipal.component.html',
     styleUrls: ['./landpagePrincipal.component.scss']
 
@@ -88,7 +90,7 @@ export class  LandPagePrincipalComponent implements OnInit{
           iconBgColor: "#94F2F2"
       },
       {
-        icon:  { name: "MessageSquare" },
+        icon:  { name: "Apple" },
         title: 'Interview',
         description: 'Aquí podrás practicar entrevistas simuladas con IA y mejorar tus respuestas.',
         buttonColor: "#80A2A6",
@@ -105,7 +107,7 @@ export class  LandPagePrincipalComponent implements OnInit{
           icon: { name: "keyboard" },
           title: 'Typing',
           description: 'Mejora tu velocidad y precision de escritura.',
-          buttonColor: "#80A2A6",
+          buttonColor: "#F2622E",
           iconBgColor: "#94F2F2"
       },
       {
@@ -124,16 +126,16 @@ export class  LandPagePrincipalComponent implements OnInit{
       },
       {
         icon: { name: "help-circle" },
-        title: 'IA',
-        description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
+        title: 'Configuración de IA',
+        description: 'Personaliza el comportamiento de la inteligencia artificial a tu manera.',
         buttonColor: "#F2622E",
         iconBgColor: "#94F2F2"
     },
     {
       icon: { name: "help-circle" },
       title: 'Aprendizaje Progresivo',
-      description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
-      buttonColor: "#F2622E",
+      description: 'Domina conceptos con desafíos que evolucionan contigo.',
+      buttonColor: "#80A2A6",
       iconBgColor: "#94F2F2"
   },
   {
@@ -169,7 +171,7 @@ export class  LandPagePrincipalComponent implements OnInit{
         case 'Misiones Disponibles':
             this.router.navigate(['/app/dailymissions']);
             break;
-        case 'IA':
+        case 'Configuración de IA':
           this.router.navigate(['/app/ai-configuration']);
           break;
         case 'Aprendizaje Progresivo':

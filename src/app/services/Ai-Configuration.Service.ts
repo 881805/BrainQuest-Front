@@ -40,11 +40,11 @@ export class AiConfigurationService extends BaseService<IAiConfiguration> {
   save(config: IAiConfiguration) {
     this.add(config).subscribe({
       next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+        this.alertService.displayAlert('success', 'Configuracion guardada con éxito', 'center', 'top', ['success-snackbar']);
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred adding the AI configuration', 'center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'Ha ocurrido un error salvando la configuración', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });
@@ -53,11 +53,11 @@ export class AiConfigurationService extends BaseService<IAiConfiguration> {
   update(config: IAiConfiguration) {
     this.editCustomSource(`${config.id}`, config).subscribe({
       next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+        this.alertService.displayAlert('success',  'Configuracion actualizada con éxito', 'center', 'top', ['success-snackbar']);
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred updating the AI configuration', 'center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'Ha ocurrido un error actualizando la configuración', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });
@@ -66,11 +66,11 @@ export class AiConfigurationService extends BaseService<IAiConfiguration> {
   delete(config: IAiConfiguration) {
     this.delCustomSource(`${config.id}`).subscribe({
       next: (response: any) => {
-        this.alertService.displayAlert('success', 'deleted', 'center', 'top', ['success-snackbar']);
+        this.alertService.displayAlert('success',  'Configuracion borrada con éxito', 'center', 'top', ['success-snackbar']);
         this.getAll();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred deleting the AI configuration', 'center', 'top', ['error-snackbar']);
+        this.alertService.displayAlert('error', 'Ha ocurrido un error borrando la configuración', 'center', 'top', ['error-snackbar']);
         console.error('error', err);
       }
     });

@@ -5,7 +5,7 @@
           <h1 class="interview-title">Entrevista</h1>
         </div>
   
-        <button id="gameStart" 
+        <button *ngIf="!isComponentVisible" id="gameStart" 
                 class="start-interview-btn"
                 (click)="playGame()"
                 aria-label="Empezar una nueva entrevista">
