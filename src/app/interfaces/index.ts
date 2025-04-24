@@ -54,6 +54,7 @@ export interface IObjective{
 export interface IUser {
   id?: number;
   name?: string;
+  experience?: number;
   lastname?: string;
   email?: string;
   password?: string;

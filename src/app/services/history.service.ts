@@ -17,7 +17,7 @@ export class HistoryService extends BaseService<IHistory> {
 
   public search: ISearch = {
     page: 1,
-    size: 5,
+    size: 15,
   };
   public totalItems: any = [];
 
@@ -47,14 +47,14 @@ export class HistoryService extends BaseService<IHistory> {
     return new Promise((resolve, reject) => {
       this.add(history).subscribe({
         next: (response: any) => {
-          this.alertService.displayAlert('Exito', response.message, 'center', 'top', ['success-snackbar']);
+          this.alertService.displayAlert('Success', 'Historial actualizado con éxito', 'center', 'top', ['success-snackbar']);
           this.getAll();
-          resolve(); // 👈 resolve when done
+          resolve(); 
         },
         error: (err: any) => {
           this.alertService.displayAlert('error', 'Un error ocurrió agregando un registro al historial', 'center', 'top', ['error-snackbar']);
           console.error('Error adding history', err);
-          reject(err); // 👈 reject on error
+          reject(err); 
         }
       });
     });

@@ -2,7 +2,7 @@
   <nb-card-header>Debates - BrainQuest</nb-card-header>
   <nb-card-body>
     <nb-chat title="Debates ">
-      <nb-chat-message *ngIf="messages().length === 0" message="No hay mensajes todavía. ¡Empieza el debate!" sender="Gemini"></nb-chat-message>
+      <nb-chat-message *ngIf="messages().length === 0" message="No hay mensajes todavía. ¡Empieza el debate!" sender="Sistema"></nb-chat-message>
       <nb-chat-message 
         *ngFor="let msg of messages()"
         [message]="msg.contentText"

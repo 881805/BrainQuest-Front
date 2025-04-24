@@ -1,6 +1,4 @@
-<div class="page-header" 
-
->
+<div class="page-header">
   <div class="header-wrapper row m-0">
     <div class="header-logo-wrapper col-auto p-0">
       <div class="logo-wrapper">
@@ -10,13 +8,19 @@
       </div>
     </div>
 
-    <div
-      class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto"
-    >
-      <ul class="nav-menus mb-0">
+    <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
+      <ul class="nav-menus mb-0 d-flex align-items-center">
+        
+
+        <li class="pe-3">
+          <span class="text-nowrap">Experiencia: {{ user?.experience ?? 0 }}</span>
+        </li>
+
+
         <li class="profile-nav onhover-dropdown pe-0 py-0">
           <app-my-account></app-my-account>
         </li>
+
       </ul>
     </div>
   </div>

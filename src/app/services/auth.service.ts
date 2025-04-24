@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
-import { Observable, firstValueFrom, of, tap } from 'rxjs';
+import { Observable, firstValueFrom, map, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthConfig } from 'angular-oauth2-oidc';
 
@@ -70,6 +70,11 @@ export class AuthService {
     this.user = response.authUser;
     this.save(); 
   }
+
+  getUserFromServer(): Observable<IUser> {
+    return this.http.get<IUser>(`users/me`);
+  }
+  
   
 
   public login(credentials: {

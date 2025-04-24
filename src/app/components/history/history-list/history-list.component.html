@@ -3,7 +3,7 @@
       <thead>
         <tr>
           <th scope="col">ID</th>
-          <th scope="col">Fecha de creación</th>
+          <th scope="col">Fecha de juego Inicial</th>
           <th scope="col">Última partida</th>
           <th scope="col">Tipo de juego</th>
           <th scope="col">Estado</th>
@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (history of reversedHistoryList; track history.id)
+        @for (history of historyList; track history.id)
  {
           <tr>
             <th scope="row">{{ history.id }}</th>

@@ -1,6 +1,6 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { TypingService } from '../../services/typing.service';
-import { ITypingExercise } from '../../interfaces';
+import { IGame, IHistory, ITypingExercise } from '../../interfaces';
 import { CommonModule } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
@@ -9,6 +9,10 @@ import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DailyMissionService } from '../../services/daily-missions.service';
+import { GamesService } from '../../services/game.service';
+import { AuthService } from '../../services/auth.service';
+import { HistoryService } from '../../services/history.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-typing-page',
@@ -28,7 +32,9 @@ export class TypingComponent {
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
   @ViewChild('addTypingModal') public addTypingModal: any;
-
+  public gamesService: GamesService = inject(GamesService);
+  public authService: AuthService = inject(AuthService);
+  public historyService: HistoryService = inject(HistoryService);
 
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
   public missions = this.missionsXUsersService.dailyMissions$;
@@ -87,6 +93,32 @@ export class TypingComponent {
       this.startTimer();
     }
   }
+
+
+  
+     private async saveNewGame() {
+        let gameToSave: IGame = {
+          winner: { id: this.authService.getUser()?.id },
+          gameType: { id: 1 },
+          isOngoing: false, //falso ya que estamos creando la entidad game al final
+          pointsEarnedPlayer1: this.score,
+          pointsEarnedPlayer2: 0,
+          elapsedTurns: 0,
+          maxTurns: 0,
+          expirationTime: null
+        };
+    
+        const response = await firstValueFrom(this.gamesService.add(gameToSave));
+        if (response) {
+          const history: IHistory = {
+            lastPlayed: new Date(),
+            user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+            game: { id: response.id }
+          };
+          
+          await this.historyService.save(history);
+        }
+      }
 
   setTimerByDifficulty(): void {
     switch (this.difficulty) {
@@ -150,6 +182,7 @@ export class TypingComponent {
       this.gameOver = true;
       this.gameStarted = false;
       this.checkMissions();
+      this.saveNewGame();
     }
   }
 
