@@ -13,6 +13,7 @@ import { DailyMissionService } from '../../services/daily-missions.service';
 import { AuthService } from '../../services/auth.service';
 import { GamesService } from '../../services/game.service';
 import { HistoryService } from '../../services/history.service';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-trivia-page',
@@ -35,6 +36,8 @@ export class TriviaComponent {
   public gamesService: GamesService = inject(GamesService);
   public authService: AuthService = inject(AuthService);
   public historyService: HistoryService = inject(HistoryService);
+  private confetti = inject(ConfettiService);
+
   public feedbackList: any[] = [];
   public userAnswers: { questionId: number, userAnswer: string }[] = [];
 
@@ -113,6 +116,8 @@ export class TriviaComponent {
         };
         
         await this.historyService.save(history);
+        this.authService.getUserFromServer();
+    
       }
     }
   generateNewQuestion(): void {
@@ -185,6 +190,7 @@ export class TriviaComponent {
       this.enviarFeedback();
       this.checkMissions();
       this.saveNewGame();
+      this.confetti.celebrate();
     }
   }
 

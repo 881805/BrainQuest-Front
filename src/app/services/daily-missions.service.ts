@@ -68,7 +68,7 @@ export class DailyMissionService extends BaseService<IGame> {
     update(missionXUsers: IMissionXUser) {
     this.editCustomSource(`${missionXUsers.id}`, missionXUsers).subscribe({
       next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
+        this.alertService.displayAlert('success', 'Mision actualizada con éxito.', 'center', 'top', ['success-snackbar']);
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'Progreso de mision no se pudo actualizar','center', 'top', ['error-snackbar']);

@@ -16,6 +16,7 @@ import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { DailyMissionService } from '../../services/daily-missions.service';
 import { HistoryService } from '../../services/history.service';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-debates',           
@@ -40,7 +41,7 @@ export class DebatesComponent implements OnDestroy {
   public historyService: HistoryService = inject(HistoryService);
 
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
-
+  private confetti = inject(ConfettiService);
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private initialReconnectDelay = 1000;
@@ -118,7 +119,8 @@ export class DebatesComponent implements OnDestroy {
       await this.checkMissions();
     }
     this.updateHistory();
-    
+    this.authService.getUserFromServer();
+    this.confetti.celebrate();
 
   }
 
@@ -137,6 +139,7 @@ export class DebatesComponent implements OnDestroy {
         mission.progress = (mission.progress ?? 0) + 1;
         console.log(mission);
         this.missionsXUsersService.update(mission);
+        this.authService.getUserFromServer();
       }
     }
   }
@@ -167,7 +170,7 @@ export class DebatesComponent implements OnDestroy {
       
     } catch (err) {
       console.error('Error saving message:', err);
-      this.alertService.displayAlert('error', 'An error occurred while sending the message', 'center', 'top', ['error-snackbar']);
+      this.alertService.displayAlert('error', 'Un error ocurrió al enviar el mensaje', 'center', 'top', ['error-snackbar']);
     }
   }
 
@@ -242,7 +245,7 @@ export class DebatesComponent implements OnDestroy {
       this.gamesService.getAllByUser();
     } catch (err) {
       console.error('Error getting reply:', err);
-      this.alertService.displayAlert('error', 'An error occurred while getting the AI Reply', 'center', 'top', ['error-snackbar']);
+      this.alertService.displayAlert('error', 'Un error ocurrió al obtener la respuesta del IA', 'center', 'top', ['error-snackbar']);
       this.gamesService.getAllByUser();
     }
   }

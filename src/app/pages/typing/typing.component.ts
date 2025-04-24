@@ -13,6 +13,7 @@ import { GamesService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
 import { HistoryService } from '../../services/history.service';
 import { firstValueFrom } from 'rxjs';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-typing-page',
@@ -35,6 +36,7 @@ export class TypingComponent {
   public gamesService: GamesService = inject(GamesService);
   public authService: AuthService = inject(AuthService);
   public historyService: HistoryService = inject(HistoryService);
+  private confetti = inject(ConfettiService);
 
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
   public missions = this.missionsXUsersService.dailyMissions$;
@@ -62,6 +64,7 @@ export class TypingComponent {
   constructor() {
     this.loadTypingExercises();
     this.missionsXUsersService.getAllByUser();
+
   }
 
   ngOnInit(): void {}
@@ -117,6 +120,8 @@ export class TypingComponent {
           };
           
           await this.historyService.save(history);
+          this.authService.getUserFromServer();
+    
         }
       }
 
@@ -183,6 +188,7 @@ export class TypingComponent {
       this.gameStarted = false;
       this.checkMissions();
       this.saveNewGame();
+      this.confetti.celebrate();
     }
   }
 

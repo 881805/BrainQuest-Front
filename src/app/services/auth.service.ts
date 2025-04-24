@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
 import { Observable, firstValueFrom, map, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -28,6 +28,11 @@ export class AuthService {
     this.load();
   }
 
+  private userSignal = signal<IUser | null>(null);
+
+  get user$() {
+    return this.userSignal;
+  }
   public save(): void {
     if (this.user) localStorage.setItem('auth_user', JSON.stringify(this.user));
 
@@ -71,8 +76,15 @@ export class AuthService {
     this.save(); 
   }
 
-  getUserFromServer(): Observable<IUser> {
-    return this.http.get<IUser>(`users/me`);
+  public getUserFromServer() {
+    this.http.get<IUser>('users/me').subscribe({
+      next: (user) => {
+        this.userSignal.set(user);
+      },
+      error: (err) => {
+        console.error('Failed to fetch user:', err);
+      }
+    });
   }
   
   
