@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ActivityCard, Challenge, ILoginResponse } from "../../interfaces";
+import { ActivityCard, Challenge, ILoginResponse, IUser } from "../../interfaces";
 import { CommonModule } from "@angular/common";
 import { BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from "lucide-angular";
 import { MyAccountComponent } from "../../components/my-account/my-account.component";
@@ -23,11 +23,14 @@ import { DailyMissionService } from "../../services/daily-missions.service";
 
 export class  LandPagePrincipalComponent implements OnInit{
 public loginError: string = '';
-private authService = inject(AuthService);
+public authService = inject(AuthService);
 private dailyMissionService = inject(DailyMissionService);
 private http = inject(HttpClient);
- ngOnInit(): void {
+public user?: IUser;
 
+ ngOnInit(): void {
+  
+  this.authService.getUserFromServer();
   const hasAccessToMissions = this.authService.hasRoles('ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
 
   this.activities = this.activities.filter(activity => {

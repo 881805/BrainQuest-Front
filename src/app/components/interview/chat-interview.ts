@@ -75,7 +75,8 @@ export class InterviewChatComponent {
   }
 
   isDebateOver(): boolean {
-    return this.messages().length >= 6;
+    let isOver = this.messages().length >= 4;
+    return isOver;
   }
 
   clearMessages() {
