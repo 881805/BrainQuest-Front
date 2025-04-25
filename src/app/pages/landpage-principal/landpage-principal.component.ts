@@ -15,8 +15,8 @@ import { DailyMissionService } from "../../services/daily-missions.service";
     selector: 'app-landpage-principal',
     standalone: true,
     imports: [CommonModule, LucideAngularModule, MyAccountComponent, TopbarComponent, AppLayoutComponent, RouterModule, ],
-    templateUrl: './landpagePrincipal.component.html',
-    styleUrls: ['./landpagePrincipal.component.scss']
+    templateUrl: './landpage-principal.component.html',
+    styleUrls: ['./landpage-principal.component.scss']
 
 })
 
