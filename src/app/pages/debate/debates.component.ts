@@ -101,7 +101,7 @@ export class DebatesComponent implements OnDestroy {
     if (response) {
       const history: IHistory = {
         lastPlayed: new Date(),
-        user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+        user: { id: this.authService.getUser()?.id! },  
         game: { id: response.id }
       };
       
