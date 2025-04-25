@@ -27,6 +27,9 @@ import { MissionsComponent } from './pages/mission/missions.component';
 import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
 import { HistoryComponent } from './pages/history/history.component';
+import { EntrevistadorComponent } from './pages/interview/interviews.component';
+import { AiConfigComponent } from './pages/ai-configuration/ai-configuration.component';
+import { LearningScenarioComponent } from './pages/learningScenario/learning-scenario.component';
 
 export const routes: Routes = [
   {
@@ -159,11 +162,38 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'ai-configuration',
+        component: AiConfigComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'ai-configuration',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'learning-scenario',
+        component: LearningScenarioComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'learning-scenario',
+          showInSidebar: true,
+        },
+      },
+      {
         path: 'estadisticas',
         component: EstadisticasComponent,
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Estadísticas',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'interview',
+        component: EntrevistadorComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Interview',
           showInSidebar: true,
         },
       },

@@ -16,6 +16,7 @@ import { InterviewChatComponent } from '../../components/interview/chat-intervie
 import { AuthService } from '../../services/auth.service';
 import { InterviewService } from '../../services/interview.Service';
 import { HistoryService } from '../../services/history.service';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-interview',
@@ -39,7 +40,7 @@ export class EntrevistadorComponent implements OnDestroy {
   public interviewService: InterviewService = inject(InterviewService);
   public alertService: AlertService = inject(AlertService);
   public historyService: HistoryService = inject(HistoryService);
-
+  private confetti = inject(ConfettiService);
   public missionsXUsersService: DailyMissionService = inject(DailyMissionService);
 
   private reconnectAttempts = 0;
@@ -116,6 +117,7 @@ export class EntrevistadorComponent implements OnDestroy {
       this.messages.set(this.currentGame.conversation!.messages!);
       await this.updateHistory();
       await this.checkMissions();
+      this.confetti.celebrate();
     }
     this.updateHistory();
     

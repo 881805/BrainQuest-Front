@@ -63,7 +63,6 @@ export class TriviaComponent {
   public missions = this.missionsXUsersService.dailyMissions$;
 
   constructor() {
-    this.loadTriviaQuestions();
     this.missionsXUsersService.getAllByUser();
   }
 
