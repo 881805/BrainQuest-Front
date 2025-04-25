@@ -195,6 +195,7 @@ export class TriviaComponent implements OnDestroy{
       this.checkMissions();
       this.saveNewGame();
       this.confetti.celebrate();
+      this.authService.getUserFromServer();
     }
   }
 

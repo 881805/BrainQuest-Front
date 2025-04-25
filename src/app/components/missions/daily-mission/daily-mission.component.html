@@ -5,6 +5,8 @@
       <div class="tile-content">
         <p><strong>Misión:</strong> {{ item.mission?.objective?.objectiveText }}</p>
         <p><strong>Progreso:</strong> {{ item.progress }}/{{ item.mission?.objective?.ammountSuccesses }}</p>
+        <p><strong>Experiencia:</strong> {{ item.mission?.experience }}</p>
+        <p><strong>Puntaje Requerido:</strong> {{ item.mission?.objective?.scoreCondition}}</p>
         <p><strong>Completado:</strong> {{ item.isCompleted ? 'Sí' : 'No' }}</p>
       </div>
       <mat-grid-tile-footer class="tile-footer"></mat-grid-tile-footer> 

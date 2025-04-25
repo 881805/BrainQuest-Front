@@ -118,8 +118,10 @@ export class EntrevistadorComponent implements OnDestroy {
       await this.updateHistory();
       await this.checkMissions();
       this.confetti.celebrate();
+      this.authService.getUserFromServer();
     }
     this.updateHistory();
+
     
 
   }
