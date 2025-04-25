@@ -1,0 +1,20 @@
+<form [formGroup]="aiConfigurationForm" class="row">
+  <div>
+    <h2 class="mb-0">Agregar Configuración IA</h2>
+  </div>
+
+  <div class="mb-2">
+    <label class="mb-1" for="configuracion">Configuración*</label>
+    <textarea id="configuracion" formControlName="configuracion" class="form-control" rows="5"></textarea>
+    @if (aiConfigurationForm.controls['configuracion'].invalid && 
+        (aiConfigurationForm.controls['configuracion'].dirty || aiConfigurationForm.controls['configuracion'].touched)) {
+      <p class="text-danger my-1">Configuración es requerida</p>
+    }
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button (click)="callSave()" [disabled]="aiConfigurationForm.invalid" class="btn btn-primary" type="button">
+      Save
+    </button>
+  </div>
+</form>

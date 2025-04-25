@@ -50,6 +50,8 @@ export class TriviaComponent {
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
   public intervalTimer: any;
+  public currentQuestion: ITriviaQuestion | null = null;
+
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
   
   public triviaForm = this.fb.group({
@@ -99,7 +101,7 @@ export class TriviaComponent {
       let gameToSave: IGame = {
         winner: { id: this.authService.getUser()?.id },
         gameType: { id: 1 },
-        isOngoing: false, //falso ya que estamos creando la entidad game al final
+        isOngoing: false, 
         pointsEarnedPlayer1: this.calculateScore(),
         pointsEarnedPlayer2: 0,
         elapsedTurns: 0,
@@ -111,7 +113,7 @@ export class TriviaComponent {
       if (response) {
         const history: IHistory = {
           lastPlayed: new Date(),
-          user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+          user: { id: this.authService.getUser()?.id! },  
           game: { id: response.id }
         };
         

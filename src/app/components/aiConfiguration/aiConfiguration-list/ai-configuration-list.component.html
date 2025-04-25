@@ -1,0 +1,31 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Configuración</th>
+      <th scope="col">Creado</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of aiConfigurations; track $index) {
+      <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.configuracion}}</td>
+        <td>{{item.createdAt | date: 'short'}}</td>
+        <td>
+          <button *ngIf="AuthService.isSuperAdmin()" (click)="callModalAction.emit(item);" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
+          <button *ngIf="AuthService.isSuperAdmin()" (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+      
+      <tr *ngIf="!aiConfigurations.length">
+        <td colspan="4">
+          <div class="d-flex justify-content-center align-items-center w-100">
+            <p class="mb-0">There are no AI configurations</p>
+          </div>
+        </td>
+      </tr>
+    } 
+  </tbody>
+</table>

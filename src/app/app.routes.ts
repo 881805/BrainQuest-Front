@@ -8,8 +8,6 @@ import { AdminRoleGuard } from './guards/admin-role.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { TeamComponent } from './pages/landPageTeam/team.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { DebatesComponent } from './pages/debate/debates.component';
 import { LandPageComponent } from './pages/landPage/landpage.component';
 import { LandPagePrincipalComponent } from './pages/landPagePrincipal/landpagePrincipal.component';
@@ -24,8 +22,10 @@ import { AboutComponent } from './pages/members/about/about.component';
 import { ContactComponent } from './pages/members/contact/contact.component';
 import { ProductosComponent } from './pages/members/productos/productos.component';
 import { MissionsComponent } from './pages/mission/missions.component';
-import { DailyMissionComponent } from './components/missions/daily-mission/daily-mission.component';
 import { DailyMissionsComponent } from './pages/daily-missions/daily-missions.component';
+import { EntrevistadorComponent } from './pages/interview/interviews.component';
+import { AiConfigComponent } from './pages/ai-configuration/ai-configuration.component';
+import { LearningScenarioComponent } from './pages/learningScenario/learning-scenario.component';
 import { HistoryComponent } from './pages/history/history.component';
 
 export const routes: Routes = [
@@ -139,6 +139,15 @@ export const routes: Routes = [
           showInSidebar: true,
         },
       },
+      {
+        path: 'interview',
+        component: EntrevistadorComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Interview',
+          showInSidebar: true,
+        },
+      },
 
       {
         path: 'typing',
@@ -173,6 +182,24 @@ export const routes: Routes = [
         data: {
           authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
           name: 'Logros',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'ai-configuration',
+        component: AiConfigComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'ai-configuration',
+          showInSidebar: true,
+        },
+      },
+      {
+        path: 'learning-scenario',
+        component: LearningScenarioComponent,
+        data: {
+          authorities: [IRoleType.admin, IRoleType.superAdmin, IRoleType.user],
+          name: 'Trivia',
           showInSidebar: true,
         },
       },
