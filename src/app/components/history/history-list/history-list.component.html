@@ -7,8 +7,7 @@
           <th scope="col">Última partida</th>
           <th scope="col">Tipo de juego</th>
           <th scope="col">Estado</th>
-          <th scope="col">Puntos Jugador 1</th>
-          <th scope="col">Puntos Jugador 2</th>
+          <th scope="col">Puntos</th>
           <th scope="col">Ganador</th>
           <th scope="col">Turnos</th>
 
@@ -24,7 +23,7 @@
             <td>{{ history.game?.gameType?.gameType || '—' }}</td>
             <td>{{ history.game?.isOngoing ? 'En curso' : 'Finalizado' }}</td>
             <td>{{ history.game?.pointsEarnedPlayer1 ?? '—' }}</td>
-            <td>{{ history.game?.pointsEarnedPlayer2 ?? '—' }}</td>
+      
             <td>{{ history.game?.winner?.name || '—' }}</td>
             <td>{{ history.game?.elapsedTurns }}/{{ history.game?.maxTurns }}</td>
           </tr>

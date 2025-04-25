@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { TriviaService } from '../../services/trivia.service';
 import { IGame, IHistory, ITriviaQuestion } from '../../interfaces';
 import { CommonModule } from '@angular/common';
@@ -28,7 +28,7 @@ import { ConfettiService } from '../../services/confetti.service';
     ReactiveFormsModule
   ]
 })
-export class TriviaComponent {
+export class TriviaComponent implements OnDestroy{
   public triviaService: TriviaService = inject(TriviaService);
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
@@ -65,6 +65,9 @@ export class TriviaComponent {
   constructor() {
     this.missionsXUsersService.getAllByUser();
   }
+  ngOnDestroy(): void {
+    this.stopTimer();
+  }
 
   ngOnInit(): void {}
 
@@ -94,7 +97,7 @@ export class TriviaComponent {
       this.startTimer();
     }
   }
-
+  
 
    private async saveNewGame() {
       let gameToSave: IGame = {

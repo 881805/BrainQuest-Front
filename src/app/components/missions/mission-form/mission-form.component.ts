@@ -69,10 +69,10 @@ export class MissionFormComponent {
 
     if (missionObject.id) {
       this.callUpdateMethod.emit(missionObject);
-      this.formSubmitted = false; // Reset the flag after successful update emission
+      this.formSubmitted = false;
     } else {
       this.callSaveMethod.emit(missionObject);
-      this.formSubmitted = false; // Reset the flag after successful save emission
+      this.formSubmitted = false; 
     }
   }
 }

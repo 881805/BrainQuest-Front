@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { TypingService } from '../../services/typing.service';
 import { IGame, IHistory, ITypingExercise } from '../../interfaces';
 import { CommonModule } from '@angular/common';
@@ -29,7 +29,7 @@ import { ConfettiService } from '../../services/confetti.service';
     FormsModule
   ]
 })
-export class TypingComponent {
+export class TypingComponent implements OnDestroy{
   public typingService: TypingService = inject(TypingService);
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
@@ -51,7 +51,7 @@ export class TypingComponent {
   public difficulty: string = '';
   public exercises: ITypingExercise[] = [];
   public currentExerciseIndex: number = 0;
-  public timer: number = 160; // Este valor será ajustado dinámicamente
+  public timer: number = 160; 
   public intervalTimer: any;
 
   public textArray: string[] = [];
@@ -70,6 +70,9 @@ export class TypingComponent {
     this.loadTypingExercises();
     this.missionsXUsersService.getAllByUser();
 
+  }
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   ngOnInit(): void { }
@@ -95,7 +98,7 @@ export class TypingComponent {
       this.category = this.typingForm.controls['category'].value || '';
       this.difficulty = this.typingForm.controls['difficulty'].value || '';
 
-      this.setTimerByDifficulty(); // Establecer el tiempo según la dificultad
+      this.setTimerByDifficulty(); 
 
       this.generateNewExercise();
       this.startTimer();
@@ -108,7 +111,7 @@ export class TypingComponent {
         let gameToSave: IGame = {
           winner: { id: this.authService.getUser()?.id },
           gameType: { id: 1 },
-          isOngoing: false, //falso ya que estamos creando la entidad game al final
+          isOngoing: false,
           pointsEarnedPlayer1: this.score,
           pointsEarnedPlayer2: 0,
           elapsedTurns: 0,
@@ -120,7 +123,7 @@ export class TypingComponent {
         if (response) {
           const history: IHistory = {
             lastPlayed: new Date(),
-            user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+            user: { id: this.authService.getUser()?.id! }, 
             game: { id: response.id }
           };
           
@@ -133,14 +136,14 @@ export class TypingComponent {
   setTimerByDifficulty(): void {
     switch (this.difficulty) {
       case 'media':
-        this.timer = 120; // 2 minutos para dificultad media
+        this.timer = 120; 
         break;
       case 'alta':
-        this.timer = 90; // 1.5 minutos para dificultad alta
+        this.timer = 90; 
         break;
       case 'baja':
       default:
-        this.timer = 160; // 2.5 minutos para dificultad baja
+        this.timer = 160; 
         break;
     }
   }
@@ -161,7 +164,7 @@ export class TypingComponent {
   }
 
   startTimer(): void {
-    this.stopTimer(); // Detener cualquier temporizador anterior
+    this.stopTimer(); 
 
     this.intervalTimer = setInterval(() => {
       if (this.timer > 0) {
