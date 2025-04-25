@@ -68,7 +68,7 @@ export class DebatesComponent implements OnDestroy {
     const showComponent = localStorage.getItem('showComponent');
     if (showComponent === 'true') {
       this.isComponentVisible = true;
-      localStorage.removeItem('showComponent'); // Optional: remove after reading
+      localStorage.removeItem('showComponent'); 
     }
     effect(() => {
       const currentGames = this.games();
@@ -268,5 +268,10 @@ export class DebatesComponent implements OnDestroy {
     return new Promise<void>(resolve => {
       setTimeout(resolve, 0);
     });
+  }
+
+  async onRestartDebate() {
+    await this.saveNewGame(); 
+    this.gamesService.getAllByUser(); 
   }
 }

@@ -4,7 +4,7 @@ import { PaginationComponent } from '../../components/pagination/pagination.comp
 import { ModalComponent } from '../../components/modal/modal.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { ModalService } from '../../services/modal.service';
-import { IConversation, IGame, IMessage, IUser } from '../../interfaces';
+import { IConversation, IGame, IHistory, IMessage, IUser } from '../../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { effect } from '@angular/core';
@@ -15,6 +15,7 @@ import { DailyMissionService } from '../../services/daily-missions.service';
 import { InterviewChatComponent } from '../../components/interview/chat-interview';
 import { AuthService } from '../../services/auth.service';
 import { InterviewService } from '../../services/interview.Service';
+import { HistoryService } from '../../services/history.service';
 
 @Component({
   selector: 'app-interview',
@@ -37,6 +38,7 @@ export class EntrevistadorComponent implements OnDestroy {
   public messageService: MessageService = inject(MessageService);
   public interviewService: InterviewService = inject(InterviewService);
   public alertService: AlertService = inject(AlertService);
+  public historyService: HistoryService = inject(HistoryService);
 
   public missionsXUsersService: DailyMissionService = inject(DailyMissionService);
 
@@ -66,7 +68,7 @@ export class EntrevistadorComponent implements OnDestroy {
     const showComponent = localStorage.getItem('showComponent');
     if (showComponent === 'true') {
       this.isComponentVisible = true;
-      localStorage.removeItem('showComponent'); // Optional: remove after reading
+      localStorage.removeItem('showComponent'); 
     }
 
     effect(() => {
@@ -95,36 +97,46 @@ export class EntrevistadorComponent implements OnDestroy {
       expirationTime: null
     };
 
-    const response = await firstValueFrom(this.gamesService.add(gameToSave)); 
-    if (response?.data) {
-      this.gamesService.game$.set([
-        ...this.gamesService.game$(), 
-        response.data 
-      ]);
-    }
-  }
+ const response = await firstValueFrom(this.gamesService.add(gameToSave));
+     if (response) {
+       const history: IHistory = {
+         lastPlayed: new Date(),
+         user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+         game: { id: response.id }
+       };
+       
+       await this.historyService.save(history);
+     }
+   }
 
-  async endGame(game: IGame) { 
+   async endGame(game: IGame) {
     const response = await firstValueFrom(this.interviewService.save(this.currentGame));
     if (response) {
       this.currentGame = response as unknown as IGame;
       this.messages.set(this.currentGame.conversation!.messages!);
+      await this.updateHistory();
+      await this.checkMissions();
+    }
+    this.updateHistory();
+    
 
-      let missions = this.missions();
-      for (let mission of missions) {
-        if (
-          mission.mission?.objective?.scoreCondition !== undefined &&
-          this.currentGame.pointsEarnedPlayer1 !== undefined &&
-          mission.mission.objective.scoreCondition <= this.currentGame.pointsEarnedPlayer1 &&
-          mission.isCompleted == false 
-          && mission.mission.gameType?.gameType === 'INTERVIEW' 
-        ) {
-          mission.user = {id: mission.user?.id};
-          mission.mission.createdBy = {id: mission.mission.createdBy?.id};
-          mission.progress = (mission.progress ?? 0) + 1;
-          console.log(mission);
-          this.missionsXUsersService.update(mission);
-        }
+  }
+
+  async checkMissions(){
+    let missions = this.missions();
+       for (let mission of missions) {
+      if (
+        mission.mission?.objective?.scoreCondition !== undefined &&
+        this.currentGame.pointsEarnedPlayer1 !== undefined &&
+        mission.mission.objective.scoreCondition <= this.currentGame.pointsEarnedPlayer1 &&
+        mission.isCompleted == false 
+        && mission.mission.gameType?.gameType === 'INTERVIEW'
+      ) {
+        mission.user = {id: mission.user?.id};
+        mission.mission.createdBy = {id: mission.mission.createdBy?.id};
+        mission.progress = (mission.progress ?? 0) + 1;
+        console.log(mission);
+        this.missionsXUsersService.update(mission);
       }
     }
   }
@@ -141,19 +153,45 @@ export class EntrevistadorComponent implements OnDestroy {
 
     try {
       this.currentGame.conversation?.messages?.push(updatedMessage);
-      this.currentGame = this.createGameRequest(this.currentGame); 
+      this.currentGame = this.createGameRequest(this.currentGame);
       if ((this.currentGame?.elapsedTurns ?? 0) >= (this.currentGame?.maxTurns ?? 0)) {
-        const resp = await this.endGame(this.currentGame); 
+        const resp = await this.endGame(this.currentGame);
         return;
       }
-      const response = await firstValueFrom(this.interviewService.save(this.currentGame)); 
+      const response = await firstValueFrom(this.interviewService.save(this.currentGame));
       if (response) {
         console.log('Message from server:', response);
       }
       this.gamesService.getAllByUser();
+      await this.updateHistory();
+      
     } catch (err) {
       console.error('Error saving message:', err);
       this.alertService.displayAlert('error', 'An error occurred while sending the message', 'center', 'top', ['error-snackbar']);
+    }
+  }
+
+  async updateHistory(){
+    try {
+      const response = await firstValueFrom(
+        this.historyService.getByGame('INTERVIEW', this.authService.getUser()?.id || 1)
+      );
+  
+      if (response && Array.isArray(response.data) && response.data.length > 0) {
+        response.data[0].lastPlayed = new Date();
+        response.data[0].game = {id: response.data[0].game.id};
+        response.data[0].user = {id: response.data[0].user.id};
+        this.historyService.update(response.data[0]);
+      }
+    } catch (err) {
+      this.alertService.displayAlert(
+        'error',
+        'Error cargando historial',
+        'center',
+        'top',
+        ['error-snackbar']
+      );
+      console.error('Error getting history', err);
     }
   }
 
@@ -232,5 +270,10 @@ export class EntrevistadorComponent implements OnDestroy {
     return new Promise<void>(resolve => {
       setTimeout(resolve, 0);
     });
+  }
+
+  async onRestartInterview() {
+    await this.saveNewGame(); 
+    this.gamesService.getAllByUser(); 
   }
 }

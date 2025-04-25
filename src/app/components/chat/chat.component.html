@@ -14,8 +14,11 @@
   </nb-card-body>
   <nb-card-footer>
     <div class="chat-input">
-      <input [(ngModel)]="messageText" placeholder="Escribe sobre lo que quieras debatir..." />
-      <button nbButton (click)="callSave()">Enviar</button>
+      <textarea [(ngModel)]="messageText" placeholder="Escribe sobre lo que quieras debatir..." class="expanding-textarea" rows="1" (input)="adjustTextareaHeight($event)" #textAreaBox> </textarea>
+      <button *ngIf="!debateFinished" nbButton (click)="callSave()">Enviar</button>
     </div>
+    <button *ngIf="debateFinished" nbButton class="restart-button" (click)="restartDebate()">
+      Volver a jugar
+    </button>
   </nb-card-footer>
 </nb-card>

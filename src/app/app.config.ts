@@ -8,7 +8,8 @@ import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideOAuthClient } from 'angular-oauth2-oidc';
-import { Apple, ArrowRight, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
+import { ArrowRight, Cog, UserCheck, ListChecks, ListTodo, BrainCog, GraduationCap, History, BookOpen, Headphones, HelpCircle, Keyboard, LucideAngularModule, MessageSquare, Users } from 'lucide-angular';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,7 +34,14 @@ export const appConfig: ApplicationConfig = {
         HelpCircle,
         Users,
         ArrowRight,
-      Apple})
+        Cog,
+        UserCheck,
+        ListChecks,
+        ListTodo,
+        BrainCog,
+        GraduationCap,
+        History
+      })
     )
   ]
 };

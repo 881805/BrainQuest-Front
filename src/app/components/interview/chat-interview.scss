@@ -22,12 +22,6 @@ nb-card-body {
   overflow-y: auto;
 }
 
-.chat-input {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-}
-
 input {
   border: 1px solid #ccc;
   padding: 10px;
@@ -84,6 +78,41 @@ nb-chat-message .date {
 
 nb-chat-avatar {
   display: none;
+}
+
+textarea.expanding-textarea {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100%;
+  font-size: 1rem;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+textarea.expanding-textarea:focus {
+  border-color: #3e8e41;
+  outline: none;
+}
+
+.restart-button {
+  margin-top: 10px;
+  background-color: darken($secondary-Color, 10%);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.restart-button:hover {
+  background-color: darken($secondary-Color, 20%);
 }
 
 @media (max-width: 768px) {

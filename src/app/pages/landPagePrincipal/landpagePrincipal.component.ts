@@ -82,70 +82,69 @@ export class  LandPagePrincipalComponent implements OnInit{
   username = "Estudiante";
   
   activities: ActivityCard[] = [
-      {
-          icon:  { name: "MessageSquare" },
-          title: 'Debate',
-          description: 'Aquí podrás debatir contra otras personas, midiendo tus habilidades de argumentación y retórica.',
-          buttonColor: "#F2622E",
-          iconBgColor: "#94F2F2"
-      },
-      {
-        icon:  { name: "Apple" },
-        title: 'Interview',
-        description: 'Aquí podrás practicar entrevistas simuladas con IA y mejorar tus respuestas.',
-        buttonColor: "#80A2A6",
-        iconBgColor: "#94F2F2"
-      },
-      {
-        icon:  { name: "MessageSquare" },
-        title: 'Misiones',
-        description: 'Aquí podrás configurar las misiones para los usuarios.',
-        buttonColor: "#F2622E",
-        iconBgColor: "#94F2F2"
-    },
-      {
-          icon: { name: "keyboard" },
-          title: 'Typing',
-          description: 'Mejora tu velocidad y precision de escritura.',
-          buttonColor: "#F2622E",
-          iconBgColor: "#94F2F2"
-      },
-      {
-        icon: { name: "keyboard" },
-        title: 'Misiones Disponibles',
-        description: 'Conoce cuales son los desafios disponibles',
-        buttonColor: "#80A2A6",
-        iconBgColor: "#94F2F2"
-    },
-      {
-          icon: { name: "help-circle" },
-          title: 'Trivia',
-          description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
-          buttonColor: "#F2622E",
-          iconBgColor: "#94F2F2"
-      },
-      {
-        icon: { name: "help-circle" },
-        title: 'Configuración de IA',
-        description: 'Personaliza el comportamiento de la inteligencia artificial a tu manera.',
-        buttonColor: "#F2622E",
-        iconBgColor: "#94F2F2"
-    },
     {
-      icon: { name: "help-circle" },
+      icon: { name: "GraduationCap" },
       title: 'Aprendizaje Progresivo',
       description: 'Domina conceptos con desafíos que evolucionan contigo.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "cog" },
+      title: 'Configuración de IA',
+      description: 'Personaliza el comportamiento de la inteligencia artificial a tu manera.',
       buttonColor: "#80A2A6",
       iconBgColor: "#94F2F2"
-  },
-  {
-          icon: { name: "help-circle" },
-          title: 'Historial',
-          description: 'Revisa en cuales actividades has participado.',
-          buttonColor: "#F2622E",
-          iconBgColor: "#94F2F2"
-      }
-
+    },
+    {
+      icon: { name: "MessageSquare" },
+      title: 'Debate',
+      description: 'Aquí podrás debatir contra otras personas, midiendo tus habilidades de argumentación y retórica.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "History" },
+      title: 'Historial',
+      description: 'Revisa en cuales actividades has participado.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "User-Check" },
+      title: 'Interview',
+      description: 'Aquí podrás practicar entrevistas simuladas con IA y mejorar tus respuestas.',
+      buttonColor: "#80A2A6",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "ListChecks" },
+      title: 'Misiones',
+      description: 'Aquí podrás configurar las misiones para los usuarios.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "ListTodo" },
+      title: 'Misiones Disponibles',
+      description: 'Conoce cuales son los desafios disponibles',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "BrainCog" },
+      title: 'Trivia',
+      description: 'Pon a prueba tus habilidades con preguntas desafiantes.',
+      buttonColor: "#80A2A6",
+      iconBgColor: "#94F2F2"
+    },
+    {
+      icon: { name: "keyboard" },
+      title: 'Typing',
+      description: 'Mejora tu velocidad y precision de escritura.',
+      buttonColor: "#F2622E",
+      iconBgColor: "#94F2F2"
+    }
   ];
 
   goToActivity(activity: ActivityCard) {
