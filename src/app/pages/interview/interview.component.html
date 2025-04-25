@@ -1,0 +1,29 @@
+@defer {
+    <div class="page-container">
+      <section class="interview-container">
+        <div class="header-container">
+          <h1 class="interview-title">Entrevista</h1>
+        </div>
+  
+        <button *ngIf="!isComponentVisible" id="gameStart" 
+                class="start-interview-btn"
+                (click)="playGame()"
+                aria-label="Empezar una nueva entrevista">
+          Empezar la entrevista
+        </button>
+        
+        <app-interview-chat
+          *ngIf="isComponentVisible"
+          (callSaveMethod)="saveMessage($event)"  
+          (restartEvent)="onRestartInterview()"
+          [messages]="messages"
+          class="chat-container">
+        </app-interview-chat>
+      </section>
+    </div>
+  }
+
+  @loading (minimum 1.5s) {
+    <app-loader/>
+  }
+  
