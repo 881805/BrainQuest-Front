@@ -3,22 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 import { IMessage } from '../../interfaces';
 import { AuthService } from '../../services/auth.service';
-import { NbCardModule, NbChatModule, NbStatusService } from '@nebular/theme';
+import { NbChatModule, NbCardModule, NbStatusService } from '@nebular/theme';
 
 @Component({
-  selector: 'app-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
-  standalone: true, 
+  selector: 'app-interview-chat',
+  templateUrl: './chat-interview.html',
+  styleUrls: ['./chat-interview.scss'],
+  standalone: true,
   imports: [ 
     CommonModule, 
     FormsModule, 
-    NbCardModule,
-    NbChatModule,
-  ], 
+    NbCardModule, 
+    NbChatModule 
+  ],
   providers: [NbStatusService]
 })
-export class DebateChatComponent {
+export class InterviewChatComponent {
   public fb: FormBuilder = inject(FormBuilder);
   private authService: AuthService = inject(AuthService);
   @ViewChild('textAreaBox') myInput!: ElementRef;
@@ -28,7 +28,7 @@ export class DebateChatComponent {
   @Output() restartEvent = new EventEmitter<void>();
 
   messageText: string = '';
-  debateFinished = false;
+  interviewFinished = false;
 
   constructor() {}
   isReply(message: IMessage): boolean {
@@ -50,9 +50,9 @@ export class DebateChatComponent {
     this.callSaveMethod.emit(message);
 
     if (this.isDebateOver()) {
-      this.debateFinished = true;
+      this.interviewFinished = true;
       (this.myInput.nativeElement as HTMLTextAreaElement).disabled = true;
-      (this.myInput.nativeElement as HTMLTextAreaElement).placeholder = 'Debate finalizado.';
+      (this.myInput.nativeElement as HTMLTextAreaElement).placeholder = 'Entrevista finalizada.';
     }
 
     this.messageText = '';
@@ -63,18 +63,20 @@ export class DebateChatComponent {
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
   }
-
-  restartDebate() {
-    this.debateFinished = false;
+  
+  restartInterview() {
+    this.interviewFinished = false;
     this.clearMessages();
     this.messageText = '';
     this.restartEvent.emit();
     (this.myInput.nativeElement as HTMLTextAreaElement).disabled = false;
-    (this.myInput.nativeElement as HTMLTextAreaElement).placeholder = 'Escribe sobre lo que quieras debatir...';
+    (this.myInput.nativeElement as HTMLTextAreaElement).placeholder = 'Escribe tu respuesta...';
+
   }
 
   isDebateOver(): boolean {
-    return this.messages().length >= 6;
+    let isOver = this.messages().length >= 4;
+    return isOver;
   }
 
   clearMessages() {

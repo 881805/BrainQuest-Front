@@ -19,5 +19,10 @@ export class ModalService {
   closeAll() {
     this.ngbModalService.dismissAll();
   }
+
+  open(title: string, message: string): void {
+    // Aquí iría la lógica para abrir el modal
+    console.log('Abrir modal con título:', title, 'y mensaje:', message);
+  }
    
 }

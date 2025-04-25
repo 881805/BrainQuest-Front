@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { TriviaService } from '../../services/trivia.service';
 import { IGame, IHistory, ITriviaQuestion } from '../../interfaces';
 import { CommonModule } from '@angular/common';
@@ -13,6 +13,7 @@ import { DailyMissionService } from '../../services/daily-missions.service';
 import { AuthService } from '../../services/auth.service';
 import { GamesService } from '../../services/game.service';
 import { HistoryService } from '../../services/history.service';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-trivia-page',
@@ -27,7 +28,7 @@ import { HistoryService } from '../../services/history.service';
     ReactiveFormsModule
   ]
 })
-export class TriviaComponent {
+export class TriviaComponent implements OnDestroy{
   public triviaService: TriviaService = inject(TriviaService);
   public modalService: ModalService = inject(ModalService);
   public fb: FormBuilder = inject(FormBuilder);
@@ -35,6 +36,8 @@ export class TriviaComponent {
   public gamesService: GamesService = inject(GamesService);
   public authService: AuthService = inject(AuthService);
   public historyService: HistoryService = inject(HistoryService);
+  private confetti = inject(ConfettiService);
+
   public feedbackList: any[] = [];
   public userAnswers: { questionId: number, userAnswer: string }[] = [];
 
@@ -47,6 +50,8 @@ export class TriviaComponent {
   public currentQuestionIndex: number = 0;
   public timer: number = 60; 
   public intervalTimer: any;
+  public currentQuestion: ITriviaQuestion | null = null;
+
   public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
   
   public triviaForm = this.fb.group({
@@ -58,8 +63,10 @@ export class TriviaComponent {
   public missions = this.missionsXUsersService.dailyMissions$;
 
   constructor() {
-    this.loadTriviaQuestions();
     this.missionsXUsersService.getAllByUser();
+  }
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 
   ngOnInit(): void {}
@@ -90,13 +97,13 @@ export class TriviaComponent {
       this.startTimer();
     }
   }
-
+  
 
    private async saveNewGame() {
       let gameToSave: IGame = {
         winner: { id: this.authService.getUser()?.id },
         gameType: { id: 1 },
-        isOngoing: false, //falso ya que estamos creando la entidad game al final
+        isOngoing: false, 
         pointsEarnedPlayer1: this.calculateScore(),
         pointsEarnedPlayer2: 0,
         elapsedTurns: 0,
@@ -108,11 +115,13 @@ export class TriviaComponent {
       if (response) {
         const history: IHistory = {
           lastPlayed: new Date(),
-          user: { id: this.authService.getUser()?.id! },  // Non-null assertion if you're sure the ID exists
+          user: { id: this.authService.getUser()?.id! },  
           game: { id: response.id }
         };
         
         await this.historyService.save(history);
+        this.authService.getUserFromServer();
+    
       }
     }
   generateNewQuestion(): void {
@@ -185,6 +194,8 @@ export class TriviaComponent {
       this.enviarFeedback();
       this.checkMissions();
       this.saveNewGame();
+      this.confetti.celebrate();
+      this.authService.getUserFromServer();
     }
   }
 

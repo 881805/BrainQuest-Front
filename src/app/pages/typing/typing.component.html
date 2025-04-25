@@ -20,7 +20,7 @@
       <option value="cultura">Cultura</option>
     </select>
     
-    <div *ngIf="typingForm.get('category').touched && typingForm.get('category').invalid">
+    <div *ngIf="typingForm.get('category')?.touched && typingForm.get('category')?.invalid">
       <small class="error">Este campo es obligatorio.</small>
     </div>
 
@@ -32,7 +32,7 @@
       <option value="alta">Alta (5 puntos por palabra correcta)</option>
     </select>
     
-    <div *ngIf="typingForm.get('difficulty').touched && typingForm.get('difficulty').invalid">
+    <div *ngIf="typingForm.get('difficulty')?.touched && typingForm.get('difficulty')?.invalid">
       <small class="error">Este campo es obligatorio.</small>
     </div>
 

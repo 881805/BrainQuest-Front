@@ -15,6 +15,7 @@
       <app-chat 
         *ngIf="isComponentVisible"
         (callSaveMethod)="saveMessage($event)"  
+        (restartEvent)="onRestartDebate()"
         [messages]="messages"
         class="chat-container">
       </app-chat>

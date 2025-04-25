@@ -4,7 +4,7 @@
 
     <header class="platform-header">
  
-        <h1>¡Hola, {{username}}! 👋</h1>
+        <h1>¡Hola,  {{ authService.user$()?.name ?? ""}}👋</h1>
         <p>Bienvenido a tu plataforma de aprendizaje interactivo</p>
 
     </header>

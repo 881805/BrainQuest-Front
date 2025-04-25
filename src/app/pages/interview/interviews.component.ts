@@ -6,49 +6,49 @@ import { LoaderComponent } from '../../components/loader/loader.component';
 import { ModalService } from '../../services/modal.service';
 import { IConversation, IGame, IHistory, IMessage, IUser } from '../../interfaces';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { DebateChatComponent } from '../../components/chat/chat.component';
 import { CommonModule } from '@angular/common';
 import { effect } from '@angular/core';
 import { MessageService } from '../../services/message.service';
-import { DebatesService } from '../../services/debate.service';
 import { AlertService } from '../../services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { DailyMissionService } from '../../services/daily-missions.service';
+import { InterviewChatComponent } from '../../components/interview/chat-interview';
+import { AuthService } from '../../services/auth.service';
+import { InterviewService } from '../../services/interview.Service';
 import { HistoryService } from '../../services/history.service';
 import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
-  selector: 'app-debates',           
-  standalone: true,                  
-  imports: [                         
+  selector: 'app-interview',
+  standalone: true, 
+  imports: [
     PaginationComponent,
     ModalComponent,
     LoaderComponent,
-    DebateChatComponent,
-    CommonModule
+    InterviewChatComponent,
+    CommonModule,
   ],
-  templateUrl: './debates.component.html',  
-  styleUrls: ['./debates.component.scss'], 
+  templateUrl: './interview.component.html', 
+  styleUrls: ['./interview.component.scss'], 
 })
 
-export class DebatesComponent implements OnDestroy {
+export class EntrevistadorComponent implements OnDestroy { 
 
   public modalService: ModalService = inject(ModalService);
   public authService: AuthService = inject(AuthService);
   public messageService: MessageService = inject(MessageService);
-  public debatesService: DebatesService = inject(DebatesService);
+  public interviewService: InterviewService = inject(InterviewService);
   public alertService: AlertService = inject(AlertService);
   public historyService: HistoryService = inject(HistoryService);
-
-  public missionsXUsersService : DailyMissionService= inject(DailyMissionService);
   private confetti = inject(ConfettiService);
+  public missionsXUsersService: DailyMissionService = inject(DailyMissionService);
+
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private initialReconnectDelay = 1000;
   private maxReconnectDelay = 30000;
 
-  @ViewChild(DebateChatComponent) chat!: DebateChatComponent;
+  @ViewChild(InterviewChatComponent) chat!: InterviewChatComponent;
 
   public fb: FormBuilder = inject(FormBuilder);
   orderForm = this.fb.group({
@@ -64,13 +64,14 @@ export class DebatesComponent implements OnDestroy {
 
   constructor(private gamesService: GamesService) {
 
-    this.gamesService.getAllByUser(); 
+    this.gamesService.getAllByUser();
     this.missionsXUsersService.getAllByUser();
     const showComponent = localStorage.getItem('showComponent');
     if (showComponent === 'true') {
       this.isComponentVisible = true;
       localStorage.removeItem('showComponent'); 
     }
+
     effect(() => {
       const currentGames = this.games();
       this.currentGame= currentGames[0];
@@ -85,10 +86,10 @@ export class DebatesComponent implements OnDestroy {
 
   ngOnDestroy(): void {}
 
-  private async saveNewGame() {
-    let gameToSave: IGame = {
+  private async saveNewGame() { 
+    let gameToSave: IGame = { 
       winner: { id: this.authService.getUser()?.id },
-      gameType: { id: 2 },
+      gameType: { id: 4 }, 
       isOngoing: true,
       pointsEarnedPlayer1: 0,
       pointsEarnedPlayer2: 0,
@@ -97,29 +98,31 @@ export class DebatesComponent implements OnDestroy {
       expirationTime: null
     };
 
-    const response = await firstValueFrom(this.gamesService.add(gameToSave));
-    if (response) {
-      const history: IHistory = {
-        lastPlayed: new Date(),
-        user: { id: this.authService.getUser()?.id! },  
-        game: { id: response.id }
-      };
-      
-      await this.historyService.save(history);
-    }
-  }
+ const response = await firstValueFrom(this.gamesService.add(gameToSave));
+     if (response) {
+       const history: IHistory = {
+         lastPlayed: new Date(),
+         user: { id: this.authService.getUser()?.id! },  
+         game: { id: response.id }
+       };
+       
+       await this.historyService.save(history);
+     }
+   }
 
-  async endGame(game: IGame) {
-    const response = await firstValueFrom(this.debatesService.save(this.currentGame));
+   async endGame(game: IGame) {
+    const response = await firstValueFrom(this.interviewService.save(this.currentGame));
     if (response) {
       this.currentGame = response as unknown as IGame;
       this.messages.set(this.currentGame.conversation!.messages!);
       await this.updateHistory();
       await this.checkMissions();
+      this.confetti.celebrate();
+      this.authService.getUserFromServer();
     }
     this.updateHistory();
-    this.authService.getUserFromServer();
-    this.confetti.celebrate();
+
+    
 
   }
 
@@ -131,14 +134,13 @@ export class DebatesComponent implements OnDestroy {
         this.currentGame.pointsEarnedPlayer1 !== undefined &&
         mission.mission.objective.scoreCondition <= this.currentGame.pointsEarnedPlayer1 &&
         mission.isCompleted == false 
-        && mission.mission.gameType?.gameType === 'DEBATE'
+        && mission.mission.gameType?.gameType === 'INTERVIEW'
       ) {
         mission.user = {id: mission.user?.id};
         mission.mission.createdBy = {id: mission.mission.createdBy?.id};
         mission.progress = (mission.progress ?? 0) + 1;
         console.log(mission);
         this.missionsXUsersService.update(mission);
-        this.authService.getUserFromServer();
       }
     }
   }
@@ -160,7 +162,7 @@ export class DebatesComponent implements OnDestroy {
         const resp = await this.endGame(this.currentGame);
         return;
       }
-      const response = await firstValueFrom(this.debatesService.save(this.currentGame));
+      const response = await firstValueFrom(this.interviewService.save(this.currentGame));
       if (response) {
         console.log('Message from server:', response);
       }
@@ -169,14 +171,14 @@ export class DebatesComponent implements OnDestroy {
       
     } catch (err) {
       console.error('Error saving message:', err);
-      this.alertService.displayAlert('error', 'Un error ocurrió al enviar el mensaje', 'center', 'top', ['error-snackbar']);
+      this.alertService.displayAlert('error', 'An error occurred while sending the message', 'center', 'top', ['error-snackbar']);
     }
   }
 
   async updateHistory(){
     try {
       const response = await firstValueFrom(
-        this.historyService.getByGame('DEBATE', this.authService.getUser()?.id || 1)
+        this.historyService.getByGame('INTERVIEW', this.authService.getUser()?.id || 1)
       );
   
       if (response && Array.isArray(response.data) && response.data.length > 0) {
@@ -197,7 +199,7 @@ export class DebatesComponent implements OnDestroy {
     }
   }
 
-  createGameRequest(game: IGame): IGame {
+  createGameRequest(game: IGame): IGame { 
     const gameRequest: IGame = {
       id: game.id,
       conversation: game.conversation ? {
@@ -237,17 +239,18 @@ export class DebatesComponent implements OnDestroy {
     return messageRequests;
   }
 
-  async getReplyAI(game: IGame) {
+  async getReplyAI(game: IGame) { 
     try {
-      const response = await this.debatesService.save(game).toPromise();
+      const response = await this.interviewService.save(game).toPromise();
       console.log('Reply gotten successfully:', response);
       this.gamesService.getAllByUser();
     } catch (err) {
       console.error('Error getting reply:', err);
-      this.alertService.displayAlert('error', 'Un error ocurrió al obtener la respuesta del IA', 'center', 'top', ['error-snackbar']);
+      this.alertService.displayAlert('error', 'An error occurred while getting the AI Reply', 'center', 'top', ['error-snackbar']);
       this.gamesService.getAllByUser();
     }
   }
+
   async playGame() {
     try {
       if (this.gamesService.game$().length < 1) {
@@ -263,7 +266,7 @@ export class DebatesComponent implements OnDestroy {
       console.error("Error in playGame:", e);
     }
   }
-  
+
   isComponentVisible: boolean = false;
 
   async toggleChatVisibility() {
@@ -273,7 +276,7 @@ export class DebatesComponent implements OnDestroy {
     });
   }
 
-  async onRestartDebate() {
+  async onRestartInterview() {
     await this.saveNewGame(); 
     this.gamesService.getAllByUser(); 
   }
